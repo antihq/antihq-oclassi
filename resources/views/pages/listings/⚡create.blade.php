@@ -10,24 +10,63 @@ new #[Layout("layouts.marketplace")] class extends Component {
 
     public string $tab = "details";
 
+    #[Validate("required", onUpdate: false)]
     public string $title = "";
 
+    #[Validate("required", onUpdate: false)]
     public string $description = "";
 
+    #[Validate("required", onUpdate: false)]
     public string $address = "";
 
     public string $addressLine2 = "";
 
+    #[Validate("required|numeric|min:0", onUpdate: false)]
     public string $price = "";
 
-    #[Validate(["photos.*" => "image|max:10240"])]
+    #[Validate(["photos.*" => "image|max:10240"], onUpdate: false)]
     public array $photos = [];
+
+    public array $completedSteps = [];
+
+    public function nextStep(string $nextTab): void
+    {
+        $rules = match ($this->tab) {
+            "details" => [
+                "title" => "required",
+                "description" => "required",
+            ],
+            "location" => ["address" => "required"],
+            "pricing" => ["price" => "required|numeric|min:0"],
+            default => [],
+        };
+
+        $this->validate($rules);
+
+        $this->completedSteps[] = $this->tab;
+        $this->tab = $nextTab;
+    }
+
+    public function canAccessTab(string $tab): bool
+    {
+        $tabOrder = ["details", "location", "pricing", "photos"];
+        $tabIndex = array_search($tab, $tabOrder);
+        $currentIndex = array_search($this->tab, $tabOrder);
+
+        return $tabIndex <= $currentIndex ||
+            in_array($tabOrder[$tabIndex - 1] ?? null, $this->completedSteps);
+    }
 
     public function removePhoto(int $index): void
     {
         $this->photos[$index]?->delete();
         unset($this->photos[$index]);
         $this->photos = array_values($this->photos);
+    }
+
+    public function publish(): void
+    {
+        $this->validate();
     }
 };
 ?>
@@ -36,107 +75,129 @@ new #[Layout("layouts.marketplace")] class extends Component {
     <flux:tab.group>
         <flux:tabs wire:model="tab">
             <flux:tab name="details">Details</flux:tab>
-            <flux:tab name="location">Location</flux:tab>
-            <flux:tab name="pricing">Pricing</flux:tab>
-            <flux:tab name="photos">Photos</flux:tab>
+            <flux:tab
+                name="location"
+                :disabled="!$this->canAccessTab('location')"
+            >
+                Location
+            </flux:tab>
+            <flux:tab
+                name="pricing"
+                :disabled="!$this->canAccessTab('pricing')"
+            >
+                Pricing
+            </flux:tab>
+            <flux:tab name="photos" :disabled="!$this->canAccessTab('photos')">
+                Photos
+            </flux:tab>
         </flux:tabs>
         <flux:tab.panel name="details" class="max-w-xl">
-            <flux:heading size="xl">Listing Details</flux:heading>
-            <div class="mt-6 space-y-6">
-                <flux:field>
-                    <flux:label>Title</flux:label>
-                    <flux:input
-                        wire:model="title"
-                        placeholder="Enter listing title"
-                    />
-                    <flux:error name="title" />
-                </flux:field>
+            <form wire:submit="nextStep('location')">
+                <flux:heading size="xl">Listing Details</flux:heading>
+                <div class="mt-6 space-y-6">
+                    <flux:field>
+                        <flux:label>Title</flux:label>
+                        <flux:input
+                            wire:model="title"
+                            placeholder="Enter listing title"
+                        />
+                        <flux:error name="title" />
+                    </flux:field>
 
-                <flux:editor
-                    wire:model="description"
-                    label="Description"
-                    placeholder="Describe your listing..."
-                />
-            </div>
-            <div class="mt-6">
-                <flux:button wire:click="$set('tab', 'location')">
-                    Next
-                </flux:button>
-            </div>
-        </flux:tab.panel>
-        <flux:tab.panel name="location"  class="max-w-xl">
-            <flux:heading size="xl">Location</flux:heading>
-            <div class="mt-6 space-y-6">
-                <flux:field>
-                    <flux:label>Address</flux:label>
-                    <flux:input
-                        wire:model="address"
-                        placeholder="Street address"
-                    />
-                    <flux:error name="address" />
-                </flux:field>
-
-                <flux:field>
-                    <flux:label badge="Optional">
-                        Apt, suite, building #
-                    </flux:label>
-                    <flux:input wire:model="addressLine2" />
-                    <flux:error name="addressLine2" />
-                </flux:field>
-            </div>
-            <div class="mt-6">
-                <flux:button wire:click="$set('tab', 'pricing')">
-                    Next
-                </flux:button>
-            </div>
-        </flux:tab.panel>
-        <flux:tab.panel name="pricing"  class="max-w-xl">
-            <flux:heading size="xl">Pricing</flux:heading>
-            <div class="mt-6 space-y-6">
-                <flux:field>
-                    <flux:label>Price</flux:label>
-                    <flux:input wire:model="price" placeholder="Enter price" />
-                    <flux:error name="price" />
-                </flux:field>
-            </div>
-            <div class="mt-6">
-                <flux:button wire:click="$set('tab', 'photos')">
-                    Next
-                </flux:button>
-            </div>
-        </flux:tab.panel>
-        <flux:tab.panel name="photos"  class="max-w-xl">
-            <flux:heading size="xl">Photos</flux:heading>
-            <div class="mt-6">
-                <flux:file-upload
-                    wire:model="photos"
-                    label="Upload photos"
-                    multiple
-                >
-                    <flux:file-upload.dropzone
-                        heading="Drop photos here or click to browse"
-                        text="JPG, PNG, GIF up to 10MB"
-                    />
-                </flux:file-upload>
-                <div class="mt-3 flex flex-col gap-2">
-                    @foreach ($photos as $index => $photo)
-                        <flux:file-item
-                            :heading="$photo->getClientOriginalName()"
-                            :image="$photo->temporaryUrl()"
-                            :size="$photo->getSize()"
-                        >
-                            <x-slot name="actions">
-                                <flux:file-item.remove
-                                    wire:click="removePhoto({{ $index }})"
-                                />
-                            </x-slot>
-                        </flux:file-item>
-                    @endforeach
+                    <flux:field>
+                        <flux:label>Description</flux:label>
+                        <flux:editor
+                            wire:model="description"
+                            placeholder="Describe your listing..."
+                        />
+                        <flux:error name="description" />
+                    </flux:field>
                 </div>
-            </div>
-            <div class="mt-6">
-                <flux:button variant="primary">Publish Listing</flux:button>
-            </div>
+                <div class="mt-6">
+                    <flux:button type="submit">Next</flux:button>
+                </div>
+            </form>
+        </flux:tab.panel>
+        <flux:tab.panel name="location" class="max-w-xl">
+            <form wire:submit="nextStep('pricing')">
+                <flux:heading size="xl">Location</flux:heading>
+                <div class="mt-6 space-y-6">
+                    <flux:field>
+                        <flux:label>Address</flux:label>
+                        <flux:input
+                            wire:model="address"
+                            placeholder="Street address"
+                        />
+                        <flux:error name="address" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label badge="Optional">
+                            Apt, suite, building #
+                        </flux:label>
+                        <flux:input wire:model="addressLine2" />
+                    </flux:field>
+                </div>
+                <div class="mt-6 flex gap-3">
+                    <flux:button type="submit">Next</flux:button>
+                </div>
+            </form>
+        </flux:tab.panel>
+        <flux:tab.panel name="pricing" class="max-w-xl">
+            <form wire:submit="nextStep('photos')">
+                <flux:heading size="xl">Pricing</flux:heading>
+                <div class="mt-6 space-y-6">
+                    <flux:field>
+                        <flux:label>Price</flux:label>
+                        <flux:input
+                            wire:model="price"
+                            placeholder="Enter price"
+                        />
+                        <flux:error name="price" />
+                    </flux:field>
+                </div>
+                <div class="mt-6 flex gap-3">
+                    <flux:button type="submit">Next</flux:button>
+                </div>
+            </form>
+        </flux:tab.panel>
+        <flux:tab.panel name="photos" class="max-w-xl">
+            <form wire:submit="publish">
+                <flux:heading size="xl">Photos</flux:heading>
+                <div class="mt-6">
+                    <flux:file-upload
+                        wire:model="photos"
+                        label="Upload photos"
+                        multiple
+                    >
+                        <flux:file-upload.dropzone
+                            heading="Drop photos here or click to browse"
+                            text="JPG, PNG, GIF up to 10MB"
+                        />
+                    </flux:file-upload>
+                    <div class="mt-3 flex flex-col gap-2">
+                        @foreach ($photos as $index => $photo)
+                            <flux:file-item
+                                :heading="$photo->getClientOriginalName()"
+                                :image="$photo->temporaryUrl()"
+                                :size="$photo->getSize()"
+                            >
+                                <x-slot name="actions">
+                                    <flux:file-item.remove
+                                        wire:click="removePhoto({{ $index }})"
+                                    />
+                                </x-slot>
+                            </flux:file-item>
+                        @endforeach
+                    </div>
+                    <flux:error name="photos" />
+                </div>
+                <div class="mt-6 flex gap-3">
+                    <flux:button type="submit" variant="primary">
+                        Publish Listing
+                    </flux:button>
+                </div>
+            </form>
         </flux:tab.panel>
     </flux:tab.group>
 </div>
