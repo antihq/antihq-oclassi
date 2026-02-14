@@ -5,7 +5,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-new #[Layout("layouts.marketplace")] class extends Component {
+new #[Layout('layouts.marketplace')] class extends Component
+{
     #[Locked]
     public Listing $listing;
 };
@@ -13,14 +14,16 @@ new #[Layout("layouts.marketplace")] class extends Component {
 
 <div class="flex justify-between gap-8">
     <div class="flex-1">
-        <flux:callout variant="secondary" class="mb-4" inline>
-            <flux:callout.heading>
-                This is your own listing.
-            </flux:callout.heading>
-            <x-slot name="actions">
-                <flux:button>Edit listing</flux:button>
-            </x-slot>
-        </flux:callout>
+        @if(auth()->check() && auth()->user()->is($listing->user))
+            <flux:callout variant="secondary" class="mb-4" inline>
+                <flux:callout.heading>
+                    This is your own listing.
+                </flux:callout.heading>
+                <x-slot name="actions">
+                    <flux:button>Edit listing</flux:button>
+                </x-slot>
+            </flux:callout>
+        @endif
 
         <div>
             @if ($listing->photos->first())
@@ -97,7 +100,9 @@ new #[Layout("layouts.marketplace")] class extends Component {
             <flux:button variant="primary" color="green" class="w-full">
                 Send an inquiry
             </flux:button>
-            <flux:text class="mt-2">This is your own listing.</flux:text>
+            @if(auth()->check() && auth()->user()->is($listing->user))
+                <flux:text class="mt-2">This is your own listing.</flux:text>
+            @endif
         </div>
     </div>
 </div>
