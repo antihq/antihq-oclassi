@@ -5,26 +5,27 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-new #[Layout("layouts.marketplace")] class extends Component {
+new #[Layout('layouts.marketplace')] class extends Component
+{
     use WithFileUploads;
 
-    public string $tab = "details";
+    public string $tab = 'details';
 
-    #[Validate("required", onUpdate: false)]
-    public string $title = "";
+    #[Validate('required', onUpdate: false)]
+    public string $title = '';
 
-    #[Validate("required", onUpdate: false)]
-    public string $description = "";
+    #[Validate('required', onUpdate: false)]
+    public string $description = '';
 
-    #[Validate("required", onUpdate: false)]
-    public string $address = "";
+    #[Validate('required', onUpdate: false)]
+    public string $address = '';
 
-    public string $addressLine2 = "";
+    public string $addressLine2 = '';
 
-    #[Validate("required|numeric|min:0", onUpdate: false)]
-    public string $price = "";
+    #[Validate('required|numeric|min:0', onUpdate: false)]
+    public string $price = '';
 
-    #[Validate(["photos.*" => "image|max:10240"], onUpdate: false)]
+    #[Validate(['photos.*' => 'image|max:10240'], onUpdate: false)]
     public array $photos = [];
 
     public array $completedSteps = [];
@@ -32,12 +33,12 @@ new #[Layout("layouts.marketplace")] class extends Component {
     public function nextStep(string $nextTab): void
     {
         $rules = match ($this->tab) {
-            "details" => [
-                "title" => "required",
-                "description" => "required",
+            'details' => [
+                'title' => 'required',
+                'description' => 'required',
             ],
-            "location" => ["address" => "required"],
-            "pricing" => ["price" => "required|numeric|min:0"],
+            'location' => ['address' => 'required'],
+            'pricing' => ['price' => 'required|numeric|min:0'],
             default => [],
         };
 
@@ -49,7 +50,7 @@ new #[Layout("layouts.marketplace")] class extends Component {
 
     public function canAccessTab(string $tab): bool
     {
-        $tabOrder = ["details", "location", "pricing", "photos"];
+        $tabOrder = ['details', 'location', 'pricing', 'photos'];
         $tabIndex = array_search($tab, $tabOrder);
         $currentIndex = array_search($this->tab, $tabOrder);
 
@@ -67,6 +68,25 @@ new #[Layout("layouts.marketplace")] class extends Component {
     public function publish(): void
     {
         $this->validate();
+
+        $listing = auth()->user()->listings()->create([
+            'title' => $this->title,
+            'description' => $this->description,
+            'address' => $this->address,
+            'address_line_2' => $this->addressLine2 ?: null,
+            'price' => (int) ($this->price * 100),
+        ]);
+
+        foreach ($this->photos as $index => $photo) {
+            $path = $photo->store('listings/'.$listing->id, 'public');
+
+            $listing->photos()->create([
+                'path' => $path,
+                'order' => $index,
+            ]);
+        }
+
+        $this->redirect(route('listings.show', $listing));
     }
 };
 ?>

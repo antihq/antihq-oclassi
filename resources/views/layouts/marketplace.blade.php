@@ -34,7 +34,7 @@
                 <x-desktop-user-menu />
             @else
                 <flux:navbar class="-mb-px max-lg:hidden">
-                    <flux:navbar.item href="#" current>
+                    <flux:navbar.item :href="route('listings.create')">
                         Post a new listing
                     </flux:navbar.item>
                     <flux:navbar.item :href="route('register')" wire:navigate>
