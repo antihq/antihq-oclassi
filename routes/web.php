@@ -11,6 +11,9 @@ Route::livewire('/listings/create', 'pages::listings.create')
 Route::livewire('/listings/{listing}', 'pages::listings.show')
     ->name('listings.show');
 
+Route::livewire('user/listings/', 'pages::user.listings')
+    ->name('user.listings.index');
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
