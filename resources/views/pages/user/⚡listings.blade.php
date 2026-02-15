@@ -41,22 +41,32 @@ new #[Layout('layouts.marketplace')] class extends Component
                         alt="{{ $listing->title }}"
                     >
                     <a href="{{ route('listings.show', $listing) }}" class="absolute inset-0" wire:navigate></a>
-                    <div class="absolute top-1 right-1">
-                        <flux:dropdown>
-                            <flux:button icon="ellipsis-horizontal" variant="ghost" />
-                            <flux:menu>
-                                @if($listing->isClosed())
-                                    <flux:menu.item icon="arrow-path" wire:click="toggleListingStatus({{ $listing->id }})">
-                                        Reopen listing
-                                    </flux:menu.item>
-                                @else
-                                    <flux:menu.item icon="x-mark" wire:click="toggleListingStatus({{ $listing->id }})">
-                                        Close listing
-                                    </flux:menu.item>
-                                @endif
-                            </flux:menu>
-                        </flux:dropdown>
-                    </div>
+                    @if($listing->isClosed())
+                        <div class="absolute inset-0 bg-black/60 rounded flex flex-col items-center justify-center z-10">
+                            <flux:heading class="text-white">Listing Closed</flux:heading>
+                            <flux:text class="text-white/80">Not visible on marketplace</flux:text>
+                            <flux:button wire:click="toggleListingStatus({{ $listing->id }})" variant="primary" color="green" class="mt-3">
+                                Reopen listing
+                            </flux:button>
+                        </div>
+                    @else
+                        <div class="absolute top-2.5 right-2.5">
+                            <flux:dropdown>
+                                <flux:button icon="ellipsis-horizontal" />
+                                <flux:menu>
+                                    @if($listing->isClosed())
+                                        <flux:menu.item wire:click="toggleListingStatus({{ $listing->id }})">
+                                            Reopen listing
+                                        </flux:menu.item>
+                                    @else
+                                        <flux:menu.item wire:click="toggleListingStatus({{ $listing->id }})">
+                                            Close listing
+                                        </flux:menu.item>
+                                    @endif
+                                </flux:menu>
+                            </flux:dropdown>
+                        </div>
+                    @endif
                 </div>
                 <div>
                     <flux:heading>${{ number_format($listing->price / 100, 2) }}</flux:heading>
