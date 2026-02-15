@@ -9,15 +9,16 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-new #[Layout("layouts.marketplace")] class extends Component {
+new #[Layout('layouts.marketplace')] class extends Component
+{
     public Conversation $conversation;
 
-    #[Validate("required|string|max:5000", onUpdate: false)]
-    public string $body = "";
+    #[Validate('required|string|max:5000', onUpdate: false)]
+    public string $body = '';
 
     public function mount(): void
     {
-        Gate::authorize("view", $this->conversation);
+        Gate::authorize('view', $this->conversation);
 
         $this->markMessagesAsRead();
     }
@@ -27,7 +28,7 @@ new #[Layout("layouts.marketplace")] class extends Component {
     {
         return $this->conversation
             ->messages()
-            ->with("sender")
+            ->with('sender')
             ->get();
     }
 
@@ -39,21 +40,21 @@ new #[Layout("layouts.marketplace")] class extends Component {
 
     public function send(): void
     {
-        Gate::authorize("reply", $this->conversation);
+        Gate::authorize('reply', $this->conversation);
 
         $this->validate();
 
         $message = Message::create([
-            "conversation_id" => $this->conversation->id,
-            "sender_id" => auth()->id(),
-            "body" => $this->body,
+            'conversation_id' => $this->conversation->id,
+            'sender_id' => auth()->id(),
+            'body' => $this->body,
         ]);
 
         $this->conversation->touchLastMessageAt();
 
         $this->notifyOtherUser($message);
 
-        $this->body = "";
+        $this->body = '';
 
         $this->conversation->refresh();
     }
@@ -62,9 +63,9 @@ new #[Layout("layouts.marketplace")] class extends Component {
     {
         $this->conversation
             ->messages()
-            ->where("sender_id", "!=", auth()->id())
-            ->whereNull("read_at")
-            ->update(["read_at" => now()]);
+            ->where('sender_id', '!=', auth()->id())
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
     }
 
     protected function notifyOtherUser(Message $message): void
@@ -80,25 +81,46 @@ new #[Layout("layouts.marketplace")] class extends Component {
 
 <div wire:poll.5s class="flex justify-between gap-8">
     <div class="w-full max-w-2xl">
-        <div class="flex items-center gap-4">
-            <flux:heading level="1" size="xl">
-                @if (auth()->id() === $conversation->buyer_id)
-                    You sent an inquiry
-                @else
-                    Conversation with {{ $this->otherUser->name }}
-                @endif
-            </flux:heading>
-        </div>
+        @if (auth()->id() === $conversation->buyer_id)
+            <flux:heading level="1" size="xl">You sent an inquiry</flux:heading>
+        @else
+            <div>
+                <a href="{{ route('users.show', $this->otherUser) }}" wire:navigate>
+                    <flux:avatar
+                        :name="$this->otherUser->name"
+                        size="xl"
+                        circle
+                    />
+                </a>
+
+                <flux:heading level="1" size="xl" class="mt-6">
+                    @if (auth()->id() === $conversation->buyer_id)
+                        You sent an inquiry
+                    @else
+                        You received an inquiry from
+                        {{ $this->otherUser->name }}
+                    @endif
+                </flux:heading>
+            </div>
+        @endif
 
         <div class="mt-8">
             <flux:heading size="lg">Inquire message</flux:heading>
 
             <div class="mt-5 flex">
-                <flux:text
-                    class="rounded-lg bg-blue-500 px-4 py-2 text-base font-medium text-white"
-                >
-                    {{ $this->threadMessages->first()->body }}
-                </flux:text>
+                @if (($message = $this->threadMessages->first())->wasSentBy(auth()->user()))
+                    <flux:text
+                        class="rounded-lg bg-blue-500 px-4 py-2 text-base font-medium text-white"
+                    >
+                        {{ $message->body }}
+                    </flux:text>
+                @else
+                    <flux:text
+                        class="rounded-lg bg-zinc-100 px-4 py-2 text-base font-medium text-zinc-800"
+                    >
+                        {{ $message->body }}
+                    </flux:text>
+                @endif
             </div>
         </div>
 
@@ -107,26 +129,28 @@ new #[Layout("layouts.marketplace")] class extends Component {
 
             <div class="mt-6 space-y-4" wire:scroll-bottom>
                 @foreach ($this->threadMessages->skip(1) as $message)
-                    <div
-                        @class(["flex gap-3", "flex-row-reverse" => $message->wasSentBy(auth()->user())])
-                    >
-                        <div class="max-w-lg">
-                            <div
-                                @class(["rounded-2xl px-4 py-2 font-medium", "bg-blue-500 text-white" => $message->wasSentBy(auth()->user()), "bg-zinc-100" => ! $message->wasSentBy(auth()->user())])
-                            >
-                                <flux:text
-                                    @class(["text-white" => $message->wasSentBy(auth()->user())])
-                                >
-                                    {{ $message->body }}
-                                </flux:text>
+                    @if ($message->wasSentBy(auth()->user()))
+                        <div class="flex flex-row-reverse gap-3">
+                            <div class="max-w-lg">
+                                <div class="rounded-2xl bg-blue-500 px-4 py-2 font-medium">
+                                    <flux:text class="text-white">{{ $message->body }}</flux:text>
+                                </div>
+                                <flux:text class="mt-2 text-right text-xs">{{ $message->created_at->diffForHumans() }}</flux:text>
                             </div>
-                            <flux:text
-                                @class(["mt-2 text-xs", "text-right" => $message->wasSentBy(auth()->user())])
-                            >
-                                {{ $message->created_at->diffForHumans() }}
-                            </flux:text>
                         </div>
-                    </div>
+                    @else
+                        <div class="flex gap-3">
+<a href="{{ route('users.show', $this->otherUser) }}" wire:navigate>
+                                <flux:avatar :name="$this->otherUser->name" size="md" circle />
+                            </a>
+                            <div class="max-w-lg">
+                                <div class="rounded-2xl bg-zinc-100 px-4 py-2 font-medium">
+                                    <flux:text class="text-zinc-800">{{ $message->body }}</flux:text>
+                                </div>
+                                <flux:text class="mt-2 text-xs">{{ $message->created_at->diffForHumans() }}</flux:text>
+                            </div>
+                        </div>
+                    @endif
                 @endforeach
             </div>
         </div>
@@ -160,8 +184,15 @@ new #[Layout("layouts.marketplace")] class extends Component {
                 />
             @endif
 
-            <div class="-mt-6 px-6 pb-6">
-                <flux:avatar :name="$this->otherUser->name" size="xl" circle />
+            <div class="px-6 pb-6">
+                @if (auth()->id() === $conversation->buyer_id)
+                    <flux:avatar
+                        :name="$this->otherUser->name"
+                        size="xl"
+                        class="-mt-6"
+                        circle
+                    />
+                @endif
 
                 <flux:heading level="2" size="lg" class="mt-6">
                     <flux:link
