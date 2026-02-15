@@ -10,18 +10,20 @@
         >
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
             <flux:brand
-                href="#"
+                :href="route('home')"
                 logo="https://fluxui.dev/img/demo/logo.png"
                 :name="config('app.name')"
                 class="max-lg:hidden dark:hidden"
+                wire:navigate
             />
             <flux:brand
-                href="#"
+                :href="route('home')"
                 logo="https://fluxui.dev/img/demo/dark-mode-logo.png"
                 name="Acme Inc."
                 class="hidden max-lg:hidden! dark:flex"
+                wire:navigate
             />
-            <div>
+            <div class="ms-4">
                 <flux:input icon="magnifying-glass" placeholder="Search" />
             </div>
             <flux:spacer />
@@ -56,10 +58,11 @@
         >
             <flux:sidebar.header>
                 <flux:sidebar.brand
-                    href="#"
+                    :href="route('home')"
                     logo="https://fluxui.dev/img/demo/logo.png"
                     logo:dark="https://fluxui.dev/img/demo/dark-mode-logo.png"
                     name="Acme Inc."
+                    wire:navigate
                 />
                 <flux:sidebar.collapse
                     class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2"

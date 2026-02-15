@@ -69,7 +69,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                 <div class="flex-1">
                     <div class="flex justify-between gap-8">
                         <flux:text class="text-base">
-                            Hello, I'm {{ $listing->user->name }}
+                            Hello, I'm <flux:link :href="route('users.show', $listing->user)" wire:navigate variant="ghost">{{ $listing->user->name }}</flux:link>
                         </flux:text>
                         <flux:text>
                             <flux:link :href="route('profile.edit')">
@@ -93,7 +93,9 @@ new #[Layout('layouts.marketplace')] class extends Component
         </flux:heading>
         <div class="mt-5 flex items-center gap-2">
             <flux:avatar name="{{ $listing->user->name }}" circle />
-            <flux:text variant="strong">{{ $listing->user->name }}</flux:text>
+            <flux:link :href="route('users.show', $listing->user)" wire:navigate variant="ghost">
+                <flux:text variant="strong">{{ $listing->user->name }}</flux:text>
+            </flux:link>
         </div>
 
         <div class="mt-12 text-center">
