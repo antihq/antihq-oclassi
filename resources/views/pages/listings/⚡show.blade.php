@@ -99,7 +99,13 @@ new #[Layout('layouts.marketplace')] class extends Component
         </div>
 
         <div class="mt-12 text-center">
-            <flux:button variant="primary" color="green" class="w-full" :disabled="auth()->check() && auth()->user()->is($listing->user)">
+            <flux:button
+                variant="primary"
+                color="green"
+                class="w-full"
+                :href="route('listings.conversations.create', $listing)"
+                :disabled="auth()->check() && auth()->user()->is($listing->user)"
+            >
                 Send an inquiry
             </flux:button>
             @if(auth()->check() && auth()->user()->is($listing->user))
