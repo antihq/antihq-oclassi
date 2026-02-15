@@ -15,6 +15,8 @@ Route::livewire('/listings/{listing}/edit', 'pages::listings.edit')
     ->middleware(['auth', 'verified'])
     ->name('listings.edit');
 
+Route::livewire('/listings/{listing}/send-inquiry', 'pages::send-inquiry');
+
 Route::livewire('user/listings/', 'pages::user.listings')
     ->name('user.listings.index');
 
