@@ -5,8 +5,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-new #[Layout('layouts.marketplace')] class extends Component
-{
+new #[Layout("layouts.marketplace")] class extends Component {
     #[Locked]
     public Listing $listing;
 };
@@ -14,35 +13,107 @@ new #[Layout('layouts.marketplace')] class extends Component
 
 <div class="flex justify-between gap-8">
     <div class="flex-1">
-        @if(auth()->check() && auth()->user()->is($listing->user))
+        @if (auth()->check() &&auth()->user()->is($listing->user))
             <flux:callout variant="secondary" class="mb-4" inline>
                 <flux:callout.heading>
                     This is your own listing.
                 </flux:callout.heading>
                 <x-slot name="actions">
-                    <flux:button :href="route('listings.edit', $listing)">Edit listing</flux:button>
+                    <flux:button :href="route('listings.edit', $listing)">
+                        Edit listing
+                    </flux:button>
                 </x-slot>
             </flux:callout>
         @endif
 
-        <div>
-            @if ($listing->photos->first())
-                <img
-                    class="rounded"
-                    src="{{ Storage::url($listing->photos->first()->path) }}"
-                    alt="{{ $listing->title }}"
-                />
-            @endif
-        </div>
+        <div
+            x-data="{
+                activeIndex: 0,
+                containerBounds: { left: 0, right: 0, width: 0 },
+                opacities: {},
+                updateContainerBounds() {
+                    const container = this.$refs.scrollContainer
+                    const rect = container.getBoundingClientRect()
+                    this.containerBounds = {
+                        left: rect.left,
+                        right: rect.right,
+                        width: rect.width,
+                    }
+                },
+                computeOpacity(element) {
+                    if (! element || this.containerBounds.width === 0) return 1
+                    const rect = element.getBoundingClientRect()
+                    if (rect.left < this.containerBounds.left) {
+                        const diff = this.containerBounds.left - rect.left
+                        const percent = diff / rect.width
+                        return Math.max(0.5, 1 - percent)
+                    } else if (rect.right > this.containerBounds.right) {
+                        const diff = rect.right - this.containerBounds.right
+                        const percent = diff / rect.width
+                        return Math.max(0.5, 1 - percent)
+                    } else {
+                        return 1
+                    }
+                },
+                updateAllOpacities() {
+                    const container = this.$refs.scrollContainer
+                    Array.from(container.children).forEach((element, index) => {
+                        if (element.tagName === 'IMG') {
+                            this.opacities[index] = this.computeOpacity(element)
+                        }
+                    })
+                },
+                updateActiveIndex() {
+                    const container = this.$refs.scrollContainer
+                    const scrollLeft = container.scrollLeft
+                    const cardWidth = container.children[0].offsetWidth
+                    const gap = 16
+                    this.activeIndex = Math.round(scrollLeft / (cardWidth + gap))
+                },
+                scrollTo(index) {
+                    const container = this.$refs.scrollContainer
+                    const cardWidth = container.children[0].offsetWidth
+                    const gap = 16
+                    container.scrollTo({
+                        left: (cardWidth + gap) * index,
+                        behavior: 'smooth',
+                    })
+                },
+            }"
+            x-init="
+                updateContainerBounds()
+                updateAllOpacities()
+            "
+            window:resize="updateContainerBounds(); updateAllOpacities();"
+        >
+            <div
+                x-ref="scrollContainer"
+                x-on:scroll="
+                    updateActiveIndex()
+                    updateAllOpacities()
+                "
+                class="flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+                @foreach ($listing->photos as $photo)
+                    <img
+                        src="{{ Storage::url($photo->path) }}"
+                        alt="{{ $listing->title }}"
+                        :style="'opacity: ' + (opacities[{{ $loop->index }}] ?? 1)"
+                        class="h-72 w-72 shrink-0 snap-start rounded-lg object-cover sm:h-96 sm:w-96"
+                    />
+                @endforeach
 
-        <div class="mt-5 grid grid-cols-6 gap-2">
-            @foreach ($listing->photos->skip(1) as $photo)
-                <img
-                    src="{{ Storage::url($photo->path) }}"
-                    class="rounded"
-                    alt="{{ $listing->title }}"
-                />
-            @endforeach
+                <div class="w-64 shrink-0 sm:w-96"></div>
+            </div>
+            <div class="mt-4 flex justify-center gap-2">
+                @foreach ($listing->photos as $photo)
+                    <button
+                        x-on:click="scrollTo({{ $loop->index }})"
+                        class="size-2.5 rounded-full bg-zinc-300 transition"
+                        :class="activeIndex === {{ $loop->index }} ? 'bg-zinc-600' : 'hover:bg-zinc-400'"
+                    ></button>
+                @endforeach
+            </div>
         </div>
 
         <div class="mt-8">
@@ -93,9 +164,19 @@ new #[Layout('layouts.marketplace')] class extends Component
             ${{ number_format($listing->price) }}
         </flux:heading>
         <div class="mt-5 flex items-center gap-2">
-            <flux:avatar :src="$listing->user->profilePhotoUrl()" :name="$listing->user->name" circle />
-            <flux:link :href="route('users.show', $listing->user)" wire:navigate variant="ghost">
-                <flux:text variant="strong">{{ $listing->user->name }}</flux:text>
+            <flux:avatar
+                :src="$listing->user->profilePhotoUrl()"
+                :name="$listing->user->name"
+                circle
+            />
+            <flux:link
+                :href="route('users.show', $listing->user)"
+                wire:navigate
+                variant="ghost"
+            >
+                <flux:text variant="strong">
+                    {{ $listing->user->name }}
+                </flux:text>
             </flux:link>
         </div>
 
@@ -109,7 +190,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             >
                 Send an inquiry
             </flux:button>
-            @if(auth()->check() && auth()->user()->is($listing->user))
+            @if (auth()->check() &&auth()->user()->is($listing->user))
                 <flux:text class="mt-2">This is your own listing.</flux:text>
             @endif
         </div>
