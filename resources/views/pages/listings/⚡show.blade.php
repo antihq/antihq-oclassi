@@ -69,7 +69,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                 <div class="flex-1">
                     <div class="flex justify-between gap-8">
                         <flux:text class="text-base">
-                            Hello, I'm <flux:link :href="route('users.show', $listing->user)" wire:navigate variant="ghost">{{ $listing->user->name }}</flux:link>
+                            {{ $listing->user->bio ?: "Hello, I'm {$listing->user->name}" }}
                         </flux:text>
                         <flux:text>
                             <flux:link :href="route('profile.edit')">
