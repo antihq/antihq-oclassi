@@ -15,7 +15,17 @@ Route::livewire('/listings/{listing}/edit', 'pages::listings.edit')
     ->middleware(['auth', 'verified'])
     ->name('listings.edit');
 
-Route::livewire('/listings/{listing}/send-inquiry', 'pages::send-inquiry');
+Route::livewire('/listings/{listing}/send-inquiry', 'pages::send-inquiry')
+    ->middleware(['auth', 'verified'])
+    ->name('send-inquiry');
+
+Route::livewire('/inbox', 'pages::inbox')
+    ->middleware(['auth', 'verified'])
+    ->name('inbox');
+
+Route::livewire('/conversations/{conversation}', 'pages::conversations.show')
+    ->middleware(['auth', 'verified'])
+    ->name('conversations.show');
 
 Route::livewire('user/listings/', 'pages::user.listings')
     ->name('user.listings.index');

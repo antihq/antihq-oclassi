@@ -1,14 +1,40 @@
 <?php
 
+use App\Models\Conversation;
 use App\Models\Listing;
+use App\Models\Message;
+use App\Notifications\NewMessageNotification;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 new #[Layout('layouts.marketplace')] class extends Component
 {
     #[Locked]
     public Listing $listing;
+
+    #[Validate('required|string|max:5000')]
+    public string $body = '';
+
+    public function send(): void
+    {
+        $this->validate();
+
+        $conversation = Conversation::findOrCreateFor(auth()->user(), $this->listing);
+
+        $message = Message::create([
+            'conversation_id' => $conversation->id,
+            'sender_id' => auth()->id(),
+            'body' => $this->body,
+        ]);
+
+        $conversation->touchLastMessageAt();
+
+        $this->listing->user->notify(new NewMessageNotification($message, $conversation));
+
+        $this->redirect(route('conversations.show', $conversation), navigate: true);
+    }
 };
 ?>
 
@@ -16,12 +42,22 @@ new #[Layout('layouts.marketplace')] class extends Component
     <div class="space-y-8 w-full max-w-lg">
         <flux:heading level="1" size="xl">Send an inquiry to {{ $listing->user->name }}</flux:heading>
 
-        <flux:textarea label="Inquiry messge" placeholder="Hello there! I'm interested in..." />
+        <form wire:submit="send" class="space-y-6">
+            <flux:field>
+                <flux:label>Message</flux:label>
+                <flux:textarea
+                    wire:model="body"
+                    placeholder="Hello there! I'm interested in..."
+                    rows="4"
+                />
+                <flux:error name="body" />
+            </flux:field>
 
-        <div class="flex">
-            <flux:spacer />
-            <flux:button variant="primary" color="green">Send inquiry</flux:button>
-        </div>
+            <div class="flex">
+                <flux:spacer />
+                <flux:button type="submit" variant="primary" color="green">Send inquiry</flux:button>
+            </div>
+        </form>
     </div>
 
     <div class="border w-full max-w-xs border-zinc-200">

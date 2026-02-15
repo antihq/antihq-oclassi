@@ -34,8 +34,12 @@
                     <flux:navbar.item :href="route('listings.create')">
                         Post a new listing
                     </flux:navbar.item>
-                    <flux:navbar.item wire:navigate>
+                    <flux:navbar.item :href="route('inbox')" wire:navigate>
                         Inbox
+                        @php($unreadCount = auth()->user()->unreadConversationsCount())
+                        @if($unreadCount > 0)
+                            <flux:badge color="blue" size="sm" class="ml-1">{{ $unreadCount }}</flux:badge>
+                        @endif
                     </flux:navbar.item>
                 </flux:navbar>
                 <x-desktop-user-menu />
@@ -71,12 +75,15 @@
                 />
             </flux:sidebar.header>
             <flux:sidebar.nav>
-                <flux:sidebar.item icon="home" href="#" current>
+                <flux:sidebar.item icon="home" :href="route('home')" wire:navigate>
                     Home
                 </flux:sidebar.item>
-                <flux:sidebar.item icon="inbox" badge="12" href="#">
-                    Inbox
-                </flux:sidebar.item>
+                @auth
+                    @php($unreadCount = auth()->user()->unreadConversationsCount())
+                    <flux:sidebar.item icon="inbox" :href="route('inbox')" wire:navigate :badge="$unreadCount > 0 ? (string) $unreadCount : null">
+                        Inbox
+                    </flux:sidebar.item>
+                @endauth
                 <flux:sidebar.item icon="document-text" href="#">
                     Documents
                 </flux:sidebar.item>
