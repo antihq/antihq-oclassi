@@ -1,25 +1,41 @@
 <?php
 
+use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 new #[Layout('layouts.marketplace')] class extends Component
 {
+    public User $user;
+
     #[Computed]
     public function listings()
     {
-        return auth()->user()->listings()->with('photos')->latest()->get();
+        return $this->user->listings()->with('photos')->latest()->get();
     }
 };
 ?>
 
 <div>
-    <flux:heading size="xl">
+    <div class="flex justify-between">
+        <div class="flex items-center gap-4">
+            <flux:avatar name="User name" size="xl" circle />
+            <flux:heading size="xl">Hello, I'm {{ $user->name }}</flux:heading>
+        </div>
+        @if(auth()->check() && auth()->id() === $user->id)
+            <div>
+                <flux:button href="{{ route('profile.edit') }}" wire:navigate>Edit profile</flux:button>
+            </div>
+        @endif
+    </div>
+    <flux:separator class="mt-6 mb-8" />
+
+    <flux:heading size="lg">
         @if($this->listings->isEmpty())
-            You have no listings yet
+            No listings yet
         @else
-            Your {{ $this->listings->count() }} {{ Str::plural('listing', $this->listings->count()) }}
+            {{ $this->listings->count() }} {{ Str::plural('listing', $this->listings->count()) }}
         @endif
     </flux:heading>
 
@@ -33,18 +49,12 @@ new #[Layout('layouts.marketplace')] class extends Component
                         alt="{{ $listing->title }}"
                     >
                     <a href="{{ route('listings.show', $listing) }}" class="absolute inset-0" wire:navigate></a>
-                    <div class="absolute top-1 right-1">
-                        <flux:button icon="ellipsis-horizontal" variant="ghost" />
-                    </div>
                 </div>
                 <div>
                     <flux:heading>${{ number_format($listing->price / 100, 2) }}</flux:heading>
                     <flux:heading size="lg" class="mt-2">
                         <flux:link href="{{ route('listings.show', $listing) }}" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
                     </flux:heading>
-                    <flux:text class="mt-1">
-                        <flux:link href="{{ route('listings.edit', $listing) }}" wire:navigate>Edit listing</flux:link>
-                    </flux:text>
                 </div>
             </div>
         @endforeach

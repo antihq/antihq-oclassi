@@ -1,6 +1,11 @@
 <?php
 
+use App\Models\Listing;
+use App\Models\ListingPhoto;
+use Flux\Flux;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -8,6 +13,9 @@ use Livewire\WithFileUploads;
 new #[Layout('layouts.marketplace')] class extends Component
 {
     use WithFileUploads;
+
+    #[Locked]
+    public Listing $listing;
 
     public string $tab = 'details';
 
@@ -28,48 +36,44 @@ new #[Layout('layouts.marketplace')] class extends Component
     #[Validate(['photos.*' => 'image|max:10240'], onUpdate: false)]
     public array $photos = [];
 
-    public array $completedSteps = [];
+    public array $existingPhotoIds = [];
 
-    public function nextStep(string $nextTab): void
+    public function mount(): void
     {
-        $rules = match ($this->tab) {
-            'details' => [
-                'title' => 'required',
-                'description' => 'required',
-            ],
-            'location' => ['address' => 'required'],
-            'pricing' => ['price' => 'required|numeric|min:0'],
-            default => [],
-        };
+        if (! auth()->user()->is($this->listing->user)) {
+            abort(403);
+        }
 
-        $this->validate($rules);
-
-        $this->completedSteps[] = $this->tab;
-        $this->tab = $nextTab;
-    }
-
-    public function canAccessTab(string $tab): bool
-    {
-        $tabOrder = ['details', 'location', 'pricing', 'photos'];
-        $tabIndex = array_search($tab, $tabOrder);
-        $currentIndex = array_search($this->tab, $tabOrder);
-
-        return $tabIndex <= $currentIndex ||
-            in_array($tabOrder[$tabIndex - 1] ?? null, $this->completedSteps);
+        $this->title = $this->listing->title;
+        $this->description = $this->listing->description;
+        $this->address = $this->listing->address;
+        $this->addressLine2 = $this->listing->address_line_2 ?? '';
+        $this->price = (string) ($this->listing->price / 100);
+        $this->existingPhotoIds = $this->listing->photos->pluck('id')->toArray();
     }
 
     public function removePhoto(int $index): void
     {
-        $this->photos[$index]?->delete();
         unset($this->photos[$index]);
         $this->photos = array_values($this->photos);
     }
 
-    public function publish(): void
+    public function removeExistingPhoto(int $photoId): void
+    {
+        $photo = ListingPhoto::find($photoId);
+
+        if ($photo && $photo->listing_id === $this->listing->id) {
+            Storage::disk('public')->delete($photo->path);
+            $photo->delete();
+            $this->existingPhotoIds = array_values(array_diff($this->existingPhotoIds, [$photoId]));
+        }
+    }
+
+    public function save(): void
     {
         $this->validate();
 
-        $listing = auth()->user()->listings()->create([
+        $this->listing->update([
             'title' => $this->title,
             'description' => $this->description,
             'address' => $this->address,
@@ -77,16 +81,18 @@ new #[Layout('layouts.marketplace')] class extends Component
             'price' => (int) ($this->price * 100),
         ]);
 
-        foreach ($this->photos as $index => $photo) {
-            $path = $photo->store('listings/'.$listing->id, 'public');
+        $existingPhotoCount = count($this->existingPhotoIds);
 
-            $listing->photos()->create([
+        foreach ($this->photos as $index => $photo) {
+            $path = $photo->store('listings/'.$this->listing->id, 'public');
+
+            $this->listing->photos()->create([
                 'path' => $path,
-                'order' => $index,
+                'order' => $existingPhotoCount + $index,
             ]);
         }
 
-        $this->redirect(route('listings.show', $listing));
+        Flux::toast('Your changes have been saved.', variant: 'success');
     }
 };
 ?>
@@ -95,24 +101,12 @@ new #[Layout('layouts.marketplace')] class extends Component
     <flux:tab.group>
         <flux:tabs wire:model="tab">
             <flux:tab name="details">Details</flux:tab>
-            <flux:tab
-                name="location"
-                :disabled="!$this->canAccessTab('location')"
-            >
-                Location
-            </flux:tab>
-            <flux:tab
-                name="pricing"
-                :disabled="!$this->canAccessTab('pricing')"
-            >
-                Pricing
-            </flux:tab>
-            <flux:tab name="photos" :disabled="!$this->canAccessTab('photos')">
-                Photos
-            </flux:tab>
+            <flux:tab name="location">Location</flux:tab>
+            <flux:tab name="pricing">Pricing</flux:tab>
+            <flux:tab name="photos">Photos</flux:tab>
         </flux:tabs>
         <flux:tab.panel name="details" class="max-w-xl">
-            <form wire:submit="nextStep('location')">
+            <form wire:submit="save">
                 <flux:heading size="xl">Listing details</flux:heading>
                 <div class="mt-6 space-y-6">
                     <flux:field>
@@ -134,12 +128,12 @@ new #[Layout('layouts.marketplace')] class extends Component
                     </flux:field>
                 </div>
                 <div class="mt-6">
-                    <flux:button type="submit">Next</flux:button>
+                    <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>
         </flux:tab.panel>
         <flux:tab.panel name="location" class="max-w-xl">
-            <form wire:submit="nextStep('pricing')">
+            <form wire:submit="save">
                 <flux:heading size="xl">Location</flux:heading>
                 <div class="mt-6 space-y-6">
                     <flux:field>
@@ -158,13 +152,13 @@ new #[Layout('layouts.marketplace')] class extends Component
                         <flux:input wire:model="addressLine2" />
                     </flux:field>
                 </div>
-                <div class="mt-6 flex gap-3">
-                    <flux:button type="submit">Next</flux:button>
+                <div class="mt-6">
+                    <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>
         </flux:tab.panel>
         <flux:tab.panel name="pricing" class="max-w-xl">
-            <form wire:submit="nextStep('photos')">
+            <form wire:submit="save">
                 <flux:heading size="xl">Pricing</flux:heading>
                 <div class="mt-6 space-y-6">
                     <flux:field>
@@ -176,18 +170,39 @@ new #[Layout('layouts.marketplace')] class extends Component
                         <flux:error name="price" />
                     </flux:field>
                 </div>
-                <div class="mt-6 flex gap-3">
-                    <flux:button type="submit">Next</flux:button>
+                <div class="mt-6">
+                    <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>
         </flux:tab.panel>
         <flux:tab.panel name="photos" class="max-w-xl">
-            <form wire:submit="publish">
+            <form wire:submit="save">
                 <flux:heading size="xl">Photos</flux:heading>
+
+                @if ($listing->photos()->whereIn('id', $existingPhotoIds)->count() > 0)
+                    <div class="mt-4">
+                        <flux:label>Current Photos</flux:label>
+                        <div class="mt-2 flex flex-col gap-2">
+                            @foreach ($listing->photos()->whereIn('id', $existingPhotoIds)->get() as $photo)
+                                <flux:file-item
+                                    :heading="basename($photo->path)"
+                                    :image="Storage::url($photo->path)"
+                                >
+                                    <x-slot name="actions">
+                                        <flux:file-item.remove
+                                            wire:click="removeExistingPhoto({{ $photo->id }})"
+                                        />
+                                    </x-slot>
+                                </flux:file-item>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
                 <div class="mt-6">
                     <flux:file-upload
                         wire:model="photos"
-                        label="Upload photos"
+                        label="Add more photos"
                         multiple
                     >
                         <flux:file-upload.dropzone
@@ -212,10 +227,8 @@ new #[Layout('layouts.marketplace')] class extends Component
                     </div>
                     <flux:error name="photos" />
                 </div>
-                <div class="mt-6 flex gap-3">
-                    <flux:button type="submit" variant="primary">
-                        Publish Listing
-                    </flux:button>
+                <div class="mt-6">
+                    <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>
         </flux:tab.panel>

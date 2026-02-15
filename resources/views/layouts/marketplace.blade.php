@@ -21,6 +21,9 @@
                 name="Acme Inc."
                 class="hidden max-lg:hidden! dark:flex"
             />
+            <div>
+                <flux:input icon="magnifying-glass" placeholder="Search" />
+            </div>
             <flux:spacer />
             @auth
                 <flux:navbar class="-mb-px max-lg:hidden me-4">
@@ -99,6 +102,7 @@
             {{ $slot }}
         </flux:main>
 
+        <flux:toast />
         @fluxScripts
     </body>
 </html>

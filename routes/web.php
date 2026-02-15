@@ -11,8 +11,15 @@ Route::livewire('/listings/create', 'pages::listings.create')
 Route::livewire('/listings/{listing}', 'pages::listings.show')
     ->name('listings.show');
 
+Route::livewire('/listings/{listing}/edit', 'pages::listings.edit')
+    ->middleware(['auth', 'verified'])
+    ->name('listings.edit');
+
 Route::livewire('user/listings/', 'pages::user.listings')
     ->name('user.listings.index');
+
+Route::livewire('/users/{user}', 'pages::users.show')
+    ->name('users.show');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

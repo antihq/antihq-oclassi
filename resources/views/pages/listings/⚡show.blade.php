@@ -20,7 +20,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                     This is your own listing.
                 </flux:callout.heading>
                 <x-slot name="actions">
-                    <flux:button>Edit listing</flux:button>
+                    <flux:button :href="route('listings.edit', $listing)">Edit listing</flux:button>
                 </x-slot>
             </flux:callout>
         @endif
@@ -97,7 +97,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         </div>
 
         <div class="mt-12 text-center">
-            <flux:button variant="primary" color="green" class="w-full">
+            <flux:button variant="primary" color="green" class="w-full" :disabled="auth()->check() && auth()->user()->is($listing->user)">
                 Send an inquiry
             </flux:button>
             @if(auth()->check() && auth()->user()->is($listing->user))
