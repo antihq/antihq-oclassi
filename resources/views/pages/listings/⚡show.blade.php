@@ -31,6 +31,26 @@ new #[Layout("layouts.marketplace")] class extends Component {
                 activeIndex: 0,
                 containerBounds: { left: 0, right: 0, width: 0 },
                 opacities: {},
+                open: false,
+                currentIndex: 0,
+                images: [
+                    @foreach ($listing->photos as $photo)
+                        {
+                            thumb: '{{ Storage::url($photo->path) }}',
+                            full: '{{ Storage::url($photo->path) }}',
+                            alt: '{{ $listing->title }}',
+                        },
+                    @endforeach
+                ],
+                openLightbox(index) {
+                    this.currentIndex = index;
+                    this.open = true;
+                    document.body.classList.add('overflow-hidden');
+                },
+                closeLightbox() {
+                    this.open = false;
+                    document.body.classList.remove('overflow-hidden');
+                },
                 updateContainerBounds() {
                     const container = this.$refs.scrollContainer
                     const rect = container.getBoundingClientRect()
@@ -85,6 +105,7 @@ new #[Layout("layouts.marketplace")] class extends Component {
                 updateAllOpacities()
             "
             window:resize="updateContainerBounds(); updateAllOpacities();"
+            x-on:keydown.escape.window="closeLightbox()"
         >
             <div
                 x-ref="scrollContainer"
@@ -95,12 +116,18 @@ new #[Layout("layouts.marketplace")] class extends Component {
                 class="flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
                 @foreach ($listing->photos as $photo)
-                    <img
-                        src="{{ Storage::url($photo->path) }}"
-                        alt="{{ $listing->title }}"
-                        :style="'opacity: ' + (opacities[{{ $loop->index }}] ?? 1)"
-                        class="h-72 w-72 shrink-0 snap-start rounded-lg object-cover sm:h-96 sm:w-96"
-                    />
+                    <button
+                        x-on:click="openLightbox({{ $loop->index }})"
+                        type="button"
+                        class="shrink-0 snap-start"
+                    >
+                        <img
+                            src="{{ Storage::url($photo->path) }}"
+                            alt="{{ $listing->title }}"
+                            :style="'opacity: ' + (opacities[{{ $loop->index }}] ?? 1)"
+                            class="h-72 w-72 rounded-lg object-cover sm:h-96 sm:w-96"
+                        />
+                    </button>
                 @endforeach
 
                 <div class="w-64 shrink-0 sm:w-96"></div>
@@ -114,6 +141,41 @@ new #[Layout("layouts.marketplace")] class extends Component {
                     ></button>
                 @endforeach
             </div>
+
+            <template x-teleport="body">
+                <div
+                    x-show="open"
+                    x-transition:enter="transition duration-300 ease-out"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    class="fixed inset-0 z-100 flex items-center justify-center bg-black/90 p-12 backdrop-blur-sm sm:p-16"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Image lightbox"
+                    x-on:click.self="closeLightbox()"
+                >
+                    <button
+                        x-on:click="closeLightbox()"
+                        type="button"
+                        class="absolute end-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white/80 backdrop-blur-xs transition hover:bg-white/20 hover:text-white"
+                        aria-label="Close lightbox"
+                    >
+                        <flux:icon.x-mark />
+                    </button>
+
+                    <template
+                        x-for="(image, index) in images"
+                        x-bind:key="index"
+                    >
+                        <img
+                            x-bind:src="image.full"
+                            x-bind:alt="image.alt"
+                            x-show="currentIndex === index"
+                            class="max-h-full w-full max-w-full object-contain"
+                        />
+                    </template>
+                </div>
+            </template>
         </div>
 
         <div class="mt-8">
