@@ -21,6 +21,8 @@ new #[Layout('layouts.marketplace')] class extends Component
 
     public $photo = null;
 
+    public ?string $bio = null;
+
     /**
      * Mount the component.
      */
@@ -28,6 +30,7 @@ new #[Layout('layouts.marketplace')] class extends Component
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->bio = Auth::user()->bio;
     }
 
     /**
@@ -210,6 +213,8 @@ new #[Layout('layouts.marketplace')] class extends Component
                     </div>
                 @endif
             </div>
+
+            <flux:textarea wire:model="bio" :label="__('Bio')" rows="3" />
 
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('address_line_2')->nullable();
             $table->unsignedBigInteger('price');
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
     }

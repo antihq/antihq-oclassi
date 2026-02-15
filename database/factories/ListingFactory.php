@@ -22,4 +22,9 @@ class ListingFactory extends Factory
             'price' => fake()->numberBetween(1000, 10000000),
         ];
     }
+
+    public function closed(): static
+    {
+        return $this->state(['closed_at' => now()]);
+    }
 }

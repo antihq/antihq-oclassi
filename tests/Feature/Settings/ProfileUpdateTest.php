@@ -49,6 +49,56 @@ test('email verification status is unchanged when email address is unchanged', f
     expect($user->refresh()->email_verified_at)->not->toBeNull();
 });
 
+test('bio can be updated', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    $response = Livewire::test('pages::settings.profile')
+        ->set('name', 'Test User')
+        ->set('email', $user->email)
+        ->set('bio', 'This is my bio')
+        ->call('updateProfileInformation');
+
+    $response->assertHasNoErrors();
+
+    $user->refresh();
+
+    expect($user->bio)->toEqual('This is my bio');
+});
+
+test('bio can be nullable', function () {
+    $user = User::factory()->create(['bio' => 'Existing bio']);
+
+    $this->actingAs($user);
+
+    $response = Livewire::test('pages::settings.profile')
+        ->set('name', 'Test User')
+        ->set('email', $user->email)
+        ->set('bio', null)
+        ->call('updateProfileInformation');
+
+    $response->assertHasNoErrors();
+
+    $user->refresh();
+
+    expect($user->bio)->toBeNull();
+});
+
+test('bio cannot exceed 500 characters', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    $response = Livewire::test('pages::settings.profile')
+        ->set('name', 'Test User')
+        ->set('email', $user->email)
+        ->set('bio', str_repeat('a', 501))
+        ->call('updateProfileInformation');
+
+    $response->assertHasErrors(['bio']);
+});
+
 test('user can delete their account', function () {
     $user = User::factory()->create();
 

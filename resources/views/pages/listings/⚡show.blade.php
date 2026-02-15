@@ -70,7 +70,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                 <div class="flex-1">
                     <div class="flex justify-between gap-8">
                         <flux:text class="text-base">
-                            Hello, I'm <flux:link :href="route('users.show', $listing->user)" wire:navigate variant="ghost">{{ $listing->user->name }}</flux:link>
+                            {{ $listing->user->bio ?: "Hello, I'm {$listing->user->name}" }}
                         </flux:text>
                         <flux:text>
                             <flux:link :href="route('profile.edit')">
@@ -100,7 +100,13 @@ new #[Layout('layouts.marketplace')] class extends Component
         </div>
 
         <div class="mt-12 text-center">
-            <flux:button variant="primary" color="green" class="w-full" :disabled="auth()->check() && auth()->user()->is($listing->user)">
+            <flux:button
+                variant="primary"
+                color="green"
+                class="w-full"
+                :href="route('listings.conversations.create', $listing)"
+                :disabled="auth()->check() && auth()->user()->is($listing->user)"
+            >
                 Send an inquiry
             </flux:button>
             @if(auth()->check() && auth()->user()->is($listing->user))
