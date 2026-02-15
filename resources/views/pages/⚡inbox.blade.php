@@ -40,7 +40,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                     wire:navigate
                     class="flex items-start gap-4 py-4 px-2 -mx-2 rounded-lg hover:bg-zinc-50 transition-colors"
                 >
-                    <flux:avatar :name="$otherUser->name" circle />
+                    <flux:avatar :src="$otherUser->profilePhotoUrl()" :name="$otherUser->name" circle />
 
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center justify-between gap-2">

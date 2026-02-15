@@ -62,7 +62,8 @@ new #[Layout('layouts.marketplace')] class extends Component
             </flux:heading>
             <div class="mt-4 flex gap-8">
                 <flux:avatar
-                    name="{{ $listing->user->name }}"
+                    :src="$listing->user->profilePhotoUrl()"
+                    :name="$listing->user->name"
                     size="xl"
                     circle
                 />
@@ -92,7 +93,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             ${{ number_format($listing->price) }}
         </flux:heading>
         <div class="mt-5 flex items-center gap-2">
-            <flux:avatar name="{{ $listing->user->name }}" circle />
+            <flux:avatar :src="$listing->user->profilePhotoUrl()" :name="$listing->user->name" circle />
             <flux:link :href="route('users.show', $listing->user)" wire:navigate variant="ghost">
                 <flux:text variant="strong">{{ $listing->user->name }}</flux:text>
             </flux:link>

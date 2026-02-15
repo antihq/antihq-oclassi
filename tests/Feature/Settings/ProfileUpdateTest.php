@@ -1,7 +1,13 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+
+beforeEach(function () {
+    Storage::fake('public');
+});
 
 test('profile page is displayed', function () {
     $this->actingAs($user = User::factory()->create());
@@ -72,4 +78,56 @@ test('correct password must be provided to delete account', function () {
     $response->assertHasErrors(['password']);
 
     expect($user->fresh())->not->toBeNull();
+});
+
+test('can upload a profile photo', function () {
+    $user = User::factory()->create();
+    $file = UploadedFile::fake()->image('profile.jpg');
+
+    Livewire::actingAs($user)
+        ->test('pages::settings.profile')
+        ->set('photo', $file)
+        ->call('updateProfilePhoto')
+        ->assertHasNoErrors();
+
+    expect($user->fresh()->profile_photo_path)->not->toBeNull();
+    Storage::disk('public')->assertExists($user->fresh()->profile_photo_path);
+});
+
+test('can remove a profile photo', function () {
+    $user = User::factory()->create();
+    $file = UploadedFile::fake()->image('profile.jpg');
+    $path = $file->store('profile-photos', 'public');
+    $user->update(['profile_photo_path' => $path]);
+
+    Livewire::actingAs($user)
+        ->test('pages::settings.profile')
+        ->call('removeProfilePhoto')
+        ->assertHasNoErrors();
+
+    expect($user->fresh()->profile_photo_path)->toBeNull();
+    Storage::disk('public')->assertMissing($path);
+});
+
+test('validates photo file type', function () {
+    $user = User::factory()->create();
+    $file = UploadedFile::fake()->create('document.pdf', 1000);
+
+    Livewire::actingAs($user)
+        ->test('pages::settings.profile')
+        ->set('photo', $file)
+        ->call('updateProfilePhoto')
+        ->assertHasErrors(['photo' => 'image']);
+});
+
+test('returns null profile photo url when no photo is set', function () {
+    $user = User::factory()->create();
+
+    expect($user->profilePhotoUrl())->toBeNull();
+});
+
+test('returns correct profile photo url when photo is set', function () {
+    $user = User::factory()->create(['profile_photo_path' => 'profile-photos/test.jpg']);
+
+    expect($user->profilePhotoUrl())->toBe(Storage::url('profile-photos/test.jpg'));
 });

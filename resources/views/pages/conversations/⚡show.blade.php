@@ -87,6 +87,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             <div>
                 <a href="{{ route('users.show', $this->otherUser) }}" wire:navigate>
                     <flux:avatar
+                        :src="$this->otherUser->profilePhotoUrl()"
                         :name="$this->otherUser->name"
                         size="xl"
                         circle
@@ -141,7 +142,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                     @else
                         <div class="flex gap-3">
 <a href="{{ route('users.show', $this->otherUser) }}" wire:navigate>
-                                <flux:avatar :name="$this->otherUser->name" size="md" circle />
+                                <flux:avatar :src="$this->otherUser->profilePhotoUrl()" :name="$this->otherUser->name" size="md" circle />
                             </a>
                             <div class="max-w-lg">
                                 <div class="rounded-2xl bg-zinc-100 px-4 py-2 font-medium">
@@ -187,6 +188,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             <div class="px-6 pb-6">
                 @if (auth()->id() === $conversation->buyer_id)
                     <flux:avatar
+                        :src="$this->otherUser->profilePhotoUrl()"
                         :name="$this->otherUser->name"
                         size="xl"
                         class="-mt-6"

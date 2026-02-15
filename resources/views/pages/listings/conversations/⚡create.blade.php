@@ -66,7 +66,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         @endif
 
         <div class="px-8 pb-8 -mt-8">
-            <flux:avatar name="{{ $listing->user->name }}" size="xl" circle />
+            <flux:avatar :src="$listing->user->profilePhotoUrl()" :name="$listing->user->name" size="xl" circle />
 
             <flux:heading level="1" size="lg" class="mt-8">
                 <flux:link :href="route('listings.show', $listing)" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>

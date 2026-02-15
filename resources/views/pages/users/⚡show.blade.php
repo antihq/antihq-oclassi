@@ -20,7 +20,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 <div>
     <div class="flex justify-between">
         <div class="flex items-center gap-4">
-            <flux:avatar name="User name" size="xl" circle />
+            <flux:avatar :src="$user->profilePhotoUrl()" :name="$user->name" size="xl" circle />
             <flux:heading size="xl">Hello, I'm {{ $user->name }}</flux:heading>
         </div>
         @if(auth()->check() && auth()->id() === $user->id)
