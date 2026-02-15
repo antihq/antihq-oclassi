@@ -11,14 +11,40 @@ new #[Layout('layouts.marketplace')] class extends Component
     #[Url]
     public string $sort = 'newest';
 
+    #[Url]
+    public string $search = '';
+
+    #[Url]
+    public string $priceRange = 'all';
+
     #[Computed]
     public function listings()
     {
+        $query = Listing::query()->with(['photos', 'user']);
+
+        if ($this->search) {
+            $query->where(function ($q) {
+                $q->where('title', 'like', "%{$this->search}%")
+                    ->orWhere('description', 'like', "%{$this->search}%");
+            });
+        }
+
+        $ranges = [
+            'under_100' => [0, 10000],
+            '100_500' => [10000, 50000],
+            '500_2000' => [50000, 200000],
+            '2000_plus' => [200000, PHP_INT_MAX],
+        ];
+
+        if ($this->priceRange !== 'all' && isset($ranges[$this->priceRange])) {
+            $query->whereBetween('price', $ranges[$this->priceRange]);
+        }
+
         return match ($this->sort) {
-            'oldest' => Listing::query()->with(['photos', 'user'])->oldest()->get(),
-            'price_low' => Listing::query()->with(['photos', 'user'])->orderBy('price')->get(),
-            'price_high' => Listing::query()->with(['photos', 'user'])->orderByDesc('price')->get(),
-            default => Listing::query()->with(['photos', 'user'])->latest()->get(),
+            'oldest' => $query->oldest()->get(),
+            'price_low' => $query->orderBy('price')->get(),
+            'price_high' => $query->orderByDesc('price')->get(),
+            default => $query->latest()->get(),
         };
     }
 };
@@ -32,6 +58,22 @@ new #[Layout('layouts.marketplace')] class extends Component
             {{ $this->listings->count() }} {{ Str::plural('listing', $this->listings->count()) }}
         @endif
     </flux:heading>
+
+    <div class="flex mt-6 gap-4">
+        <div class="flex-1">
+            <flux:input wire:model.live="search" icon="magnifying-glass" placeholder="Search listings..." clearable />
+        </div>
+
+        <div>
+            <flux:select wire:model.live="priceRange" placeholder="All Prices">
+                <flux:select.option value="all">All Prices</flux:select.option>
+                <flux:select.option value="under_100">Under $100</flux:select.option>
+                <flux:select.option value="100_500">$100 – $500</flux:select.option>
+                <flux:select.option value="500_2000">$500 – $2,000</flux:select.option>
+                <flux:select.option value="2000_plus">$2,000+</flux:select.option>
+            </flux:select>
+        </div>
+    </div>
 
     <div class="flex">
         <flux:radio.group wire:model.live="sort" variant="segmented" class="mt-6">

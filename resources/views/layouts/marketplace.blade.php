@@ -23,9 +23,11 @@
                 class="hidden max-lg:hidden! dark:flex"
                 wire:navigate
             />
-            <div class="ms-4">
-                <flux:input icon="magnifying-glass" placeholder="Search" />
-            </div>
+            <flux:navbar class="-mb-px max-lg:hidden">
+                <flux:navbar.item :href="route('home')" wire:navigate>
+                    Listings
+                </flux:navbar.item>
+            </flux:navbar>
             <flux:spacer />
             @auth
                 <flux:navbar class="-mb-px max-lg:hidden me-4">
