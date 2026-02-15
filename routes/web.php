@@ -15,9 +15,9 @@ Route::livewire('/listings/{listing}/edit', 'pages::listings.edit')
     ->middleware(['auth', 'verified'])
     ->name('listings.edit');
 
-Route::livewire('/listings/{listing}/send-inquiry', 'pages::send-inquiry')
+Route::livewire('/listings/{listing}/conversations/create', 'pages::listings.conversations.create')
     ->middleware(['auth', 'verified'])
-    ->name('send-inquiry');
+    ->name('listings.conversations.create');
 
 Route::livewire('/inbox', 'pages::inbox')
     ->middleware(['auth', 'verified'])

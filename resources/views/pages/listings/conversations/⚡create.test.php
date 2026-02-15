@@ -9,7 +9,7 @@ test('guests are redirected from send inquiry', function () {
     $seller = User::factory()->create();
     $listing = Listing::factory()->for($seller)->create();
 
-    $this->get(route('send-inquiry', $listing))->assertRedirect(route('login'));
+    $this->get(route('listings.conversations.create', $listing))->assertRedirect(route('login'));
 });
 
 test('authenticated users can send inquiry', function () {
@@ -18,7 +18,7 @@ test('authenticated users can send inquiry', function () {
     $listing = Listing::factory()->for($seller)->create();
 
     Livewire::actingAs($buyer)
-        ->test('pages::send-inquiry', ['listing' => $listing])
+        ->test('pages::listings.conversations.create', ['listing' => $listing])
         ->assertOk()
         ->assertSee("Send an inquiry to {$seller->name}");
 });
@@ -29,7 +29,7 @@ test('send inquiry creates conversation and first message', function () {
     $listing = Listing::factory()->for($seller)->create();
 
     Livewire::actingAs($buyer)
-        ->test('pages::send-inquiry', ['listing' => $listing])
+        ->test('pages::listings.conversations.create', ['listing' => $listing])
         ->set('body', 'I am interested in this item!')
         ->call('send')
         ->assertHasNoErrors()
@@ -51,7 +51,7 @@ test('send inquiry reuses existing conversation', function () {
     $existingConversation = Conversation::factory()->forListing($listing)->between($buyer, $seller)->create();
 
     Livewire::actingAs($buyer)
-        ->test('pages::send-inquiry', ['listing' => $listing])
+        ->test('pages::listings.conversations.create', ['listing' => $listing])
         ->set('body', 'Follow up question')
         ->call('send');
 
@@ -65,7 +65,7 @@ test('inquiry body is required', function () {
     $listing = Listing::factory()->for($seller)->create();
 
     Livewire::actingAs($buyer)
-        ->test('pages::send-inquiry', ['listing' => $listing])
+        ->test('pages::listings.conversations.create', ['listing' => $listing])
         ->set('body', '')
         ->call('send')
         ->assertHasErrors(['body']);
@@ -77,7 +77,7 @@ test('inquiry body has max length', function () {
     $listing = Listing::factory()->for($seller)->create();
 
     Livewire::actingAs($buyer)
-        ->test('pages::send-inquiry', ['listing' => $listing])
+        ->test('pages::listings.conversations.create', ['listing' => $listing])
         ->set('body', str_repeat('a', 5001))
         ->call('send')
         ->assertHasErrors(['body']);
@@ -89,7 +89,7 @@ test('send inquiry redirects to conversation', function () {
     $listing = Listing::factory()->for($seller)->create();
 
     Livewire::actingAs($buyer)
-        ->test('pages::send-inquiry', ['listing' => $listing])
+        ->test('pages::listings.conversations.create', ['listing' => $listing])
         ->set('body', 'Hello!')
         ->call('send')
         ->assertRedirect(route('conversations.show', Conversation::first()));
