@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,12 +20,14 @@ class Listing extends Model
         'address',
         'address_line_2',
         'price',
+        'closed_at',
     ];
 
     protected function casts(): array
     {
         return [
             'price' => 'integer',
+            'closed_at' => 'datetime',
         ];
     }
 
@@ -35,5 +39,16 @@ class Listing extends Model
     public function photos(): HasMany
     {
         return $this->hasMany(ListingPhoto::class)->orderBy('order');
+    }
+
+    #[Scope]
+    protected function open(Builder $query): void
+    {
+        $query->whereNull('closed_at');
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->closed_at !== null;
     }
 }

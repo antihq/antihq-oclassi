@@ -20,7 +20,7 @@ new #[Layout('layouts.marketplace')] class extends Component
     #[Computed]
     public function listings()
     {
-        $query = Listing::query()->with(['photos', 'user']);
+        $query = Listing::query()->with(['photos', 'user'])->open();
 
         if ($this->search) {
             $query->where(function ($q) {

@@ -11,6 +11,14 @@ new #[Layout('layouts.marketplace')] class extends Component
     {
         return auth()->user()->listings()->with('photos')->latest()->get();
     }
+
+    public function toggleListingStatus(int $listingId): void
+    {
+        $listing = auth()->user()->listings()->findOrFail($listingId);
+
+        $listing->closed_at = $listing->closed_at ? null : now();
+        $listing->save();
+    }
 };
 ?>
 
@@ -34,7 +42,20 @@ new #[Layout('layouts.marketplace')] class extends Component
                     >
                     <a href="{{ route('listings.show', $listing) }}" class="absolute inset-0" wire:navigate></a>
                     <div class="absolute top-1 right-1">
-                        <flux:button icon="ellipsis-horizontal" variant="ghost" />
+                        <flux:dropdown>
+                            <flux:button icon="ellipsis-horizontal" variant="ghost" />
+                            <flux:menu>
+                                @if($listing->isClosed())
+                                    <flux:menu.item icon="arrow-path" wire:click="toggleListingStatus({{ $listing->id }})">
+                                        Reopen listing
+                                    </flux:menu.item>
+                                @else
+                                    <flux:menu.item icon="x-mark" wire:click="toggleListingStatus({{ $listing->id }})">
+                                        Close listing
+                                    </flux:menu.item>
+                                @endif
+                            </flux:menu>
+                        </flux:dropdown>
                     </div>
                 </div>
                 <div>
