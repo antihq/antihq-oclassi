@@ -28,17 +28,19 @@ test('buyer can view conversation', function () {
     $buyer = User::factory()->create();
     $seller = User::factory()->create();
     $conversation = Conversation::factory()->between($buyer, $seller)->create();
+    Message::factory()->in($conversation)->from($buyer)->create();
 
     Livewire::actingAs($buyer)
         ->test('pages::conversations.show', ['conversation' => $conversation])
         ->assertOk()
-        ->assertSee($seller->name);
+        ->assertSee('You sent an inquiry');
 });
 
 test('seller can view conversation', function () {
     $buyer = User::factory()->create();
     $seller = User::factory()->create();
     $conversation = Conversation::factory()->between($buyer, $seller)->create();
+    Message::factory()->in($conversation)->from($buyer)->create();
 
     Livewire::actingAs($seller)
         ->test('pages::conversations.show', ['conversation' => $conversation])
@@ -61,6 +63,7 @@ test('user can send reply', function () {
     $buyer = User::factory()->create();
     $seller = User::factory()->create();
     $conversation = Conversation::factory()->between($buyer, $seller)->create();
+    Message::factory()->in($conversation)->from($buyer)->create(['body' => 'Initial inquiry']);
 
     Livewire::actingAs($seller)
         ->test('pages::conversations.show', ['conversation' => $conversation])
@@ -68,15 +71,17 @@ test('user can send reply', function () {
         ->call('send')
         ->assertHasNoErrors();
 
-    expect($conversation->messages()->count())->toBe(1)
-        ->and($conversation->messages()->first()->body)->toBe('Thanks for your inquiry!')
-        ->and($conversation->messages()->first()->sender_id)->toBe($seller->id);
+    $reply = $conversation->messages()->where('sender_id', $seller->id)->first();
+    expect($conversation->messages()->count())->toBe(2)
+        ->and($reply->body)->toBe('Thanks for your inquiry!')
+        ->and($reply->sender_id)->toBe($seller->id);
 });
 
 test('reply validation requires body', function () {
     $buyer = User::factory()->create();
     $seller = User::factory()->create();
     $conversation = Conversation::factory()->between($buyer, $seller)->create();
+    Message::factory()->in($conversation)->from($buyer)->create();
 
     Livewire::actingAs($seller)
         ->test('pages::conversations.show', ['conversation' => $conversation])
@@ -103,6 +108,7 @@ test('reply updates last_message_at', function () {
     $buyer = User::factory()->create();
     $seller = User::factory()->create();
     $conversation = Conversation::factory()->between($buyer, $seller)->create(['last_message_at' => now()->subDay()]);
+    Message::factory()->in($conversation)->from($buyer)->create();
 
     $originalTime = $conversation->last_message_at;
 
