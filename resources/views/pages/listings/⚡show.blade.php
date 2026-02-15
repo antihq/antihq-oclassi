@@ -243,17 +243,25 @@ new #[Layout("layouts.marketplace")] class extends Component {
         </div>
 
         <div class="mt-12 text-center">
-            <flux:button
-                variant="primary"
-                color="green"
-                class="w-full"
-                :href="route('listings.conversations.create', $listing)"
-                :disabled="auth()->check() && auth()->user()->is($listing->user)"
-            >
-                Send an inquiry
-            </flux:button>
             @if (auth()->check() &&auth()->user()->is($listing->user))
+                <flux:button
+                    variant="primary"
+                    color="green"
+                    class="w-full"
+                    disabled
+                >
+                    Send an inquiry
+                </flux:button>
                 <flux:text class="mt-2">This is your own listing.</flux:text>
+            @else
+                <flux:button
+                    variant="primary"
+                    color="green"
+                    class="w-full"
+                    :href="route('listings.conversations.create', $listing)"
+                >
+                    Send an inquiry
+                </flux:button>
             @endif
         </div>
     </div>
