@@ -87,7 +87,6 @@ new #[Layout('layouts.marketplace')] class extends Component
             'q' => $this->addressSearch,
             'access_token' => config('services.mapbox.access_token'),
             'autocomplete' => 'true',
-            'permanent' => 'true',
             'limit' => '5',
         ]);
 
