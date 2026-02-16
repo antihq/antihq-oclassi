@@ -5,7 +5,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-new #[Layout("layouts.marketplace")] class extends Component {
+new #[Layout('layouts.marketplace')] class extends Component
+{
     #[Locked]
     public Listing $listing;
 };
@@ -187,6 +188,16 @@ new #[Layout("layouts.marketplace")] class extends Component {
             <flux:text class="mt-2 text-base">
                 {{ $listing->address }}{{ $listing->address_line_2 ? ", " . $listing->address_line_2 : "" }}
             </flux:text>
+            @if($listing->latitude && $listing->longitude)
+                <div class="mt-4 overflow-hidden rounded-lg">
+                    <img
+                        src="https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-s+285A98({{ $listing->longitude }},{{ $listing->latitude }})/{{ $listing->longitude }},{{ $listing->latitude }},14,0,0/640x320?access_token={{ config('services.mapbox.access_token') }}"
+                        alt="Map showing location of {{ $listing->title }}"
+                        class="w-full rounded-lg"
+                        loading="lazy"
+                    />
+                </div>
+            @endif
         </div>
 
         <div class="mt-8">
