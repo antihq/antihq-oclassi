@@ -28,6 +28,16 @@ new #[Layout('layouts.marketplace')] class extends Component
     #[Validate(['photos.*' => 'image|max:10240'], onUpdate: false)]
     public array $photos = [];
 
+    public string $addressSearch = '';
+
+    public ?string $selectedAddressId = null;
+
+    public array $addressSuggestions = [];
+
+    public ?float $latitude = null;
+
+    public ?float $longitude = null;
+
     public array $completedSteps = [];
 
     public function nextStep(string $nextTab): void
@@ -65,6 +75,49 @@ new #[Layout('layouts.marketplace')] class extends Component
         $this->photos = array_values($this->photos);
     }
 
+    public function updatedAddressSearch(): void
+    {
+        if (strlen($this->addressSearch) < 3) {
+            $this->addressSuggestions = [];
+
+            return;
+        }
+
+        $response = \Illuminate\Support\Facades\Http::get('https://api.mapbox.com/search/geocode/v6/forward', [
+            'q' => $this->addressSearch,
+            'access_token' => config('services.mapbox.access_token'),
+            'autocomplete' => 'true',
+            'permanent' => 'true',
+            'limit' => '5',
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $this->addressSuggestions = collect($data['features'] ?? [])->map(function ($feature) {
+                return [
+                    'id' => $feature['id'],
+                    'full_address' => $feature['properties']['full_address'] ?? $feature['properties']['name'],
+                    'address' => $feature['properties']['name'],
+                    'latitude' => $feature['properties']['coordinates']['latitude'],
+                    'longitude' => $feature['properties']['coordinates']['longitude'],
+                ];
+            })->toArray();
+        } else {
+            $this->addressSuggestions = [];
+        }
+    }
+
+    public function updatedSelectedAddressId(): void
+    {
+        $selected = collect($this->addressSuggestions)->firstWhere('id', $this->selectedAddressId);
+
+        if ($selected) {
+            $this->address = $selected['address'];
+            $this->latitude = $selected['latitude'];
+            $this->longitude = $selected['longitude'];
+        }
+    }
+
     public function publish(): void
     {
         $this->validate();
@@ -75,6 +128,8 @@ new #[Layout('layouts.marketplace')] class extends Component
             'address' => $this->address,
             'address_line_2' => $this->addressLine2 ?: null,
             'price' => (int) ($this->price * 100),
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
         ]);
 
         foreach ($this->photos as $index => $photo) {
@@ -144,10 +199,26 @@ new #[Layout('layouts.marketplace')] class extends Component
                 <div class="mt-6 space-y-6">
                     <flux:field>
                         <flux:label>Address</flux:label>
-                        <flux:input
-                            wire:model="address"
-                            placeholder="Street address"
-                        />
+                        <flux:select
+                            wire:model="selectedAddressId"
+                            variant="combobox"
+                            :filter="false"
+                        >
+                            <x-slot name="input">
+                                <flux:select.input
+                                    wire:model.live="addressSearch"
+                                    placeholder="Search address..."
+                                />
+                            </x-slot>
+                            @foreach ($this->addressSuggestions as $suggestion)
+                                <flux:select.option
+                                    value="{{ $suggestion['id'] }}"
+                                    wire:key="{{ $suggestion['id'] }}"
+                                >
+                                    {{ $suggestion['full_address'] }}
+                                </flux:select.option>
+                            @endforeach
+                        </flux:select>
                         <flux:error name="address" />
                     </flux:field>
 

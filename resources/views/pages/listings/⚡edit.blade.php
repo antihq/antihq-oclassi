@@ -38,6 +38,18 @@ new #[Layout('layouts.marketplace')] class extends Component
 
     public array $existingPhotoIds = [];
 
+    public string $addressSearch = '';
+
+    public bool $editingAddress = false;
+
+    public ?string $selectedAddressId = null;
+
+    public array $addressSuggestions = [];
+
+    public ?float $latitude = null;
+
+    public ?float $longitude = null;
+
     public function mount(): void
     {
         if (! auth()->user()->is($this->listing->user)) {
@@ -50,6 +62,8 @@ new #[Layout('layouts.marketplace')] class extends Component
         $this->addressLine2 = $this->listing->address_line_2 ?? '';
         $this->price = (string) ($this->listing->price / 100);
         $this->existingPhotoIds = $this->listing->photos->pluck('id')->toArray();
+        $this->latitude = $this->listing->latitude;
+        $this->longitude = $this->listing->longitude;
     }
 
     public function removePhoto(int $index): void
@@ -69,6 +83,55 @@ new #[Layout('layouts.marketplace')] class extends Component
         }
     }
 
+    public function updatedAddressSearch(): void
+    {
+        if (strlen($this->addressSearch) < 3) {
+            $this->addressSuggestions = [];
+
+            return;
+        }
+
+        $response = \Illuminate\Support\Facades\Http::get('https://api.mapbox.com/search/geocode/v6/forward', [
+            'q' => $this->addressSearch,
+            'access_token' => config('services.mapbox.access_token'),
+            'autocomplete' => 'true',
+            'permanent' => 'true',
+            'limit' => '5',
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $this->addressSuggestions = collect($data['features'] ?? [])->map(function ($feature) {
+                return [
+                    'id' => $feature['id'],
+                    'full_address' => $feature['properties']['full_address'] ?? $feature['properties']['name'],
+                    'address' => $feature['properties']['name'],
+                    'latitude' => $feature['properties']['coordinates']['latitude'],
+                    'longitude' => $feature['properties']['coordinates']['longitude'],
+                ];
+            })->toArray();
+        } else {
+            $this->addressSuggestions = [];
+        }
+    }
+
+    public function updatedSelectedAddressId(): void
+    {
+        $selected = collect($this->addressSuggestions)->firstWhere('id', $this->selectedAddressId);
+
+        if ($selected) {
+            $this->address = $selected['address'];
+            $this->latitude = $selected['latitude'];
+            $this->longitude = $selected['longitude'];
+        }
+    }
+
+    public function startEditingAddress(): void
+    {
+        $this->addressSearch = $this->address;
+        $this->editingAddress = true;
+    }
+
     public function save(): void
     {
         $this->validate();
@@ -79,6 +142,8 @@ new #[Layout('layouts.marketplace')] class extends Component
             'address' => $this->address,
             'address_line_2' => $this->addressLine2 ?: null,
             'price' => (int) ($this->price * 100),
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
         ]);
 
         $existingPhotoCount = count($this->existingPhotoIds);
@@ -136,14 +201,68 @@ new #[Layout('layouts.marketplace')] class extends Component
             <form wire:submit="save">
                 <flux:heading size="xl">Location</flux:heading>
                 <div class="mt-6 space-y-6">
-                    <flux:field>
-                        <flux:label>Address</flux:label>
-                        <flux:input
-                            wire:model="address"
-                            placeholder="Street address"
-                        />
-                        <flux:error name="address" />
-                    </flux:field>
+                    @if (!$editingAddress)
+                        <flux:field>
+                            <flux:label>Address</flux:label>
+                            <div class="flex items-center gap-3">
+                                <flux:input
+                                    wire:model="address"
+                                    readonly
+                                />
+                                <flux:button
+                                    variant="ghost"
+                                    type="button"
+                                    wire:click="startEditingAddress"
+                                >
+                                    Edit
+                                </flux:button>
+                            </div>
+                            <flux:error name="address" />
+                        </flux:field>
+                    @else
+                        <flux:field>
+                            <flux:label>Address</flux:label>
+                            <div class="space-y-3">
+                                <flux:select
+                                    wire:model="selectedAddressId"
+                                    variant="combobox"
+                                    :filter="false"
+                                >
+                                    <x-slot name="input">
+                                        <flux:select.input
+                                            wire:model.live="addressSearch"
+                                            placeholder="Search address..."
+                                        />
+                                    </x-slot>
+                                    @foreach ($this->addressSuggestions as $suggestion)
+                                        <flux:select.option
+                                            value="{{ $suggestion['id'] }}"
+                                            wire:key="{{ $suggestion['id'] }}"
+                                        >
+                                            {{ $suggestion['full_address'] }}
+                                        </flux:select.option>
+                                    @endforeach
+                                </flux:select>
+                                <div class="flex gap-2">
+                                    <flux:button
+                                        variant="ghost"
+                                        type="button"
+                                        wire:click="$set('editingAddress', false)"
+                                    >
+                                        Cancel
+                                    </flux:button>
+                                    <flux:button
+                                        variant="primary"
+                                        type="button"
+                                        wire:click="$set('editingAddress', false)"
+                                    >
+                                        Done
+                                    </flux:button>
+                                </div>
+                            </div>
+                            <flux:error name="address" />
+                        </flux:field>
+                    @endif
 
                     <flux:field>
                         <flux:label badge="Optional">

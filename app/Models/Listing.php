@@ -21,6 +21,8 @@ class Listing extends Model
         'address_line_2',
         'price',
         'closed_at',
+        'latitude',
+        'longitude',
     ];
 
     protected function casts(): array

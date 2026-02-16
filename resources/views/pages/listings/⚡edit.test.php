@@ -177,3 +177,130 @@ test('price must be numeric and non negative', function () {
         ->call('save')
         ->assertHasErrors(['price']);
 });
+
+test('loads existing latitude and longitude', function () {
+    $user = User::factory()->create();
+    $listing = Listing::factory()->for($user)->create([
+        'latitude' => 37.7749,
+        'longitude' => -122.4194,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test('pages::listings.edit', ['listing' => $listing])
+        ->assertSet('latitude', 37.7749)
+        ->assertSet('longitude', -122.4194);
+});
+
+test('address search returns suggestions from Mapbox API', function () {
+    $user = User::factory()->create();
+    $listing = Listing::factory()->for($user)->create();
+
+    Http::fake([
+        'api.mapbox.com/*' => Http::response([
+            'features' => [
+                [
+                    'id' => 'test-id-1',
+                    'type' => 'Feature',
+                    'properties' => [
+                        'mapbox_id' => 'test-mapbox-id',
+                        'full_address' => '123 Main Street, San Francisco, CA 94102, United States',
+                        'name' => '123 Main Street',
+                        'coordinates' => [
+                            'latitude' => 37.7749,
+                            'longitude' => -122.4194,
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
+
+    Livewire::actingAs($user)
+        ->test('pages::listings.edit', ['listing' => $listing])
+        ->set('addressSearch', '123 Main St')
+        ->assertSet('addressSuggestions', [
+            [
+                'id' => 'test-id-1',
+                'full_address' => '123 Main Street, San Francisco, CA 94102, United States',
+                'address' => '123 Main Street',
+                'latitude' => 37.7749,
+                'longitude' => -122.4194,
+            ],
+        ]);
+});
+
+test('selecting address updates coordinates', function () {
+    $user = User::factory()->create();
+    $listing = Listing::factory()->for($user)->create();
+
+    Livewire::actingAs($user)
+        ->test('pages::listings.edit', ['listing' => $listing])
+        ->set('addressSuggestions', [
+            [
+                'id' => 'test-id-1',
+                'full_address' => '123 Main Street, San Francisco, CA 94102, United States',
+                'address' => '123 Main Street',
+                'latitude' => 37.7749,
+                'longitude' => -122.4194,
+            ],
+        ])
+        ->set('selectedAddressId', 'test-id-1')
+        ->assertSet('address', '123 Main Street')
+        ->assertSet('latitude', 37.7749)
+        ->assertSet('longitude', -122.4194);
+});
+
+test('save persists latitude and longitude', function () {
+    $user = User::factory()->create();
+    $listing = Listing::factory()->for($user)->create([
+        'latitude' => null,
+        'longitude' => null,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test('pages::listings.edit', ['listing' => $listing])
+        ->set('latitude', 37.7749)
+        ->set('longitude', -122.4194)
+        ->set('title', 'Updated Title')
+        ->set('description', 'Updated description')
+        ->set('address', 'New Address')
+        ->set('price', '200')
+        ->call('save')
+        ->assertHasNoErrors();
+
+    expect($listing->fresh())
+        ->latitude->toBe(37.7749)
+        ->longitude->toBe(-122.4194);
+});
+
+test('starts editing address sets search to current address', function () {
+    $user = User::factory()->create();
+    $listing = Listing::factory()->for($user)->create([
+        'address' => '123 Existing Address',
+        'latitude' => 37.7749,
+        'longitude' => -122.4194,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test('pages::listings.edit', ['listing' => $listing])
+        ->assertSet('addressSearch', '')
+        ->assertSet('editingAddress', false)
+        ->call('startEditingAddress')
+        ->assertSet('addressSearch', '123 Existing Address')
+        ->assertSet('editingAddress', true);
+});
+
+test('can cancel editing address', function () {
+    $user = User::factory()->create();
+    $listing = Listing::factory()->for($user)->create([
+        'address' => '123 Test Address',
+    ]);
+
+    Livewire::actingAs($user)
+        ->test('pages::listings.edit', ['listing' => $listing])
+        ->call('startEditingAddress')
+        ->assertSet('editingAddress', true)
+        ->set('editingAddress', false)
+        ->assertSet('editingAddress', false)
+        ->assertSet('addressSearch', '123 Test Address');
+});

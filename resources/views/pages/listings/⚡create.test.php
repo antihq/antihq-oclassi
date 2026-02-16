@@ -155,3 +155,98 @@ test('publish creates listing associated with authenticated user', function () {
         ->and($listing->address)->toBe('123 Main Street')
         ->and($listing->price)->toBe(10000);
 });
+
+test('address search returns suggestions from Mapbox API', function () {
+    Http::fake([
+        'api.mapbox.com/*' => Http::response([
+            'features' => [
+                [
+                    'id' => 'test-id-1',
+                    'properties' => [
+                        'full_address' => '123 Main Street, San Francisco, CA',
+                        'name' => '123 Main Street',
+                        'coordinates' => [
+                            'latitude' => 37.7749,
+                            'longitude' => -122.4194,
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
+
+    Livewire::test('pages::listings.create')
+        ->set('addressSearch', '123 Main St')
+        ->assertSet('addressSuggestions', [
+            [
+                'id' => 'test-id-1',
+                'full_address' => '123 Main Street, San Francisco, CA',
+                'address' => '123 Main Street',
+                'latitude' => 37.7749,
+                'longitude' => -122.4194,
+            ],
+        ]);
+});
+
+test('address search does not return suggestions for short input', function () {
+    Livewire::test('pages::listings.create')
+        ->set('addressSearch', '12')
+        ->assertSet('addressSuggestions', []);
+});
+
+test('selecting address updates latitude and longitude', function () {
+    $suggestions = [
+        [
+            'id' => 'test-id-1',
+            'full_address' => '123 Main Street, San Francisco, CA',
+            'address' => '123 Main Street',
+            'latitude' => 37.7749,
+            'longitude' => -122.4194,
+        ],
+    ];
+
+    Livewire::test('pages::listings.create')
+        ->set('addressSuggestions', $suggestions)
+        ->set('selectedAddressId', 'test-id-1')
+        ->assertSet('address', '123 Main Street')
+        ->assertSet('latitude', 37.7749)
+        ->assertSet('longitude', -122.4194);
+});
+
+test('publish saves latitude and longitude when address is selected', function () {
+    $user = User::factory()->create();
+
+    Http::fake([
+        'api.mapbox.com/*' => Http::response([
+            'features' => [
+                [
+                    'id' => 'test-id-1',
+                    'properties' => [
+                        'full_address' => '123 Main Street, San Francisco, CA',
+                        'name' => '123 Main Street',
+                        'coordinates' => [
+                            'latitude' => 37.7749,
+                            'longitude' => -122.4194,
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
+
+    Livewire::actingAs($user)
+        ->test('pages::listings.create')
+        ->set('title', 'My Listing')
+        ->set('description', 'A great listing description')
+        ->set('addressSearch', '123 Main St')
+        ->set('selectedAddressId', 'test-id-1')
+        ->set('price', '100')
+        ->call('publish')
+        ->assertHasNoErrors();
+
+    $listing = Listing::first();
+
+    expect($listing)
+        ->latitude->toBe(37.7749)
+        ->longitude->toBe(-122.4194);
+});
