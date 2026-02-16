@@ -17,6 +17,80 @@ new #[Layout('layouts.marketplace')] class extends Component
     #[Url]
     public string $priceRange = 'all';
 
+    #[Url]
+    public string $locationSearch = '';
+
+    #[Url]
+    public ?string $selectedLocationId = null;
+
+    public array $locationSuggestions = [];
+
+    #[Url]
+    public ?string $bounds = null;
+
+    public ?string $selectedLocationName = null;
+
+    public function updatedLocationSearch(): void
+    {
+        if (strlen($this->locationSearch) < 3) {
+            $this->locationSuggestions = [];
+
+            return;
+        }
+
+        $response = \Illuminate\Support\Facades\Http::get('https://api.mapbox.com/search/geocode/v6/forward', [
+            'q' => $this->locationSearch,
+            'access_token' => config('services.mapbox.access_token'),
+            'autocomplete' => 'true',
+            'permanent' => 'true',
+            'limit' => '5',
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $this->locationSuggestions = collect($data['features'] ?? [])->map(function ($feature) {
+                return [
+                    'id' => $feature['id'],
+                    'full_address' => $feature['properties']['full_address'] ?? $feature['properties']['name'],
+                    'address' => $feature['properties']['name'],
+                    'latitude' => $feature['properties']['coordinates']['latitude'],
+                    'longitude' => $feature['properties']['coordinates']['longitude'],
+                    'bbox' => $feature['properties']['bbox'] ?? null,
+                ];
+            })->toArray();
+        } else {
+            $this->locationSuggestions = [];
+        }
+    }
+
+    public function updatedSelectedLocationId(): void
+    {
+        $selected = collect($this->locationSuggestions)->firstWhere('id', $this->selectedLocationId);
+
+        if ($selected) {
+            $this->selectedLocationName = $selected['full_address'];
+
+            if ($selected['bbox']) {
+                $west = $selected['bbox'][0];
+                $south = $selected['bbox'][1];
+                $east = $selected['bbox'][2];
+                $north = $selected['bbox'][3];
+                $this->bounds = "{$north},{$west},{$south},{$east}";
+            } else {
+                $this->bounds = null;
+            }
+        }
+    }
+
+    public function clearLocation(): void
+    {
+        $this->selectedLocationId = null;
+        $this->locationSearch = '';
+        $this->bounds = null;
+        $this->selectedLocationName = null;
+        $this->locationSuggestions = [];
+    }
+
     #[Computed]
     public function listings()
     {
@@ -38,6 +112,12 @@ new #[Layout('layouts.marketplace')] class extends Component
 
         if ($this->priceRange !== 'all' && isset($ranges[$this->priceRange])) {
             $query->whereBetween('price', $ranges[$this->priceRange]);
+        }
+
+        if ($this->bounds) {
+            [$north, $west, $south, $east] = explode(',', $this->bounds);
+            $query->whereBetween('latitude', [$south, $north])
+                ->whereBetween('longitude', [$west, $east]);
         }
 
         return match ($this->sort) {
@@ -72,6 +152,42 @@ new #[Layout('layouts.marketplace')] class extends Component
                 <flux:select.option value="500_2000">$500 – $2,000</flux:select.option>
                 <flux:select.option value="2000_plus">$2,000+</flux:select.option>
             </flux:select>
+        </div>
+
+        <div>
+            <flux:select
+                wire:model="selectedLocationId"
+                variant="combobox"
+                :filter="false"
+                placeholder="Location"
+            >
+                <x-slot name="input">
+                    <flux:select.input
+                        wire:model.live="locationSearch"
+                        placeholder="Search city, country..."
+                    />
+                </x-slot>
+                @foreach ($this->locationSuggestions as $suggestion)
+                    <flux:select.option
+                        value="{{ $suggestion['id'] }}"
+                        wire:key="{{ $suggestion['id'] }}"
+                    >
+                        {{ $suggestion['full_address'] }}
+                    </flux:select.option>
+                @endforeach
+            </flux:select>
+            @if ($this->selectedLocationName)
+                <div class="mt-2 flex items-center gap-2">
+                    <span class="text-sm text-gray-500">{{ $this->selectedLocationName }}</span>
+                    <flux:button
+                        variant="ghost"
+                        wire:click="clearLocation"
+                        size="sm"
+                    >
+                        Clear
+                    </flux:button>
+                </div>
+            @endif
         </div>
     </div>
 
