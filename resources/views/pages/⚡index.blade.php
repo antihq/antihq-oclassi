@@ -38,7 +38,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             return;
         }
 
-        $response = \Illuminate\Support\Facades\Http::get('https://api.mapbox.com/search/geocode/v6/forward', [
+        $response = Http::get('https://api.mapbox.com/search/geocode/v6/forward', [
             'q' => $this->locationSearch,
             'access_token' => config('services.mapbox.access_token'),
             'autocomplete' => 'true',
