@@ -161,7 +161,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 };
 ?>
 
-<div>
+<div class="w-full max-w-xl mx-auto">
     <flux:tab.group>
         <flux:tabs wire:model="tab">
             <flux:tab name="details">Details</flux:tab>
@@ -191,7 +191,8 @@ new #[Layout('layouts.marketplace')] class extends Component
                         <flux:error name="description" />
                     </flux:field>
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 flex gap-3">
+                    <flux:spacer />
                     <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>
@@ -270,7 +271,8 @@ new #[Layout('layouts.marketplace')] class extends Component
                         <flux:input wire:model="addressLine2" />
                     </flux:field>
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 flex gap-3">
+                    <flux:spacer />
                     <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>
@@ -288,7 +290,8 @@ new #[Layout('layouts.marketplace')] class extends Component
                         <flux:error name="price" />
                     </flux:field>
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 flex gap-3">
+                    <flux:spacer />
                     <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>
@@ -345,7 +348,8 @@ new #[Layout('layouts.marketplace')] class extends Component
                     </div>
                     <flux:error name="photos" />
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 flex gap-3">
+                    <flux:spacer />
                     <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>
