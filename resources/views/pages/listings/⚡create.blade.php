@@ -187,7 +187,8 @@ new #[Layout('layouts.marketplace')] class extends Component
                         <flux:error name="description" />
                     </flux:field>
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 flex gap-3">
+                    <flux:spacer />
                     <flux:button type="submit">Next</flux:button>
                 </div>
             </form>
@@ -229,6 +230,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                     </flux:field>
                 </div>
                 <div class="mt-6 flex gap-3">
+                    <flux:spacer />
                     <flux:button type="submit">Next</flux:button>
                 </div>
             </form>
@@ -247,6 +249,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                     </flux:field>
                 </div>
                 <div class="mt-6 flex gap-3">
+                    <flux:spacer />
                     <flux:button type="submit">Next</flux:button>
                 </div>
             </form>
@@ -283,6 +286,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                     <flux:error name="photos" />
                 </div>
                 <div class="mt-6 flex gap-3">
+                    <flux:spacer />
                     <flux:button type="submit" variant="primary">
                         Publish Listing
                     </flux:button>
