@@ -38,7 +38,7 @@
                         Inbox
                         @php($unreadCount = auth()->user()->unreadConversationsCount())
                         @if($unreadCount > 0)
-                            <flux:badge color="blue" size="sm" class="ml-1">{{ $unreadCount }}</flux:badge>
+                            <flux:badge variant="solid" color="green" size="sm" class="ml-1" rounded>{{ $unreadCount }}</flux:badge>
                         @endif
                     </flux:navbar.item>
                 </flux:navbar>

@@ -37,6 +37,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             </div>
         @endif
     </div>
+
     <flux:separator class="mt-6 mb-8" variant="subtle" />
 
     <flux:heading size="lg">

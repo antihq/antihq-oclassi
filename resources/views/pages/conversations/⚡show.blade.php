@@ -79,8 +79,8 @@ new #[Layout('layouts.marketplace')] class extends Component
 };
 ?>
 
-<div wire:poll.5s class="flex justify-between gap-8">
-    <div class="w-full max-w-2xl">
+<div wire:poll.5s class="flex justify-between gap-8 w-full max-w-5xl mx-auto">
+    <div class="w-full max-w-lg">
         @if (auth()->id() === $conversation->buyer_id)
             <flux:heading level="1" size="xl">You sent an inquiry</flux:heading>
         @else
@@ -105,10 +105,10 @@ new #[Layout('layouts.marketplace')] class extends Component
             </div>
         @endif
 
-        <div class="mt-8">
+        <div class="mt-12">
             <flux:heading size="lg">Inquire message</flux:heading>
 
-            <div class="mt-5 flex">
+            <div class="mt-4 flex">
                 @if (($message = $this->threadMessages->first())->wasSentBy(auth()->user()))
                     <flux:text
                         class="rounded-lg bg-blue-500 px-4 py-2 text-base font-medium text-white"
@@ -125,38 +125,40 @@ new #[Layout('layouts.marketplace')] class extends Component
             </div>
         </div>
 
-        <div class="mt-8">
-            <flux:heading size="lg">Conversation</flux:heading>
+        @if ($this->threadMessages->skip(1)->count() > 0)
+            <div class="mt-12">
+                <flux:heading size="lg">Conversation</flux:heading>
 
-            <div class="mt-6 space-y-4" wire:scroll-bottom>
-                @foreach ($this->threadMessages->skip(1) as $message)
-                    @if ($message->wasSentBy(auth()->user()))
-                        <div class="flex flex-row-reverse gap-3">
-                            <div class="max-w-lg">
-                                <div class="rounded-2xl bg-blue-500 px-4 py-2 font-medium">
-                                    <flux:text class="text-white">{{ $message->body }}</flux:text>
+                <div class="mt-4 space-y-4" wire:scroll-bottom>
+                    @foreach ($this->threadMessages->skip(1) as $message)
+                        @if ($message->wasSentBy(auth()->user()))
+                            <div class="flex flex-row-reverse gap-3">
+                                <div class="max-w-lg">
+                                    <div class="rounded-2xl bg-blue-500 px-4 py-2 font-medium">
+                                        <flux:text class="text-white">{{ $message->body }}</flux:text>
+                                    </div>
+                                    <flux:text class="mt-2 text-right text-xs">{{ $message->created_at->diffForHumans() }}</flux:text>
                                 </div>
-                                <flux:text class="mt-2 text-right text-xs">{{ $message->created_at->diffForHumans() }}</flux:text>
                             </div>
-                        </div>
-                    @else
-                        <div class="flex gap-3">
-<a href="{{ route('users.show', $this->otherUser) }}" wire:navigate>
-                                <flux:avatar :src="$this->otherUser->profilePhotoUrl()" :name="$this->otherUser->name" size="md" circle />
-                            </a>
-                            <div class="max-w-lg">
-                                <div class="rounded-2xl bg-zinc-100 px-4 py-2 font-medium">
-                                    <flux:text class="text-zinc-800">{{ $message->body }}</flux:text>
+                        @else
+                            <div class="flex gap-3">
+                                <a href="{{ route('users.show', $this->otherUser) }}" wire:navigate>
+                                    <flux:avatar :src="$this->otherUser->profilePhotoUrl()" :name="$this->otherUser->name" size="md" circle />
+                                </a>
+                                <div class="max-w-lg">
+                                    <div class="rounded-2xl bg-zinc-100 px-4 py-2 font-medium">
+                                        <flux:text class="text-zinc-800">{{ $message->body }}</flux:text>
+                                    </div>
+                                    <flux:text class="mt-2 text-xs">{{ $message->created_at->diffForHumans() }}</flux:text>
                                 </div>
-                                <flux:text class="mt-2 text-xs">{{ $message->created_at->diffForHumans() }}</flux:text>
                             </div>
-                        </div>
-                    @endif
-                @endforeach
+                        @endif
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
-        <form wire:submit="send" class="mt-8 border-t border-zinc-200 pt-4">
+        <form wire:submit="send" class="mt-12 border-t border-zinc-100 pt-4">
             <flux:composer
                 wire:model="body"
                 inline
@@ -176,40 +178,19 @@ new #[Layout('layouts.marketplace')] class extends Component
         </form>
     </div>
 
-    <div class="w-full max-w-xs shrink-0 self-start border border-zinc-200">
-        @if ($conversation->listing)
-            @if ($conversation->listing->photos->first())
-                <img
-                    src="{{ Storage::url($conversation->listing->photos->first()->path) }}"
-                    alt="{{ $conversation->listing->title }}"
-                />
-            @endif
-
-            <div class="px-6 pb-6">
-                @if (auth()->id() === $conversation->buyer_id)
-                    <flux:avatar
-                        :src="$this->otherUser->profilePhotoUrl()"
-                        :name="$this->otherUser->name"
-                        size="xl"
-                        class="-mt-6"
-                        circle
-                    />
-                @endif
-
-                <flux:heading level="2" size="lg" class="mt-6">
-                    <flux:link
-                        :href="route('listings.show', $conversation->listing)"
-                        variant="ghost"
-                        wire:navigate
-                    >
-                        {{ $conversation->listing->title }}
-                    </flux:link>
-                </flux:heading>
-
-                <flux:heading class="mt-4">
-                    ${{ number_format($conversation->listing->price) }}
-                </flux:heading>
-            </div>
+    <div class="rounded-xl shadow-sm overflow-hidden max-w-sm">
+        @if ($conversation->listing->photos->first())
+            <img src="{{ Storage::url($conversation->listing->photos->first()->path) }}" alt="{{ $conversation->listing->title }}">
         @endif
+
+        <div class="px-8 pb-8 -mt-8">
+            <a href="{{ route('users.show', $conversation->listing->user) }}" wire:navigate>
+                <flux:avatar :src="$conversation->listing->user->profilePhotoUrl()" :name="$conversation->listing->user->name" size="xl" circle />
+            </a>
+            <flux:heading class="text-xl! font-semibold mt-6">${{ number_format($conversation->listing->price / 100) }}</flux:heading>
+            <flux:heading class="mt-2 text-lg! font-semibold">
+                <flux:link href="{{ route('listings.show', $conversation->listing) }}" variant="ghost" wire:navigate>{{ $conversation->listing->title }}</flux:link>
+            </flux:heading>
+        </div>
     </div>
 </div>
