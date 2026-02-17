@@ -100,7 +100,37 @@ new #[Layout('layouts.marketplace')] class extends Component
     public function resetFilters(): void
     {
         $this->sort = 'newest';
+        $this->search = '';
         $this->priceRange = 'all';
+        $this->selectedLocationId = null;
+        $this->locationSearch = '';
+        $this->bounds = null;
+        $this->selectedLocationName = null;
+        $this->locationSuggestions = [];
+    }
+
+    #[Computed]
+    public function activeFiltersCount(): int
+    {
+        $count = 0;
+
+        if ($this->sort !== 'newest') {
+            $count++;
+        }
+
+        if ($this->search !== '') {
+            $count++;
+        }
+
+        if ($this->priceRange !== 'all') {
+            $count++;
+        }
+
+        if ($this->selectedLocationId !== null) {
+            $count++;
+        }
+
+        return $count;
     }
 
     #[Computed]
@@ -144,19 +174,28 @@ new #[Layout('layouts.marketplace')] class extends Component
 
 <div>
     <div class="flex items-center gap-4">
-        <flux:heading size="xl">
-            @if($this->listings->isEmpty())
-                No listings yet
-            @else
-                {{ $this->listings->count() }} {{ Str::plural('listing', $this->listings->count()) }}
+        <div class="flex items-center gap-2">
+            <flux:heading size="xl">
+                @if($this->listings->isEmpty())
+                    No listings yet
+                @else
+                    {{ $this->listings->count() }} {{ Str::plural('listing', $this->listings->count()) }}
+                @endif
+            </flux:heading>
+
+            @if($this->activeFiltersCount > 0)
+                <flux:badge as="button" wire:click="resetFilters" class="ml-2">
+                    {{ $this->activeFiltersCount }} {{ Str::plural('filter', $this->activeFiltersCount) }}
+                    <flux:icon.x-mark variant="micro" class="ml-1" />
+                </flux:badge>
             @endif
-        </flux:heading>
+        </div>
 
         <flux:spacer />
 
         <div>
             <flux:modal.trigger name="search">
-                <flux:input icon="magnifying-glass" placeholder="Search listings..." clearable />
+                <flux:input as="button" icon="magnifying-glass" placeholder="Search listings..." class="w-xs" />
             </flux:modal.trigger>
         </div>
 
