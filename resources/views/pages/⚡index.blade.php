@@ -291,7 +291,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                     >
                     <a href="{{ route('listings.show', $listing) }}" class="absolute inset-0" wire:navigate></a>
                 </div>
-                <div class="pt-5 pb-4 px-4">
+                <div class="py-5 px-4">
                     <flux:heading class="text-xl/none font-semibold">${{ number_format($listing->price / 100) }}</flux:heading>
                     <flux:heading class="mt-4 text-lg/none! line-clamp-1 font-semibold">
                         <flux:link href="{{ route('listings.show', $listing) }}" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
