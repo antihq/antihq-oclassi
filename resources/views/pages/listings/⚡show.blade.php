@@ -20,7 +20,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                     This is your own listing.
                 </flux:callout.heading>
                 <x-slot name="actions">
-                    <flux:button :href="route('listings.edit', $listing)">
+                    <flux:button :href="route('listings.edit', $listing)" wire:navigate>
                         Edit listing
                     </flux:button>
                 </x-slot>

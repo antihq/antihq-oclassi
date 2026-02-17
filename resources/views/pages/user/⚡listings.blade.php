@@ -54,11 +54,10 @@ new #[Layout('layouts.marketplace')] class extends Component
                             <flux:dropdown>
                                 <flux:button icon="ellipsis-horizontal" />
                                 <flux:menu>
-                                    @if($listing->isClosed())
-                                        <flux:menu.item wire:click="toggleListingStatus({{ $listing->id }})">
-                                            Reopen listing
-                                        </flux:menu.item>
-                                    @else
+                                    <flux:menu.item href="{{ route('listings.edit', $listing) }}" wire:navigate>
+                                        Edit listing
+                                    </flux:menu.item>
+                                    @unless($listing->isClosed())
                                         <flux:menu.item wire:click="toggleListingStatus({{ $listing->id }})">
                                             Close listing
                                         </flux:menu.item>
@@ -73,9 +72,6 @@ new #[Layout('layouts.marketplace')] class extends Component
                     <flux:heading size="lg" class="mt-2">
                         <flux:link href="{{ route('listings.show', $listing) }}" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
                     </flux:heading>
-                    <flux:text class="mt-1">
-                        <flux:link href="{{ route('listings.edit', $listing) }}" wire:navigate>Edit listing</flux:link>
-                    </flux:text>
                 </div>
             </div>
         @endforeach
