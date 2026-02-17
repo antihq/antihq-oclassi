@@ -212,9 +212,17 @@ new #[Layout('layouts.marketplace')] class extends Component
                 />
                 <div class="flex-1">
                     <div class="flex justify-between gap-8">
-                        <flux:text class="text-base">
-                            {{ $listing->user->bio ?: "Hello, I'm {$listing->user->name}" }}
-                        </flux:text>
+                        <div>
+                            <flux:text class="text-base">
+                                Hello, I'm {{ $listing->user->name }}
+                            </flux:text>
+
+                            @if ($listing->user->bio)
+                                <flux:text class="text-base mt-2">
+                                    {{ $listing->user->bio }}
+                                </flux:text>
+                            @endif
+                        </div>
                         <flux:button :href="route('profile.edit')">
                             Edit profile
                         </flux:button>
