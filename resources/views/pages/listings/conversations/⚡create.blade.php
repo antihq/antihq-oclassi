@@ -38,11 +38,11 @@ new #[Layout('layouts.marketplace')] class extends Component
 };
 ?>
 
-<div class="flex justify-between gap-8">
-    <div class="space-y-8 w-full max-w-lg">
+<div class="flex justify-between gap-8 w-full max-w-5xl mx-auto">
+    <div class="w-full max-w-lg">
         <flux:heading level="1" size="xl">Send an inquiry to {{ $listing->user->name }}</flux:heading>
 
-        <form wire:submit="send" class="space-y-6">
+        <form wire:submit="send" class="space-y-6 mt-8">
             <flux:field>
                 <flux:label>Message</flux:label>
                 <flux:textarea
@@ -60,19 +60,17 @@ new #[Layout('layouts.marketplace')] class extends Component
         </form>
     </div>
 
-    <div class="border w-full max-w-xs border-zinc-200">
+    <div class="rounded-xl shadow-sm overflow-hidden max-w-sm">
         @if ($listing->photos->first())
             <img src="{{ Storage::url($listing->photos->first()->path) }}" alt="{{ $listing->title }}">
         @endif
 
         <div class="px-8 pb-8 -mt-8">
             <flux:avatar :src="$listing->user->profilePhotoUrl()" :name="$listing->user->name" size="xl" circle />
-
-            <flux:heading level="1" size="lg" class="mt-8">
-                <flux:link :href="route('listings.show', $listing)" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
+            <flux:heading class="text-xl! font-semibold mt-6">${{ number_format($listing->price / 100) }}</flux:heading>
+            <flux:heading class="mt-2 text-lg! font-semibold">
+                <flux:link href="{{ route('listings.show', $listing) }}" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
             </flux:heading>
-
-            <flux:heading class="mt-4">${{ number_format($listing->price) }}</flux:heading>
         </div>
     </div>
 </div>
