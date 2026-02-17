@@ -126,7 +126,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                             src="{{ Storage::url($photo->path) }}"
                             alt="{{ $listing->title }}"
                             :style="'opacity: ' + (opacities[{{ $loop->index }}] ?? 1)"
-                            class="h-72 w-72 rounded-lg object-cover sm:h-96 sm:w-96"
+                            class="h-72 w-72 rounded-lg object-cover sm:h-96 sm:w-96 border border-zinc-200"
                         />
                     </button>
                 @endforeach
@@ -179,17 +179,14 @@ new #[Layout('layouts.marketplace')] class extends Component
             </template>
         </div>
 
-        <div class="mt-8">
+        <div class="mt-12">
             {!! $listing->description !!}
         </div>
 
-        <div class="mt-8">
+        <div class="mt-12">
             <flux:heading level="h2" size="lg">Location</flux:heading>
-            <flux:text class="mt-2 text-base">
-                {{ $listing->address }}{{ $listing->address_line_2 ? ", " . $listing->address_line_2 : "" }}
-            </flux:text>
             @if($listing->latitude && $listing->longitude)
-                <div class="mt-4 overflow-hidden rounded-lg">
+                <div class="mt-6 overflow-hidden rounded-lg border border-zinc-200">
                     <img
                         src="https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-s+285A98({{ $listing->longitude }},{{ $listing->latitude }})/{{ $listing->longitude }},{{ $listing->latitude }},14,0,0/640x320?access_token={{ config('services.mapbox.access_token') }}"
                         alt="Map showing location of {{ $listing->title }}"
@@ -200,11 +197,11 @@ new #[Layout('layouts.marketplace')] class extends Component
             @endif
         </div>
 
-        <div class="mt-8">
+        <div class="mt-12">
             <flux:heading level="h2" size="lg">
                 About the listing author
             </flux:heading>
-            <div class="mt-4 flex gap-8">
+            <div class="mt-6 flex gap-8">
                 <flux:avatar
                     :src="$listing->user->profilePhotoUrl()"
                     :name="$listing->user->name"
@@ -216,17 +213,13 @@ new #[Layout('layouts.marketplace')] class extends Component
                         <flux:text class="text-base">
                             {{ $listing->user->bio ?: "Hello, I'm {$listing->user->name}" }}
                         </flux:text>
-                        <flux:text>
-                            <flux:link :href="route('profile.edit')">
-                                Edit profile
-                            </flux:link>
-                        </flux:text>
+                        <flux:button :href="route('profile.edit')">
+                            Edit profile
+                        </flux:button>
                     </div>
-                    <flux:text class="mt-6 text-base">
-                        <flux:link :href="route('profile.edit')">
-                            View profile
-                        </flux:link>
-                    </flux:text>
+                    <flux:button :href="route('profile.edit')" class="mt-6">
+                        View profile
+                    </flux:button>
                 </div>
             </div>
         </div>

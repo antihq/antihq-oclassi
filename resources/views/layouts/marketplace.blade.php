@@ -3,7 +3,7 @@
     <head>
         @include("partials.head")
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-zinc-800">
+    <body class="min-h-screen bg-white antialiased dark:bg-zinc-800 text-zinc-950">
         <flux:header
             container
             class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900"
