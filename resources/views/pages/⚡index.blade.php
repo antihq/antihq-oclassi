@@ -90,6 +90,12 @@ new #[Layout('layouts.marketplace')] class extends Component
         $this->locationSuggestions = [];
     }
 
+    public function resetFilters(): void
+    {
+        $this->sort = 'newest';
+        $this->priceRange = 'all';
+    }
+
     #[Computed]
     public function listings()
     {
@@ -144,13 +150,31 @@ new #[Layout('layouts.marketplace')] class extends Component
         </div>
 
         <div>
-            <flux:select wire:model.live="priceRange" placeholder="All Prices">
-                <flux:select.option value="all">All Prices</flux:select.option>
-                <flux:select.option value="under_100">Under $100</flux:select.option>
-                <flux:select.option value="100_500">$100 – $500</flux:select.option>
-                <flux:select.option value="500_2000">$500 – $2,000</flux:select.option>
-                <flux:select.option value="2000_plus">$2,000+</flux:select.option>
-            </flux:select>
+            <flux:dropdown>
+                <flux:button icon="funnel">Filters</flux:button>
+                <flux:menu>
+                    <flux:menu.submenu heading="Sort">
+                        <flux:menu.radio.group wire:model.live="sort">
+                            <flux:menu.radio value="newest">Newest</flux:menu.radio>
+                            <flux:menu.radio value="oldest">Oldest</flux:menu.radio>
+                            <flux:menu.radio value="price_low">Lowest</flux:menu.radio>
+                            <flux:menu.radio value="price_high">Highest</flux:menu.radio>
+                        </flux:menu.radio.group>
+                    </flux:menu.submenu>
+                    <flux:menu.separator />
+                    <flux:menu.submenu heading="Price">
+                        <flux:menu.radio.group wire:model.live="priceRange">
+                            <flux:menu.radio value="all">All</flux:menu.radio>
+                            <flux:menu.radio value="under_100">Under $100</flux:menu.radio>
+                            <flux:menu.radio value="100_500">$100 – $500</flux:menu.radio>
+                            <flux:menu.radio value="500_2000">$500 – $2,000</flux:menu.radio>
+                            <flux:menu.radio value="2000_plus">$2,000+</flux:menu.radio>
+                        </flux:menu.radio.group>
+                    </flux:menu.submenu>
+                    <flux:menu.separator />
+                    <flux:menu.item wire:click="resetFilters">Reset</flux:menu.item>
+                </flux:menu>
+            </flux:dropdown>
         </div>
 
         <div>
@@ -190,32 +214,25 @@ new #[Layout('layouts.marketplace')] class extends Component
         </div>
     </div>
 
-    <div class="flex">
-        <flux:radio.group wire:model.live="sort" variant="segmented" class="mt-6">
-            <flux:radio value="newest" label="Newest" />
-            <flux:radio value="oldest" label="Oldest" />
-            <flux:radio value="price_low" label="Lowest Price" />
-            <flux:radio value="price_high" label="Highest Price" />
-        </flux:radio.group>
-    </div>
-
-    <div class="mt-6 grid grid-cols-3 gap-5">
+    <div class="mt-6 grid grid-cols-3 gap-4">
         @foreach($this->listings as $listing)
-            <div class="space-y-4">
+            <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
                 <div class="relative">
                     <img
-                        class="rounded aspect-[4/3] w-full object-cover"
+                        class="aspect-[4/3] w-full object-cover group-hover:scale-105 transition-transform duration-300"
                         src="{{ $listing->photos->first() ? Storage::url($listing->photos->first()->path) : 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+photo' }}"
                         alt="{{ $listing->title }}"
                     >
                     <a href="{{ route('listings.show', $listing) }}" class="absolute inset-0" wire:navigate></a>
                 </div>
-                <div>
-                    <flux:heading>${{ number_format($listing->price / 100, 2) }}</flux:heading>
-                    <flux:heading size="lg" class="mt-2">
+                <div class="pt-5 pb-4 px-4">
+                    <flux:heading class="text-xl/none font-semibold">${{ number_format($listing->price / 100) }}</flux:heading>
+                    <flux:heading class="mt-4 text-lg/none! line-clamp-1 font-semibold">
                         <flux:link href="{{ route('listings.show', $listing) }}" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
                     </flux:heading>
-                    <flux:link href="{{ route('users.show', $listing->user) }}" variant="ghost" wire:navigate class="text-sm">{{ $listing->user->name }}</flux:link>
+                    <div class="text-sm/none mt-4">
+                        <flux:link href="{{ route('users.show', $listing->user) }}" variant="subtle" wire:navigate class="font-normal">{{ $listing->user->name }}</flux:link>
+                    </div>
                 </div>
             </div>
         @endforeach
