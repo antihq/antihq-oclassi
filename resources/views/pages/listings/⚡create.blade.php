@@ -145,7 +145,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 };
 ?>
 
-<div>
+<div class="w-full max-w-xl mx-auto">
     <flux:tab.group>
         <flux:tabs wire:model="tab">
             <flux:tab name="details">Details</flux:tab>

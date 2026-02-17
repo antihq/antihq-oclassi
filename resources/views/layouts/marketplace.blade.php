@@ -31,7 +31,7 @@
             <flux:spacer />
             @auth
                 <flux:navbar class="-mb-px max-lg:hidden me-4">
-                    <flux:navbar.item :href="route('listings.create')">
+                    <flux:navbar.item :href="route('listings.create')" wire:navigate>
                         Post a new listing
                     </flux:navbar.item>
                     <flux:navbar.item :href="route('inbox')" wire:navigate>
@@ -45,7 +45,7 @@
                 <x-desktop-user-menu />
             @else
                 <flux:navbar class="-mb-px max-lg:hidden">
-                    <flux:navbar.item :href="route('listings.create')">
+                    <flux:navbar.item :href="route('listings.create')" wire:navigate>
                         Post a new listing
                     </flux:navbar.item>
                     <flux:navbar.item :href="route('register')" wire:navigate>
