@@ -16,12 +16,12 @@
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Control Panel')" class="grid">
-                    <flux:sidebar.item icon="list-bullet" :href="route('cp.listings.index')" :current="request()->routeIs('cp.listings.*')" wire:navigate>
-                        {{ __('Listings') }}
-                    </flux:sidebar.item>
+                <flux:sidebar.group :heading="__('Control Panel')">
                     <flux:sidebar.item icon="users" :href="route('cp.users.index')" :current="request()->routeIs('cp.users.*')" wire:navigate>
                         {{ __('Users') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="list-bullet" :href="route('cp.listings.index')" :current="request()->routeIs('cp.listings.*')" wire:navigate>
+                        {{ __('Listings') }}
                     </flux:sidebar.item>
                     <flux:sidebar.item icon="chat-bubble-left-right" :href="route('cp.conversations.index')" :current="request()->routeIs('cp.conversations.*')" wire:navigate>
                         {{ __('Conversations') }}

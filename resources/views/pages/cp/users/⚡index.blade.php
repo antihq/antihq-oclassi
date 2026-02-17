@@ -22,6 +22,10 @@ new #[Layout('layouts.app')] class extends Component
 ?>
 
 <div>
+    <flux:heading size="xl">Users</flux:heading>
+
+    <flux:separator class="mt-6 mb-8" variant="subtle" />
+
     <flux:table :paginate="$this->users">
         <flux:table.columns>
             <flux:table.column>User</flux:table.column>

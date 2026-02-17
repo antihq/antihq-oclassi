@@ -23,6 +23,10 @@ new #[Layout('layouts.app')] class extends Component
 ?>
 
 <div>
+    <flux:heading size="xl">Conversations</flux:heading>
+
+    <flux:separator class="mt-6 mb-8" variant="subtle" />
+
     <flux:table :paginate="$this->conversations">
         <flux:table.columns>
             <flux:table.column>Conversation</flux:table.column>
@@ -32,7 +36,7 @@ new #[Layout('layouts.app')] class extends Component
         <flux:table.rows>
             @foreach ($this->conversations as $conversation)
                 <flux:table.row :key="$conversation->id">
-                    <flux:table.cell class="flex items-center gap-3">
+                    <flux:table.cell class="flex gap-3">
                         @if ($conversation->listing && $conversation->listing->photos->isNotEmpty())
                             <flux:avatar
                                 size="xs"

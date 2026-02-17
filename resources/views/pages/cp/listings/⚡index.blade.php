@@ -21,6 +21,10 @@ new class extends Component
 ?>
 
 <div>
+    <flux:heading size="xl">Listings</flux:heading>
+
+    <flux:separator class="mt-6 mb-8" variant="subtle" />
+
     <flux:table :paginate="$this->listings">
         <flux:table.columns>
             <flux:table.column>Listing</flux:table.column>
