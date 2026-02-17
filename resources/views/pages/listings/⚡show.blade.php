@@ -180,7 +180,9 @@ new #[Layout('layouts.marketplace')] class extends Component
         </div>
 
         <div class="mt-12">
-            {!! $listing->description !!}
+            <x-prose>
+                {!! $listing->description !!}
+            </x-prose>
         </div>
 
         <div class="mt-12">
