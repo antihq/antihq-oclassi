@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Listing;
+use Flux\Flux;
+use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
@@ -90,6 +92,11 @@ new #[Layout('layouts.marketplace')] class extends Component
         $this->locationSuggestions = [];
     }
 
+    public function submitSearch(): void
+    {
+        Flux::modal('search')->close();
+    }
+
     public function resetFilters(): void
     {
         $this->sort = 'newest';
@@ -136,17 +143,21 @@ new #[Layout('layouts.marketplace')] class extends Component
 ?>
 
 <div>
-    <flux:heading size="xl">
-        @if($this->listings->isEmpty())
-            No listings yet
-        @else
-            {{ $this->listings->count() }} {{ Str::plural('listing', $this->listings->count()) }}
-        @endif
-    </flux:heading>
+    <div class="flex items-center gap-4">
+        <flux:heading size="xl">
+            @if($this->listings->isEmpty())
+                No listings yet
+            @else
+                {{ $this->listings->count() }} {{ Str::plural('listing', $this->listings->count()) }}
+            @endif
+        </flux:heading>
 
-    <div class="flex mt-6 gap-4">
-        <div class="flex-1">
-            <flux:input wire:model.live="search" icon="magnifying-glass" placeholder="Search listings..." clearable />
+        <flux:spacer />
+
+        <div>
+            <flux:modal.trigger name="search">
+                <flux:input icon="magnifying-glass" placeholder="Search listings..." clearable />
+            </flux:modal.trigger>
         </div>
 
         <div>
@@ -176,8 +187,19 @@ new #[Layout('layouts.marketplace')] class extends Component
                 </flux:menu>
             </flux:dropdown>
         </div>
+    </div>
 
-        <div>
+    <flux:modal name="search" class="w-full max-w-[30rem]">
+        <form wire:submit="submitSearch" class="space-y-4">
+            <flux:heading size="lg">Search Listings</flux:heading>
+
+            <flux:input
+                wire:model="search"
+                icon="magnifying-glass"
+                placeholder="Search listings..."
+                clearable
+            />
+
             <flux:select
                 wire:model="selectedLocationId"
                 variant="combobox"
@@ -199,8 +221,9 @@ new #[Layout('layouts.marketplace')] class extends Component
                     </flux:select.option>
                 @endforeach
             </flux:select>
+
             @if ($this->selectedLocationName)
-                <div class="mt-2 flex items-center gap-2">
+                <div class="flex items-center gap-2">
                     <span class="text-sm text-gray-500">{{ $this->selectedLocationName }}</span>
                     <flux:button
                         variant="ghost"
@@ -211,8 +234,12 @@ new #[Layout('layouts.marketplace')] class extends Component
                     </flux:button>
                 </div>
             @endif
-        </div>
-    </div>
+
+            <div class="flex justify-end">
+                <flux:button type="submit" variant="primary">Search</flux:button>
+            </div>
+        </form>
+    </flux:modal>
 
     <div class="mt-6 grid grid-cols-3 gap-4">
         @foreach($this->listings as $listing)
