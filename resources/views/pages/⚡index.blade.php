@@ -280,7 +280,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         </form>
     </flux:modal>
 
-    <div class="mt-6 grid grid-cols-3 gap-4">
+    <div class="mt-6 grid grid-cols-3 gap-6">
         @foreach($this->listings as $listing)
             <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
                 <div class="relative">

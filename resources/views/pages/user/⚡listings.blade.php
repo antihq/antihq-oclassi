@@ -31,12 +31,18 @@ new #[Layout('layouts.marketplace')] class extends Component
         @endif
     </flux:heading>
 
-    <div class="mt-6 grid grid-cols-3 gap-5">
+    <div class="mt-6 grid grid-cols-3 gap-6">
         @foreach($this->listings as $listing)
-            <div class="space-y-4">
+            <div @class([
+                'rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow' => !$listing->isClosed(),
+                'rounded-xl shadow-sm overflow-hidden' => $listing->isClosed(),
+            ])>
                 <div class="relative">
                     <img
-                        class="rounded aspect-[4/3] w-full object-cover"
+                        @class([
+                            'aspect-[4/3] w-full object-cover group-hover:scale-105 transition-transform duration-300' => !$listing->isClosed(),
+                            'aspect-[4/3] w-full object-cover' => $listing->isClosed(),
+                        ])
                         src="{{ $listing->photos->first() ? Storage::url($listing->photos->first()->path) : 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+photo' }}"
                         alt="{{ $listing->title }}"
                     >
@@ -50,7 +56,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                             </flux:button>
                         </div>
                     @else
-                        <div class="absolute top-2.5 right-2.5">
+                        <div class="absolute top-2.5 right-2.5 z-20">
                             <flux:dropdown>
                                 <flux:button icon="ellipsis-horizontal" />
                                 <flux:menu>
@@ -67,9 +73,9 @@ new #[Layout('layouts.marketplace')] class extends Component
                         </div>
                     @endif
                 </div>
-                <div>
-                    <flux:heading>${{ number_format($listing->price / 100, 2) }}</flux:heading>
-                    <flux:heading size="lg" class="mt-2">
+                <div class="py-5 px-4">
+                    <flux:heading class="text-xl/none font-semibold">${{ number_format($listing->price / 100, 2) }}</flux:heading>
+                    <flux:heading class="mt-4 text-lg! line-clamp-1 font-semibold">
                         <flux:link href="{{ route('listings.show', $listing) }}" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
                     </flux:heading>
                 </div>

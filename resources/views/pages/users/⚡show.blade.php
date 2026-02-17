@@ -48,7 +48,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         @endif
     </flux:heading>
 
-    <div class="mt-4 grid grid-cols-3 gap-4">
+    <div class="mt-4 grid grid-cols-3 gap-6">
         @foreach($this->listings as $listing)
             <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
                 <div class="relative">
