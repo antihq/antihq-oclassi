@@ -217,7 +217,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                             Edit profile
                         </flux:button>
                     </div>
-                    <flux:button :href="route('profile.edit')" class="mt-6">
+                    <flux:button :href="route('users.show', $listing->user)" class="mt-6">
                         View profile
                     </flux:button>
                 </div>
@@ -225,15 +225,16 @@ new #[Layout('layouts.marketplace')] class extends Component
         </div>
     </div>
     <div class="w-xs">
-        <flux:heading level="1" size="xl">{{ $listing->title }}</flux:heading>
-        <flux:heading size="lg" class="mt-1">
-            ${{ number_format($listing->price) }}
+        <flux:heading class="text-xl/none! font-semibold">${{ number_format($listing->price / 100) }}</flux:heading>
+        <flux:heading class="mt-4 text-xl! font-semibold">
+            <flux:link href="{{ route('listings.show', $listing) }}" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
         </flux:heading>
-        <div class="mt-5 flex items-center gap-2">
+        <div class="mt-5 flex items-center gap-3">
             <flux:avatar
                 :src="$listing->user->profilePhotoUrl()"
                 :name="$listing->user->name"
                 circle
+                size="sm"
             />
             <flux:link
                 :href="route('users.show', $listing->user)"
