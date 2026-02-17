@@ -2189,16 +2189,16 @@
         },
         {
             "name": "livewire/flux",
-            "version": "v2.12.0",
+            "version": "v2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/flux.git",
-                "reference": "78bc26f54a29c28ff916751b9f796f4ce1592003"
+                "reference": "24c139b97b6df1e67c0235637f0e08c206bf4486"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/flux/zipball/78bc26f54a29c28ff916751b9f796f4ce1592003",
-                "reference": "78bc26f54a29c28ff916751b9f796f4ce1592003",
+                "url": "https://api.github.com/repos/livewire/flux/zipball/24c139b97b6df1e67c0235637f0e08c206bf4486",
+                "reference": "24c139b97b6df1e67c0235637f0e08c206bf4486",
                 "shasum": ""
             },
             "require": {
@@ -2211,7 +2211,7 @@
                 "symfony/console": "^6.0|^7.0"
             },
             "conflict": {
-                "livewire/blaze": "<1.0.0"
+                "livewire/blaze": "<1.0.0-beta.2"
             },
             "type": "library",
             "extra": {
@@ -2249,25 +2249,25 @@
             ],
             "support": {
                 "issues": "https://github.com/livewire/flux/issues",
-                "source": "https://github.com/livewire/flux/tree/v2.12.0"
+                "source": "https://github.com/livewire/flux/tree/v2.12.1"
             },
-            "time": "2026-02-09T23:35:27+00:00"
+            "time": "2026-02-17T21:12:27+00:00"
         },
         {
             "name": "livewire/flux-pro",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "dist": {
                 "type": "zip",
-                "url": "https://composer.fluxui.dev/download/a10af361-cb0b-48fd-8bc5-5fb4dda59618/flux-pro-2.12.0.zip",
-                "reference": "15e43b7d8f96914195432b18b7b64b3e30a96288",
-                "shasum": "42d5b2f496b6b126d3e26186d355c6c9a92623e1"
+                "url": "https://composer.fluxui.dev/download/a11ac2f0-cf18-4f74-9e32-c02b6e189a55/flux-pro-2.12.1.zip",
+                "reference": "0484777c5701b43979e1122afda902cf7e1e091b",
+                "shasum": "105cb62d06f747b4d9a4775a8a18a8209b888274"
             },
             "require": {
                 "illuminate/console": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "illuminate/view": "^10.0|^11.0|^12.0",
                 "laravel/prompts": "^0.1.24|^0.2|^0.3",
-                "livewire/flux": "2.12.0|dev-main",
+                "livewire/flux": "2.12.1|dev-main",
                 "livewire/livewire": "^3.7.4|^4.0",
                 "php": "^8.1",
                 "symfony/console": "^6.0|^7.0"
@@ -2324,7 +2324,7 @@
                 "livewire",
                 "ui"
             ],
-            "time": "2026-02-10T00:40:52+00:00"
+            "time": "2026-02-17T21:18:39+00:00"
         },
         {
             "name": "livewire/livewire",
@@ -7018,16 +7018,16 @@
         },
         {
             "name": "laravel/mcp",
-            "version": "v0.5.8",
+            "version": "v0.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/mcp.git",
-                "reference": "cf9b0ccaed2cec3c50595e3a21421c84a4ed99b3"
+                "reference": "39e8da60eb7bce4737c5d868d35a3fe78938c129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/mcp/zipball/cf9b0ccaed2cec3c50595e3a21421c84a4ed99b3",
-                "reference": "cf9b0ccaed2cec3c50595e3a21421c84a4ed99b3",
+                "url": "https://api.github.com/repos/laravel/mcp/zipball/39e8da60eb7bce4737c5d868d35a3fe78938c129",
+                "reference": "39e8da60eb7bce4737c5d868d35a3fe78938c129",
                 "shasum": ""
             },
             "require": {
@@ -7087,7 +7087,7 @@
                 "issues": "https://github.com/laravel/mcp/issues",
                 "source": "https://github.com/laravel/mcp"
             },
-            "time": "2026-02-16T18:48:41+00:00"
+            "time": "2026-02-17T19:05:53+00:00"
         },
         {
             "name": "laravel/pail",
@@ -7505,36 +7505,36 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v8.9.0",
+            "version": "v8.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "f52cab234f37641bd759c0ad56de17f632851419"
+                "reference": "a1ed3fa530fd60bc515f9303e8520fcb7d4bd935"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/f52cab234f37641bd759c0ad56de17f632851419",
-                "reference": "f52cab234f37641bd759c0ad56de17f632851419",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/a1ed3fa530fd60bc515f9303e8520fcb7d4bd935",
+                "reference": "a1ed3fa530fd60bc515f9303e8520fcb7d4bd935",
                 "shasum": ""
             },
             "require": {
                 "filp/whoops": "^2.18.4",
-                "nunomaduro/termwind": "^2.3.3",
+                "nunomaduro/termwind": "^2.4.0",
                 "php": "^8.2.0",
                 "symfony/console": "^7.4.4 || ^8.0.4"
             },
             "conflict": {
                 "laravel/framework": "<11.48.0 || >=14.0.0",
-                "phpunit/phpunit": "<11.5.50 || >=13.0.0"
+                "phpunit/phpunit": "<11.5.50 || >=14.0.0"
             },
             "require-dev": {
                 "brianium/paratest": "^7.8.5",
                 "larastan/larastan": "^3.9.2",
-                "laravel/framework": "^11.48.0 || ^12.51.0",
+                "laravel/framework": "^11.48.0 || ^12.52.0",
                 "laravel/pint": "^1.27.1",
                 "orchestra/testbench-core": "^9.12.0 || ^10.9.0",
-                "pestphp/pest": "^3.8.5 || ^4.3.2",
-                "sebastian/environment": "^7.2.1 || ^8.0.3"
+                "pestphp/pest": "^3.8.5 || ^4.4.1 || ^5.0.0",
+                "sebastian/environment": "^7.2.1 || ^8.0.3 || ^9.0.0"
             },
             "type": "library",
             "extra": {
@@ -7597,7 +7597,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-02-16T23:05:52+00:00"
+            "time": "2026-02-17T17:33:08+00:00"
         },
         {
             "name": "pestphp/pest",

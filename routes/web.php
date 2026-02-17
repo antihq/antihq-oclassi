@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::livewire('/', 'pages::index')->name('home');
+Route::redirect('/', '/listings')->name('home');
+
+Route::livewire('/listings', 'pages::listings.index')->name('home');
 
 Route::livewire('/listings/create', 'pages::listings.create')
     ->middleware(['auth', 'verified'])
@@ -33,8 +35,20 @@ Route::livewire('user/listings/', 'pages::user.listings')
 Route::livewire('/users/{user}', 'pages::users.show')
     ->name('users.show');
 
-Route::view('dashboard', 'dashboard')
+Route::redirect('/dashboard', '/listings')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::livewire('/cp/listings/', 'pages::cp.listings.index')
+    ->middleware(['auth', 'verified'])
+    ->name('cp.listings.index');
+
+Route::livewire('/cp/users/', 'pages::cp.users.index')
+    ->middleware(['auth', 'verified'])
+    ->name('cp.users.index');
+
+Route::livewire('/cp/conversations/', 'pages::cp.conversations.index')
+    ->middleware(['auth', 'verified'])
+    ->name('cp.conversations.index');
 
 require __DIR__.'/settings.php';

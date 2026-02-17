@@ -1,4 +1,4 @@
-<flux:dropdown position="bottom" align="start">
+<flux:dropdown position="top" align="start">
     <flux:sidebar.profile
         :avatar="auth()->user()->profilePhotoUrl()"
         :initials="auth()->user()->initials()"
