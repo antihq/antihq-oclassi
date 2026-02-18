@@ -42,7 +42,7 @@ test('closed listings do not appear in public index', function () {
     $openListing = Listing::factory()->create(['title' => 'Open Listing']);
     $closedListing = Listing::factory()->closed()->create(['title' => 'Closed Listing']);
 
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->assertSee('Open Listing')
         ->assertDontSee('Closed Listing');
 });

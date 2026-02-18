@@ -4,29 +4,27 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800 antialiased">
-        <flux:sidebar sticky collapsible="mobile" class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
+        <flux:sidebar sticky collapsible="mobile" class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 [:where(&)]:w-60!">
             <flux:sidebar.header>
                 <flux:sidebar.brand
                     href="#"
                     logo="https://fluxui.dev/img/demo/logo.png"
                     logo:dark="https://fluxui.dev/img/demo/dark-mode-logo.png"
-                    name="Acme Inc."
+                    name="O'Classi"
                 />
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Control Panel')">
-                    <flux:sidebar.item icon="users" :href="route('cp.users.index')" :current="request()->routeIs('cp.users.*')" wire:navigate>
-                        {{ __('Users') }}
-                    </flux:sidebar.item>
-                    <flux:sidebar.item icon="list-bullet" :href="route('cp.listings.index')" :current="request()->routeIs('cp.listings.*')" wire:navigate>
-                        {{ __('Listings') }}
-                    </flux:sidebar.item>
-                    <flux:sidebar.item icon="chat-bubble-left-right" :href="route('cp.conversations.index')" :current="request()->routeIs('cp.conversations.*')" wire:navigate>
-                        {{ __('Conversations') }}
-                    </flux:sidebar.item>
-                </flux:sidebar.group>
+                <flux:sidebar.item icon="users" :href="route('cp.users.index')" :current="request()->routeIs('cp.users.*')" wire:navigate>
+                    {{ __('Users') }}
+                </flux:sidebar.item>
+                <flux:sidebar.item icon="list-bullet" :href="route('cp.listings.index')" :current="request()->routeIs('cp.listings.*')" wire:navigate>
+                    {{ __('Listings') }}
+                </flux:sidebar.item>
+                <flux:sidebar.item icon="chat-bubble-left-right" :href="route('cp.conversations.index')" :current="request()->routeIs('cp.conversations.*')" wire:navigate>
+                    {{ __('Conversations') }}
+                </flux:sidebar.item>
             </flux:sidebar.nav>
 
             <flux:sidebar.spacer />

@@ -15,7 +15,6 @@ new #[Layout('layouts.app')] class extends Component
     {
         return Conversation::query()
             ->with(['listing.photos', 'buyer', 'seller', 'latestMessage'])
-            ->forUser(auth()->id())
             ->latest('last_message_at')
             ->paginate(10);
     }
@@ -32,6 +31,7 @@ new #[Layout('layouts.app')] class extends Component
             <flux:table.column>Conversation</flux:table.column>
             <flux:table.column>Started</flux:table.column>
             <flux:table.column>Last Message</flux:table.column>
+            <flux:table.column>Actions</flux:table.column>
         </flux:table.columns>
         <flux:table.rows>
             @foreach ($this->conversations as $conversation)
@@ -66,6 +66,11 @@ new #[Layout('layouts.app')] class extends Component
                         @else
                             <flux:text class="text-zinc-400">-</flux:text>
                         @endif
+                    </flux:table.cell>
+                    <flux:table.cell class="whitespace-nowrap">
+                        <flux:button :href="route('cp.conversations.show', $conversation)" wire:navigate size="sm" variant="ghost">
+                            View
+                        </flux:button>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach

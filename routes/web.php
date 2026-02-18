@@ -67,4 +67,8 @@ Route::livewire('/cp/conversations/', 'pages::cp.conversations.index')
     ->middleware(['auth', 'verified'])
     ->name('cp.conversations.index');
 
+Route::livewire('/cp/conversations/{conversation}', 'pages::cp.conversations.show')
+    ->middleware(['auth', 'verified'])
+    ->name('cp.conversations.show');
+
 require __DIR__.'/settings.php';

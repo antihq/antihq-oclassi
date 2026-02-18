@@ -5,26 +5,6 @@ use App\Models\ListingPhoto;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('only authenticated user conversations are shown', function () {
-    $user1 = User::factory()->create();
-    $user2 = User::factory()->create();
-    $user3 = User::factory()->create();
-
-    $conversation1 = Conversation::factory()
-        ->between($user1, $user2)
-        ->create(['last_message_at' => now()]);
-
-    $conversation2 = Conversation::factory()
-        ->between($user2, $user3)
-        ->create(['last_message_at' => now()->subHour()]);
-
-    $this->actingAs($user1);
-
-    $this->get('/cp/conversations/')
-        ->assertSee($conversation1->listing->title)
-        ->assertDontSee($conversation2->listing->title);
-});
-
 test('conversations table displays listing photo and title', function () {
     $buyer = User::factory()->create();
     $seller = User::factory()->create();

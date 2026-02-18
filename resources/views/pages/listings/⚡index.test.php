@@ -22,7 +22,7 @@ test('listings can be filtered by location bounds', function () {
         'title' => 'Los Angeles Listing',
     ]);
 
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->set('bounds', '40.9,-74.3,40.5,-73.8')
         ->assertSee('New York Listing')
         ->assertDontSee('Los Angeles Listing');
@@ -53,7 +53,7 @@ test('location search fetches suggestions from mapbox', function () {
         ]),
     ]);
 
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->set('locationSearch', 'New York')
         ->assertSet('locationSuggestions', [
             [
@@ -68,7 +68,7 @@ test('location search fetches suggestions from mapbox', function () {
 });
 
 test('location search does not return suggestions for short input', function () {
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->set('locationSearch', 'Ne')
         ->assertSet('locationSuggestions', []);
 });
@@ -85,7 +85,7 @@ test('selecting location sets bounds from bbox', function () {
         ],
     ];
 
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->set('locationSuggestions', $suggestions)
         ->set('selectedLocationId', 'test-id-1')
         ->assertSet('selectedLocationName', 'New York, NY, USA')
@@ -93,7 +93,7 @@ test('selecting location sets bounds from bbox', function () {
 });
 
 test('clearing location resets filters', function () {
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->set('selectedLocationId', 'test-id')
         ->set('bounds', '40.9,-74.3,40.5,-73.8')
         ->set('selectedLocationName', 'New York')
@@ -111,7 +111,7 @@ test('url parameters persist location filters', function () {
         'bounds' => '40.9,-74.3,40.5,-73.8',
         'locationSearch' => 'New York',
         'selectedLocationId' => 'test-id',
-    ])->test('pages::index')
+    ])->test('pages::listings.index')
         ->assertSet('bounds', '40.9,-74.3,40.5,-73.8')
         ->assertSet('locationSearch', 'New York')
         ->assertSet('selectedLocationId', 'test-id');
@@ -134,7 +134,7 @@ test('listings outside bounds are not shown', function () {
         'title' => 'Outside Bounds',
     ]);
 
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->set('bounds', '40.9,-74.3,40.5,-73.8')
         ->assertSee('Inside Bounds')
         ->assertDontSee('Outside Bounds');
@@ -149,7 +149,7 @@ test('listings without coordinates are shown when no bounds are set', function (
         'longitude' => null,
     ]);
 
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->assertSee($listing->title);
 });
 
@@ -165,7 +165,7 @@ test('location with bbox null does not set bounds', function () {
         ],
     ];
 
-    Livewire::test('pages::index')
+    Livewire::test('pages::listings.index')
         ->set('locationSuggestions', $suggestions)
         ->set('selectedLocationId', 'test-id-1')
         ->assertSet('selectedLocationName', 'Test Location')
