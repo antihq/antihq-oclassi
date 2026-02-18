@@ -37,7 +37,7 @@ new #[Layout('layouts.app')] class extends Component
                 <flux:table.row :key="$user->id">
                     <flux:table.cell class="flex items-center gap-3">
                         <flux:avatar size="xs" :src="$user->profilePhotoUrl()" :name="$user->name" circle />
-                        <flux:link href="{{ route('users.show', $user) }}" wire:navigate>
+                        <flux:link href="{{ route('cp.users.show', $user) }}" wire:navigate>
                             {{ $user->name }}
                         </flux:link>
                     </flux:table.cell>

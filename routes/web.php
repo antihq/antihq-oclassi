@@ -47,6 +47,14 @@ Route::livewire('/cp/users/', 'pages::cp.users.index')
     ->middleware(['auth', 'verified'])
     ->name('cp.users.index');
 
+Route::livewire('/cp/users/{user}', 'pages::cp.users.show')
+    ->middleware(['auth', 'verified'])
+    ->name('cp.users.show');
+
+Route::livewire('/cp/users/{user}/edit', 'pages::cp.users.edit')
+    ->middleware(['auth', 'verified'])
+    ->name('cp.users.edit');
+
 Route::livewire('/cp/conversations/', 'pages::cp.conversations.index')
     ->middleware(['auth', 'verified'])
     ->name('cp.conversations.index');
