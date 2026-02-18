@@ -42,7 +42,7 @@ new class extends Component
                                 :name="$listing->title"
                             />
                         @endif
-                        <flux:link href="{{ route('listings.show', $listing) }}" wire:navigate>
+                        <flux:link href="{{ route('cp.listings.show', $listing) }}" wire:navigate>
                             {{ $listing->title }}
                         </flux:link>
                     </flux:table.cell>

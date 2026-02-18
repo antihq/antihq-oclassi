@@ -43,6 +43,14 @@ Route::livewire('/cp/listings/', 'pages::cp.listings.index')
     ->middleware(['auth', 'verified'])
     ->name('cp.listings.index');
 
+Route::livewire('/cp/listings/{listing}', 'pages::cp.listings.show')
+    ->middleware(['auth', 'verified'])
+    ->name('cp.listings.show');
+
+Route::livewire('/cp/listings/{listing}/edit', 'pages::cp.listings.edit')
+    ->middleware(['auth', 'verified'])
+    ->name('cp.listings.edit');
+
 Route::livewire('/cp/users/', 'pages::cp.users.index')
     ->middleware(['auth', 'verified'])
     ->name('cp.users.index');
