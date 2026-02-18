@@ -261,19 +261,6 @@ new #[Layout('layouts.marketplace')] class extends Component
                 @endforeach
             </flux:select>
 
-            @if ($this->selectedLocationName)
-                <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-500">{{ $this->selectedLocationName }}</span>
-                    <flux:button
-                        variant="ghost"
-                        wire:click="clearLocation"
-                        size="sm"
-                    >
-                        Clear
-                    </flux:button>
-                </div>
-            @endif
-
             <div class="flex justify-end">
                 <flux:button type="submit" variant="primary">Search</flux:button>
             </div>
