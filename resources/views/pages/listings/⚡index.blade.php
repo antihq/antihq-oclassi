@@ -173,7 +173,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 ?>
 
 <div>
-    <div class="flex items-center gap-4">
+    <div class="flex flex-wrap items-center gap-y-4 gap-x-2 sm:gap-x-4">
         <div class="flex items-center gap-2">
             <flux:heading size="xl">
                 @if($this->listings->isEmpty())
@@ -191,40 +191,42 @@ new #[Layout('layouts.marketplace')] class extends Component
             @endif
         </div>
 
-        <flux:spacer />
+        <flux:spacer class="max-lg:hidden" />
 
-        <div>
-            <flux:modal.trigger name="search">
-                <flux:input as="button" icon="magnifying-glass" placeholder="Search listings..." class="w-xs" />
-            </flux:modal.trigger>
-        </div>
+        <div class="flex gap-4 max-lg:w-full">
+            <div class="flex-1">
+                <flux:modal.trigger name="search">
+                    <flux:input as="button" icon="magnifying-glass" placeholder="Search listings..." class="w-full sm:w-auto" />
+                </flux:modal.trigger>
+            </div>
 
-        <div>
-            <flux:dropdown>
-                <flux:button icon="funnel">Filters</flux:button>
-                <flux:menu>
-                    <flux:menu.submenu heading="Sort">
-                        <flux:menu.radio.group wire:model.live="sort">
-                            <flux:menu.radio value="newest">Newest</flux:menu.radio>
-                            <flux:menu.radio value="oldest">Oldest</flux:menu.radio>
-                            <flux:menu.radio value="price_low">Lowest</flux:menu.radio>
-                            <flux:menu.radio value="price_high">Highest</flux:menu.radio>
-                        </flux:menu.radio.group>
-                    </flux:menu.submenu>
-                    <flux:menu.separator />
-                    <flux:menu.submenu heading="Price">
-                        <flux:menu.radio.group wire:model.live="priceRange">
-                            <flux:menu.radio value="all">All</flux:menu.radio>
-                            <flux:menu.radio value="under_100">Under $100</flux:menu.radio>
-                            <flux:menu.radio value="100_500">$100 – $500</flux:menu.radio>
-                            <flux:menu.radio value="500_2000">$500 – $2,000</flux:menu.radio>
-                            <flux:menu.radio value="2000_plus">$2,000+</flux:menu.radio>
-                        </flux:menu.radio.group>
-                    </flux:menu.submenu>
-                    <flux:menu.separator />
-                    <flux:menu.item wire:click="resetFilters">Reset</flux:menu.item>
-                </flux:menu>
-            </flux:dropdown>
+            <div>
+                <flux:dropdown>
+                    <flux:button icon="funnel">Filters</flux:button>
+                    <flux:menu>
+                        <flux:menu.submenu heading="Sort">
+                            <flux:menu.radio.group wire:model.live="sort">
+                                <flux:menu.radio value="newest">Newest</flux:menu.radio>
+                                <flux:menu.radio value="oldest">Oldest</flux:menu.radio>
+                                <flux:menu.radio value="price_low">Lowest</flux:menu.radio>
+                                <flux:menu.radio value="price_high">Highest</flux:menu.radio>
+                            </flux:menu.radio.group>
+                        </flux:menu.submenu>
+                        <flux:menu.separator />
+                        <flux:menu.submenu heading="Price">
+                            <flux:menu.radio.group wire:model.live="priceRange">
+                                <flux:menu.radio value="all">All</flux:menu.radio>
+                                <flux:menu.radio value="under_100">Under $100</flux:menu.radio>
+                                <flux:menu.radio value="100_500">$100 – $500</flux:menu.radio>
+                                <flux:menu.radio value="500_2000">$500 – $2,000</flux:menu.radio>
+                                <flux:menu.radio value="2000_plus">$2,000+</flux:menu.radio>
+                            </flux:menu.radio.group>
+                        </flux:menu.submenu>
+                        <flux:menu.separator />
+                        <flux:menu.item wire:click="resetFilters">Reset</flux:menu.item>
+                    </flux:menu>
+                </flux:dropdown>
+            </div>
         </div>
     </div>
 
@@ -267,7 +269,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         </form>
     </flux:modal>
 
-    <div class="mt-6 grid grid-cols-3 gap-6">
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         @foreach($this->listings as $listing)
             <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow bg-white">
                 <div class="relative">

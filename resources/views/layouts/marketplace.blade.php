@@ -6,7 +6,7 @@
     <body class="min-h-screen antialiased bg-[#F5F2EC] text-[#37241A]">
         <flux:header class="bg-[#EBE5DA] border-b border-[#37241A]/5">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
-            <flux:spacer />
+            <flux:spacer class="lg:hidden" />
             <div class="lg:-ml-1.5">
                 <a href="{{ route('home') }}">
                     <svg width="183px" height="30px" viewBox="0 0 183 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

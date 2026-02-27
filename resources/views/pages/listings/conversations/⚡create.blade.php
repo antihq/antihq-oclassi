@@ -38,8 +38,8 @@ new #[Layout('layouts.marketplace')] class extends Component
 };
 ?>
 
-<div class="flex justify-between gap-8 w-full max-w-5xl mx-auto">
-    <div class="w-full max-w-lg">
+<div class="flex flex-col lg:flex-row justify-between gap-6 lg:gap-8 w-full max-w-5xl mx-auto">
+    <div class="w-full max-w-lg lg:max-w-lg">
         <flux:heading level="1" size="xl">Send an inquiry to {{ $listing->user->name }}</flux:heading>
 
         <form wire:submit="send" class="space-y-6 mt-8">
@@ -60,7 +60,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         </form>
     </div>
 
-    <div class="rounded-xl shadow-sm overflow-hidden max-w-sm">
+    <div class="rounded-xl shadow-sm overflow-hidden max-w-sm w-full lg:max-w-sm">
         @if ($listing->photos->first())
             <img src="{{ Storage::url($listing->photos->first()->path) }}" alt="{{ $listing->title }}">
         @endif

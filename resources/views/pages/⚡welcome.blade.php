@@ -17,7 +17,7 @@ new #[Layout('layouts.landing')] class extends Component
     </div>
     <flux:header class="flex justify-between max-w-7xl mx-auto px-4 xl:px-12! py-4 relative">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
-        <flux:spacer />
+        <flux:spacer class="lg:hidden" />
         <div class="lg:-ml-1.5">
             <a href="{{ route('home') }}">
                 <svg width="183px" height="30px" viewBox="0 0 183 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
