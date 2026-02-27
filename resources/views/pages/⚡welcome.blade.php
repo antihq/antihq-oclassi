@@ -67,8 +67,8 @@ new #[Layout('layouts.landing')] class extends Component
             <h2 class="mt-3 font-bold text-[2.5rem]/10 xl:text-5xl/12 max-w-2xl font-heading">Buy and sell with fellow students on your campus.</h2>
             <p class="mt-10 text-xl/8 xl:text-2xl/10 max-w-3xl">Campus Cycle Marketplace connects you with other students at your university. Buy pre-owned bikes, dorm furniture, electronics, and textbooks from classmates. Safe, local, <span class="whitespace-nowrap">and affordable</span>.</p>
             <div class="mt-8 flex gap-x-5 gap-y-4 flex-wrap">
-                <flux:button href="#" variant="primary" class="text-base! h-11 px-6! w-full xl:w-auto">Browse listings</flux:button>
-                <flux:button href="#" class="border-accent/30! bg-[#EBE5DA]! hover:bg-[#F7F4EF]! text-base! h-11 px-6! w-full xl:w-auto">Post a new listing</flux:button>
+                <flux:button href="#" variant="primary" class="text-base! h-11 px-6! w-full sm:w-auto">Browse listings</flux:button>
+                <flux:button href="#" class="border-accent/30! bg-[#EBE5DA]! hover:bg-[#F7F4EF]! text-base! h-11 px-6! w-full sm:w-auto">Post a new listing</flux:button>
             </div>
         </div>
         <div class="absolute -bottom-40 -right-30 xl:-bottom-80 xl:-right-72 2xl:right-0 w-[487px] xl:w-[974px]">
