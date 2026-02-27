@@ -10,8 +10,10 @@ new #[Layout('layouts.landing')] class extends Component
 ?>
 
 <div class="relative overflow-x-hidden bg-[#F5F2EC]">
-    <div class="absolute inset-0 top-10 max-w-7xl mx-auto opacity-30 pointer-events-none overflow-hidden">
-        <img src="/2_・_Small_Copy_2@1x-2 Copy.webp" alt="" class="w-100 xl:w-320 pointer-events-none">
+    <div class="absolute inset-0 top-180 sm:top-10 max-w-7xl mx-auto opacity-30 pointer-events-none overflow-hidden">
+        <img src="/2_・_Small_Copy_2@1x-2 Copy.webp" alt="" class="object-cover pointer-events-none">
+        <img src="/2_・_Small_Copy_2@1x-2 Copy.webp" alt="" class="object-cover pointer-events-none -mt-80 bg-[#F5F2EC] xl:hidden">
+        <img src="/2_・_Small_Copy_2@1x-2 Copy.webp" alt="" class="object-cover pointer-events-none xl:hidden">
     </div>
     <flux:header class="flex justify-between max-w-7xl mx-auto px-4 xl:px-12! py-4 relative">
         <div class="-ml-1.5">
@@ -224,7 +226,7 @@ new #[Layout('layouts.landing')] class extends Component
             </div>
         </div>
     </section>
-    <footer class="max-w-7xl mx-auto px-4 xl:px-12 mt-24 flex flex-col-reverse gap-y-4 xl:flex-row justify-between items-center pb-6 relative">
+    <footer class="bg-[#F5F2EC] max-w-7xl mx-auto px-4 xl:px-12 pt-24 flex flex-col-reverse gap-y-4 xl:flex-row justify-between items-center pb-6 relative">
         <div>
             <svg width="183px" height="30px" viewBox="0 0 183 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
