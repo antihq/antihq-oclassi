@@ -9,7 +9,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: Inter, sans-serif;
+    --color-accent: #37241A;
+    --color-accent-content: #37241A;
+    --color-accent-foreground: var(--color-white);
+}
+
+@theme {
+    --font-sans: 'Barlow', sans-serif;
+    --font-heading: 'Rokkitt Variable', sans-serif;
 
     --color-zinc-50: oklch(98.8% 0.003 106.5);
     --color-zinc-100: oklch(96.6% 0.005 106.5);
@@ -22,4 +29,54 @@
     --color-zinc-800: oklch(28.6% 0.016 107.4);
     --color-zinc-900: oklch(22.8% 0.013 107.4);
     --color-zinc-950: oklch(15.3% 0.006 107.1);
+}
+
+/* barlow-latin-400-normal */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/barlow@latest/latin-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/barlow@latest/latin-400-normal.woff) format('woff');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* barlow-latin-500-normal */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/barlow@latest/latin-500-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/barlow@latest/latin-500-normal.woff) format('woff');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* barlow-latin-600-normal */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/barlow@latest/latin-600-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/barlow@latest/latin-600-normal.woff) format('woff');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* barlow-latin-700-normal */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/barlow@latest/latin-700-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/barlow@latest/latin-700-normal.woff) format('woff');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* rokkitt-latin-wght-normal */
+@font-face {
+  font-family: 'Rokkitt Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/rokkitt:vf@latest/latin-wght-normal.woff2) format('woff2-variations');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }

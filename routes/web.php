@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/listings')->name('home');
+Route::livewire('/', 'pages::welcome')->name('home');
 
-Route::livewire('/listings', 'pages::listings.index')->name('home');
+Route::livewire('/listings', 'pages::listings.index')->name('listings.index');
 
 Route::livewire('/listings/create', 'pages::listings.create')
     ->middleware(['auth', 'verified'])
