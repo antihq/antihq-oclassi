@@ -5,7 +5,9 @@
     </head>
     <body class="min-h-screen antialiased bg-[#F5F2EC] text-[#37241A]">
         <flux:header class="bg-[#EBE5DA] border-b border-[#37241A]/5">
-            <div class="-ml-1.5">
+            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+            <flux:spacer />
+            <div class="lg:-ml-1.5">
                 <a href="{{ route('home') }}">
                     <svg width="183px" height="30px" viewBox="0 0 183 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -64,6 +66,7 @@
                     <flux:navbar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!">Sign up</flux:navbar.item>
                     <flux:navbar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!">Login</flux:navbar.item>
                 </flux:navbar>
+                <div class="w-10 lg:hidden"></div>
             @endauth
         </flux:header>
         <flux:sidebar
@@ -72,52 +75,31 @@
             class="border-r border-zinc-200 bg-zinc-50 lg:hidden dark:border-zinc-700 dark:bg-zinc-900"
         >
             <flux:sidebar.header>
-                <flux:sidebar.brand
-                    :href="route('home')"
-                    logo="https://fluxui.dev/img/demo/logo.png"
-                    logo:dark="https://fluxui.dev/img/demo/dark-mode-logo.png"
-                    name="Acme Inc."
-                    wire:navigate
-                />
+                <flux:spacer />
                 <flux:sidebar.collapse
                     class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2"
                 />
             </flux:sidebar.header>
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="home" :href="route('home')" wire:navigate>
-                    Home
-                </flux:sidebar.item>
-                @auth
-                    @php($unreadCount = auth()->user()->unreadConversationsCount())
-                    <flux:sidebar.item icon="inbox" :href="route('inbox')" wire:navigate :badge="$unreadCount > 0 ? (string) $unreadCount : null">
+            @auth
+                <flux:sidebar.nav>
+                    <flux:sidebar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:sidebar.item>
+                    <flux:sidebar.item :href="route('inbox')" class="text-accent! hover:bg-accent/5!" wire:navigate>
                         Inbox
+                        @php($unreadCount = auth()->user()->unreadConversationsCount())
+                        @if($unreadCount > 0)
+                            <flux:badge variant="solid" color="green" size="sm" class="ml-1" rounded>{{ $unreadCount }}</flux:badge>
+                        @endif
                     </flux:sidebar.item>
-                @endauth
-                <flux:sidebar.item icon="document-text" href="#">
-                    Documents
-                </flux:sidebar.item>
-                <flux:sidebar.item icon="calendar" href="#">
-                    Calendar
-                </flux:sidebar.item>
-                <flux:sidebar.group expandable heading="Favorites" class="grid">
-                    <flux:sidebar.item href="#">
-                        Marketing site
-                    </flux:sidebar.item>
-                    <flux:sidebar.item href="#">Android app</flux:sidebar.item>
-                    <flux:sidebar.item href="#">
-                        Brand guidelines
-                    </flux:sidebar.item>
-                </flux:sidebar.group>
-            </flux:sidebar.nav>
-            <flux:sidebar.spacer />
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="cog-6-tooth" href="#">
-                    Settings
-                </flux:sidebar.item>
-                <flux:sidebar.item icon="information-circle" href="#">
-                    Help
-                </flux:sidebar.item>
-            </flux:sidebar.nav>
+                </flux:sidebar.nav>
+            @else
+                <flux:sidebar.nav>
+                    <flux:sidebar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!">Sign up</flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!">Login</flux:sidebar.item>
+                </flux:sidebar.nav>
+            @endauth
         </flux:sidebar>
         <flux:main container>
             {{ $slot }}

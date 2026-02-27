@@ -16,7 +16,9 @@ new #[Layout('layouts.landing')] class extends Component
         <img src="/2_・_Small_Copy_2@1x-2 Copy.webp" alt="" class="object-cover pointer-events-none xl:hidden">
     </div>
     <flux:header class="flex justify-between max-w-7xl mx-auto px-4 xl:px-12! py-4 relative">
-        <div class="-ml-1.5">
+        <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+        <flux:spacer />
+        <div class="lg:-ml-1.5">
             <a href="{{ route('home') }}">
                 <svg width="183px" height="30px" viewBox="0 0 183 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -59,7 +61,7 @@ new #[Layout('layouts.landing')] class extends Component
             <flux:navbar class="-mb-px max-lg:hidden me-4">
                 <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:navbar.item>
                 <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:navbar.item>
-                <flux:navbar.item :href="route('inbox')"  class="text-accent! hover:bg-accent/5!" wire:navigate>
+                <flux:navbar.item :href="route('inbox')" class="text-accent! hover:bg-accent/5!" wire:navigate>
                     Inbox
                     @php($unreadCount = auth()->user()->unreadConversationsCount())
                     @if($unreadCount > 0)
@@ -75,8 +77,41 @@ new #[Layout('layouts.landing')] class extends Component
                 <flux:navbar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!">Sign up</flux:navbar.item>
                 <flux:navbar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!">Login</flux:navbar.item>
             </flux:navbar>
+            <div class="w-10 lg:hidden"></div>
         @endauth
     </flux:header>
+    <flux:sidebar
+        sticky
+        collapsible="mobile"
+        class="border-r border-zinc-200 bg-zinc-50 lg:hidden dark:border-zinc-700 dark:bg-zinc-900"
+    >
+        <flux:sidebar.header>
+            <flux:spacer />
+            <flux:sidebar.collapse
+                class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2"
+            />
+        </flux:sidebar.header>
+        @auth
+            <flux:sidebar.nav>
+                <flux:sidebar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:sidebar.item>
+                <flux:sidebar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:sidebar.item>
+                <flux:sidebar.item :href="route('inbox')" class="text-accent! hover:bg-accent/5!" wire:navigate>
+                    Inbox
+                    @php($unreadCount = auth()->user()->unreadConversationsCount())
+                    @if($unreadCount > 0)
+                        <flux:badge variant="solid" color="green" size="sm" class="ml-1" rounded>{{ $unreadCount }}</flux:badge>
+                    @endif
+                </flux:sidebar.item>
+            </flux:sidebar.nav>
+        @else
+            <flux:sidebar.nav>
+                <flux:sidebar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:sidebar.item>
+                <flux:sidebar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:sidebar.item>
+                <flux:sidebar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!">Sign up</flux:sidebar.item>
+                <flux:sidebar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!">Login</flux:sidebar.item>
+            </flux:sidebar.nav>
+        @endauth
+    </flux:sidebar>
     <section id="hero" class="pt-42 pb-62 xl:pb-42 relative -mt-[98px]">
         <div class="absolute inset-0">
             <img class="w-full h-full object-cover object-bottom" src="/Group.webp">
