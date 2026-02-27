@@ -18,17 +18,17 @@
     --font-sans: 'Barlow', sans-serif;
     --font-heading: 'Rokkitt Variable', sans-serif;
 
-    --color-zinc-50: oklch(98.8% 0.003 106.5);
-    --color-zinc-100: oklch(96.6% 0.005 106.5);
-    --color-zinc-200: oklch(93% 0.007 106.5);
-    --color-zinc-300: oklch(88% 0.011 106.6);
-    --color-zinc-400: oklch(73.7% 0.021 106.9);
-    --color-zinc-500: oklch(58% 0.031 107.3);
-    --color-zinc-600: oklch(46.6% 0.025 107.3);
-    --color-zinc-700: oklch(39.4% 0.023 107.4);
-    --color-zinc-800: oklch(28.6% 0.016 107.4);
-    --color-zinc-900: oklch(22.8% 0.013 107.4);
-    --color-zinc-950: oklch(15.3% 0.006 107.1);
+    --color-zinc-50: oklch(98.6% 0.002 67.8);
+    --color-zinc-100: oklch(96% 0.002 17.2);
+    --color-zinc-200: oklch(92.2% 0.005 34.3);
+    --color-zinc-300: oklch(86.8% 0.007 39.5);
+    --color-zinc-400: oklch(71.4% 0.014 41.2);
+    --color-zinc-500: oklch(54.7% 0.021 43.1);
+    --color-zinc-600: oklch(43.8% 0.017 39.3);
+    --color-zinc-700: oklch(36.7% 0.016 35.7);
+    --color-zinc-800: oklch(26.8% 0.011 36.5);
+    --color-zinc-900: oklch(21.4% 0.009 43.1);
+    --color-zinc-950: oklch(14.7% 0.004 49.3);
 }
 
 /* barlow-latin-400-normal */
