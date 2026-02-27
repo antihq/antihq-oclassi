@@ -71,12 +71,31 @@ new #[Layout('layouts.landing')] class extends Component
                 <div class="bg-[#B49397] w-37 h-46 top-16 left-23 absolute rotate-2"></div>
                 <img src="/Anonymous or Incognito Man Copy.webp" alt="" class="mix-blend-overlay w-60 xl:w-90 rotate-2">
             </div>
-            <div class="relative">
+            <div class="relative xl:-rotate-1">
                 <div class="flex">
                     <h2 class="text-[1.75rem]/7 xl:text-3xl/7.5 font-bold py-3 px-5.5 xl:px-6 bg-[#CCE2B6] font-heading">Only students. <span class="text-nowrap">No strangers</span>.</h2>
                 </div>
                 <div class="bg-white py-4 xl:py-6 px-6 mt-2 max-w-168">
-                    <p class="text-lg/8">Buy and sell exclusively with other students at your university. No random strangers from across town . You're dealing with classmates, neighbors in your dorm, people you'll see in the  library tomorrow . Safer, friendlier, and more trustworthy than <span class="whitespace-nowrap">general marketplaces</span>.</p>
+                    <p class="text-lg/8">Buy and sell exclusively with other students at your university. No random
+                        <span class="relative inline-block font-medium">
+                            <svg class="absolute w-full inset-0 top-1" width="220px" height="24.3065084px" viewBox="0 0 220 24.3065084" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M0,1.57959059 C9.96934811,0.526530195 17.2593806,0 21.8700975,0 C111.77893,0 161.445451,1.57959059 171.699408,1.57959059 C188.843348,1.57959059 204.943545,1.24625725 220,0.579590586 L220,22.375071 C217.864638,24.0208914 198.265282,24.6148819 161.201931,24.1570425 C105.606906,23.4702835 84.8017775,22.375071 56.0698136,22.375071 C36.9151709,22.375071 18.2252331,21.9105413 0,20.981482 L0,1.57959059 Z" id="Rectangle-Copy-2" fill="#ECE9E4"></path>
+                                </g>
+                            </svg>
+                            <span class="relative">strangers from across town</span>
+                        </span>.
+                        You're dealing with classmates, neighbors in your dorm, people you'll see in the
+                        <span class="relative inline-block font-medium">
+
+                            <svg class="absolute w-full inset-0 top-1" width="220px" height="24.3065084px" viewBox="0 0 220 24.3065084" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M0,1.57959059 C9.96934811,0.526530195 17.2593806,0 21.8700975,0 C111.77893,0 161.445451,1.57959059 171.699408,1.57959059 C188.843348,1.57959059 204.943545,1.24625725 220,0.579590586 L220,22.375071 C217.864638,24.0208914 198.265282,24.6148819 161.201931,24.1570425 C105.606906,23.4702835 84.8017775,22.375071 56.0698136,22.375071 C36.9151709,22.375071 18.2252331,21.9105413 0,20.981482 L0,1.57959059 Z" id="Rectangle-Copy-2" fill="#ECE9E4"></path>
+                                </g>
+                            </svg>
+                            <span class="relative">library tomorrow</span>.
+                        </span>
+                        Safer, friendlier, and more trustworthy than <span class="whitespace-nowrap">general marketplaces</span>.</p>
                 </div>
             </div>
         </div>
@@ -91,7 +110,25 @@ new #[Layout('layouts.landing')] class extends Component
                         <h2 class="text-3xl/7.5 font-bold py-3 px-6 bg-[#CCE2B6] font-heading">Ask questions without sharing your number.</h2>
                     </div>
                     <div class="bg-white py-4 xl:py-6 px-6 mt-2 max-w-168">
-                        <p class="text-lg/8">Message sellers directly through the app. Ask about condition, negotiate prices, arrange meetups —all without sharing personal contact info. When you're ready to meet, choose a  campus location  that's convenient for <span class="whitespace-nowrap">both of you</span>.</p>
+                        <p class="text-lg/8">Message sellers directly through the app. Ask about condition, negotiate prices,
+                            <span class="relative inline-block font-medium">
+                                <svg class="absolute w-full inset-0 top-1" width="220px" height="24.3065084px" viewBox="0 0 220 24.3065084" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M0,1.57959059 C9.96934811,0.526530195 17.2593806,0 21.8700975,0 C111.77893,0 161.445451,1.57959059 171.699408,1.57959059 C188.843348,1.57959059 204.943545,1.24625725 220,0.579590586 L220,22.375071 C217.864638,24.0208914 198.265282,24.6148819 161.201931,24.1570425 C105.606906,23.4702835 84.8017775,22.375071 56.0698136,22.375071 C36.9151709,22.375071 18.2252331,21.9105413 0,20.981482 L0,1.57959059 Z" id="Rectangle-Copy-2" fill="#ECE9E4"></path>
+                                </g>
+                            </svg>
+                                <span class="relative">arrange meetups</span>
+                            </span>
+                            —all without sharing personal contact info. When you're ready to meet, choose a
+                            <span class="relative inline-block font-medium">
+                                <svg class="absolute w-full inset-0 top-1" width="220px" height="24.3065084px" viewBox="0 0 220 24.3065084" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M0,1.57959059 C9.96934811,0.526530195 17.2593806,0 21.8700975,0 C111.77893,0 161.445451,1.57959059 171.699408,1.57959059 C188.843348,1.57959059 204.943545,1.24625725 220,0.579590586 L220,22.375071 C217.864638,24.0208914 198.265282,24.6148819 161.201931,24.1570425 C105.606906,23.4702835 84.8017775,22.375071 56.0698136,22.375071 C36.9151709,22.375071 18.2252331,21.9105413 0,20.981482 L0,1.57959059 Z" id="Rectangle-Copy-2" fill="#ECE9E4"></path>
+                                </g>
+                            </svg>
+                                <span class="relative">campus location</span>
+                            </span>
+                            that's convenient for <span class="whitespace-nowrap">both of you</span>.</p>
                     </div>
                 </div>
             </div>
@@ -106,7 +143,29 @@ new #[Layout('layouts.landing')] class extends Component
                     <h2 class="text-3xl/7.5 font-bold py-3 px-6 bg-[#CCE2B6] font-heading">Get what you need. At student prices.</h2>
                 </div>
                 <div class="bg-white py-4 xl:py-6 px-6 mt-2 max-w-168">
-                    <p class="text-lg/8">Textbooks, dorm furniture, bikes, electronics—everything you need at a fraction of retail. Graduating seniors are clearing out their dorms and selling quality items you'll actually want. Save hundreds compared to buying new.</p>
+                    <p class="text-lg/8">
+                        Textbooks, dorm furniture, bikes, electronics—everything you need at a fraction of retail. Graduating seniors are
+                        <span class="relative inline-block font-medium">
+
+                            <svg class="absolute w-full inset-0 top-1" width="220px" height="24.3065084px" viewBox="0 0 220 24.3065084" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M0,1.57959059 C9.96934811,0.526530195 17.2593806,0 21.8700975,0 C111.77893,0 161.445451,1.57959059 171.699408,1.57959059 C188.843348,1.57959059 204.943545,1.24625725 220,0.579590586 L220,22.375071 C217.864638,24.0208914 198.265282,24.6148819 161.201931,24.1570425 C105.606906,23.4702835 84.8017775,22.375071 56.0698136,22.375071 C36.9151709,22.375071 18.2252331,21.9105413 0,20.981482 L0,1.57959059 Z" id="Rectangle-Copy-2" fill="#ECE9E4"></path>
+                                </g>
+                            </svg>
+                            <span class="relative">clearing out their dorms</span>
+                        </span>
+                        and selling quality items you'll actually want.
+                        <span class="relative inline-block font-medium">
+
+                            <svg class="absolute w-full inset-0 top-1" width="220px" height="24.3065084px" viewBox="0 0 220 24.3065084" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M0,1.57959059 C9.96934811,0.526530195 17.2593806,0 21.8700975,0 C111.77893,0 161.445451,1.57959059 171.699408,1.57959059 C188.843348,1.57959059 204.943545,1.24625725 220,0.579590586 L220,22.375071 C217.864638,24.0208914 198.265282,24.6148819 161.201931,24.1570425 C105.606906,23.4702835 84.8017775,22.375071 56.0698136,22.375071 C36.9151709,22.375071 18.2252331,21.9105413 0,20.981482 L0,1.57959059 Z" id="Rectangle-Copy-2" fill="#ECE9E4"></path>
+                                </g>
+                            </svg>
+                            <span class="relative">Save hundreds</span>
+                        </span>
+                        compared to buying new.
+                    </p>
                 </div>
             </div>
         </div>
@@ -121,7 +180,27 @@ new #[Layout('layouts.landing')] class extends Component
                         <h2 class="text-3xl/7.5 font-bold py-3 px-6 bg-[#CCE2B6] font-heading">Your unused items = money in your pocket.</h2>
                     </div>
                     <div class="bg-white py-4 xl:py-6 px-6 mt-2 max-w-168">
-                        <p class="text-lg/8">That bike you bought freshman year and never ride? The textbooks you don't need anymore? The mini-fridge taking up space? Sell them to incoming students who need exactly what you have. Quick sales. Local buyers. Campus pickup. No shipping headaches.</p>
+                        <p class="text-lg/8">
+                            That bike you bought
+                            <span class="relative inline-block font-medium">
+                                <svg class="absolute w-full inset-0 top-1" width="220px" height="24.3065084px" viewBox="0 0 220 24.3065084" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M0,1.57959059 C9.96934811,0.526530195 17.2593806,0 21.8700975,0 C111.77893,0 161.445451,1.57959059 171.699408,1.57959059 C188.843348,1.57959059 204.943545,1.24625725 220,0.579590586 L220,22.375071 C217.864638,24.0208914 198.265282,24.6148819 161.201931,24.1570425 C105.606906,23.4702835 84.8017775,22.375071 56.0698136,22.375071 C36.9151709,22.375071 18.2252331,21.9105413 0,20.981482 L0,1.57959059 Z" id="Rectangle-Copy-2" fill="#ECE9E4"></path>
+                                </g>
+                            </svg>
+                                <span class="relative">freshman year</span>
+                            </span>
+                            and never ride? The textbooks you don't need anymore? The
+                            <span class="relative inline-block font-medium">
+                                <svg class="absolute w-full inset-0 top-1" width="220px" height="24.3065084px" viewBox="0 0 220 24.3065084" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M0,1.57959059 C9.96934811,0.526530195 17.2593806,0 21.8700975,0 C111.77893,0 161.445451,1.57959059 171.699408,1.57959059 C188.843348,1.57959059 204.943545,1.24625725 220,0.579590586 L220,22.375071 C217.864638,24.0208914 198.265282,24.6148819 161.201931,24.1570425 C105.606906,23.4702835 84.8017775,22.375071 56.0698136,22.375071 C36.9151709,22.375071 18.2252331,21.9105413 0,20.981482 L0,1.57959059 Z" id="Rectangle-Copy-2" fill="#ECE9E4"></path>
+                                </g>
+                            </svg>
+                                <span class="relative">mini-fridge taking up space?</span>
+                            </span>
+                            Sell them to incoming students who need exactly what you have. Quick sales. Local buyers. Campus pickup. No shipping headaches.
+                        </p>
                     </div>
                 </div>
             </div>
