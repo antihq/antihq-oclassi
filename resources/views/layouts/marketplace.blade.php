@@ -44,12 +44,27 @@
                 </a>
             </div>
             <flux:spacer />
-            <flux:navbar class="-mb-px max-lg:hidden">
-                <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:navbar.item>
-                <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listings</flux:navbar.item>
-                <flux:navbar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!">Sign up</flux:navbar.item>
-                <flux:navbar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!">Login</flux:navbar.item>
-            </flux:navbar>
+            @auth
+                <flux:navbar class="-mb-px max-lg:hidden me-4">
+                    <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:navbar.item>
+                    <flux:navbar.item :href="route('inbox')" class="text-accent! hover:bg-accent/5!" wire:navigate>
+                        Inbox
+                        @php($unreadCount = auth()->user()->unreadConversationsCount())
+                        @if($unreadCount > 0)
+                            <flux:badge variant="solid" color="green" size="sm" class="ml-1" rounded>{{ $unreadCount }}</flux:badge>
+                        @endif
+                    </flux:navbar.item>
+                </flux:navbar>
+                <x-desktop-user-menu />
+            @else
+                <flux:navbar class="-mb-px max-lg:hidden">
+                    <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!">Sign up</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!">Login</flux:navbar.item>
+                </flux:navbar>
+            @endauth
         </flux:header>
         <flux:sidebar
             sticky
