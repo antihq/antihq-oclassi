@@ -187,14 +187,29 @@ new #[Layout('layouts.marketplace')] class extends Component
 
         <div class="mt-12">
             <flux:heading level="h2" size="lg">Location</flux:heading>
-            @if($listing->latitude && $listing->longitude)
-                <div class="mt-6 overflow-hidden rounded-lg border border-zinc-200">
-                    <img
-                        src="https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-s+285A98({{ $listing->longitude }},{{ $listing->latitude }})/{{ $listing->longitude }},{{ $listing->latitude }},14,0,0/640x320?access_token={{ config('services.mapbox.access_token') }}"
-                        alt="Map showing location of {{ $listing->title }}"
-                        class="w-full rounded-lg"
-                        loading="lazy"
-                    />
+
+            @if ($listing->latitude && $listing->longitude)
+                <div
+                    class="mt-6"
+                    x-data="{ showDynamic: false, map: null }"
+                >
+                    <template x-if="!showDynamic">
+                        <button
+                            class="w-ful bg-transparent p-0  overflow-hidden rounded-lg border border-zinc-200"
+                            @click="showDynamic = true; $nextTick(() => { mapboxgl.accessToken = '{{ config("services.mapbox.access_token") }}'; map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/streets-v12', center: [{{ $listing->longitude }}, {{ $listing->latitude }}], zoom: 11 }); map.addControl(new mapboxgl.NavigationControl()); new mapboxgl.Marker({ color: '#4682b4' }).setLngLat([{{ $listing->longitude }}, {{ $listing->latitude }}]).addTo(map); })"
+                        >
+                            <img
+                                src="https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-s+4682b4({{ $listing->longitude }},{{ $listing->latitude }})/{{ $listing->longitude }},{{ $listing->latitude }},11,0/600x400@2x?attribution=true&logo=true&access_token={{ config("services.mapbox.access_token") }}"
+                                alt="Map showing location of {{ $listing->title }}"
+                                class="w-full rounded-lg"
+                                loading="lazy"
+                            />
+                        </button>
+                    </template>
+
+                    <template x-if="showDynamic">
+                        <div id="map" class="w-full aspect-video rounded-lg border border-zinc-200"></div>
+                    </template>
                 </div>
             @endif
         </div>
@@ -283,3 +298,8 @@ new #[Layout('layouts.marketplace')] class extends Component
         </div>
     </div>
 </div>
+
+@assets
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js"></script>
+@endassets
