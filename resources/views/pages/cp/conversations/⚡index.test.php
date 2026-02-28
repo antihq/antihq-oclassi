@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Livewire;
 
 test('conversations table displays listing photo and title', function () {
+    $user = User::factory()->create(['email' => 'admin@example.com']);
     $buyer = User::factory()->create();
     $seller = User::factory()->create();
 
@@ -19,7 +20,7 @@ test('conversations table displays listing photo and title', function () {
         'order' => 1,
     ]);
 
-    $this->actingAs($buyer);
+    $this->actingAs($user);
 
     $this->get('/cp/conversations/')
         ->assertSee($conversation->listing->title)
@@ -27,7 +28,7 @@ test('conversations table displays listing photo and title', function () {
 });
 
 test('conversations are ordered by last_message_at', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
     $user2 = User::factory()->create();
     $user3 = User::factory()->create();
 

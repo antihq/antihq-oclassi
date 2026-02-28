@@ -26,6 +26,11 @@
             <flux:menu.item :href="route('profile.edit')" wire:navigate>
                 {{ __('Settings') }}
             </flux:menu.item>
+            @if(auth()->user()->isAdmin())
+                <flux:menu.group heading="Admin">
+                    <flux:menu.item :href="route('cp.users.index')" wire:navigat>Dashboard</flux:menu.item>
+                </flux:menu.group>
+            @endif
             <form method="POST" action="{{ route('logout') }}" class="w-full">
                 @csrf
                 <flux:menu.item
