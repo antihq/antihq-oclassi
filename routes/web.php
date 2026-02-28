@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/listings')->name('home');
+Route::livewire('/', 'pages::welcome')->name('home');
 
-Route::livewire('/listings', 'pages::listings.index')->name('home');
+Route::livewire('/listings', 'pages::listings.index')->name('listings.index');
 
 Route::livewire('/listings/create', 'pages::listings.create')
     ->middleware(['auth', 'verified'])
@@ -39,36 +39,17 @@ Route::redirect('/dashboard', '/listings')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::livewire('/cp/listings/', 'pages::cp.listings.index')
-    ->middleware(['auth', 'verified'])
-    ->name('cp.listings.index');
+Route::middleware(['auth', 'verified', 'admin'])->prefix('cp')->group(function () {
+    Route::redirect('/', '/cp/users')->name('cp');
 
-Route::livewire('/cp/listings/{listing}', 'pages::cp.listings.show')
-    ->middleware(['auth', 'verified'])
-    ->name('cp.listings.show');
-
-Route::livewire('/cp/listings/{listing}/edit', 'pages::cp.listings.edit')
-    ->middleware(['auth', 'verified'])
-    ->name('cp.listings.edit');
-
-Route::livewire('/cp/users/', 'pages::cp.users.index')
-    ->middleware(['auth', 'verified'])
-    ->name('cp.users.index');
-
-Route::livewire('/cp/users/{user}', 'pages::cp.users.show')
-    ->middleware(['auth', 'verified'])
-    ->name('cp.users.show');
-
-Route::livewire('/cp/users/{user}/edit', 'pages::cp.users.edit')
-    ->middleware(['auth', 'verified'])
-    ->name('cp.users.edit');
-
-Route::livewire('/cp/conversations/', 'pages::cp.conversations.index')
-    ->middleware(['auth', 'verified'])
-    ->name('cp.conversations.index');
-
-Route::livewire('/cp/conversations/{conversation}', 'pages::cp.conversations.show')
-    ->middleware(['auth', 'verified'])
-    ->name('cp.conversations.show');
+    Route::livewire('/listings/', 'pages::cp.listings.index')->name('cp.listings.index');
+    Route::livewire('/listings/{listing}', 'pages::cp.listings.show')->name('cp.listings.show');
+    Route::livewire('/listings/{listing}/edit', 'pages::cp.listings.edit')->name('cp.listings.edit');
+    Route::livewire('/users/', 'pages::cp.users.index')->name('cp.users.index');
+    Route::livewire('/users/{user}', 'pages::cp.users.show')->name('cp.users.show');
+    Route::livewire('/users/{user}/edit', 'pages::cp.users.edit')->name('cp.users.edit');
+    Route::livewire('/conversations/', 'pages::cp.conversations.index')->name('cp.conversations.index');
+    Route::livewire('/conversations/{conversation}', 'pages::cp.conversations.show')->name('cp.conversations.show');
+});
 
 require __DIR__.'/settings.php';

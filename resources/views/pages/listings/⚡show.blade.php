@@ -12,8 +12,8 @@ new #[Layout('layouts.marketplace')] class extends Component
 };
 ?>
 
-<div class="flex justify-between gap-8">
-    <div class="flex-1">
+<div class="flex flex-col-reverse lg:flex-row justify-between gap-6 lg:gap-8">
+    <div class="flex-1 w-full">
         @if (auth()->check() &&auth()->user()->is($listing->user))
             <flux:callout variant="secondary" class="mb-4" inline>
                 <flux:callout.heading>
@@ -181,7 +181,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 
         <div class="mt-12">
             <x-prose>
-                {!! $listing->description !!}
+                {!! $listing->sanitizedDescription() !!}
             </x-prose>
         </div>
 
@@ -203,15 +203,17 @@ new #[Layout('layouts.marketplace')] class extends Component
             <flux:heading level="h2" size="lg">
                 About the listing author
             </flux:heading>
-            <div class="mt-6 flex gap-8">
-                <flux:avatar
-                    :src="$listing->user->profilePhotoUrl()"
-                    :name="$listing->user->name"
-                    size="xl"
-                    circle
-                />
-                <div class="flex-1">
-                    <div class="flex justify-between gap-8">
+            <div class="mt-6 flex flex-col sm:flex-row gap-6 sm:gap-8">
+                <div class="flex sm:block">
+                    <flux:avatar
+                        :src="$listing->user->profilePhotoUrl()"
+                        :name="$listing->user->name"
+                        size="xl"
+                        circle
+                    />
+                </div>
+                <div class="flex-1 w-full">
+                    <div class="flex flex-col sm:flex-row justify-between gap-4 sm:gap-8">
                         <div>
                             <flux:text class="text-base">
                                 Hello, I'm {{ $listing->user->name }}
@@ -234,7 +236,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             </div>
         </div>
     </div>
-    <div class="w-xs">
+    <div class="w-full lg:w-xs mt-8 lg:mt-0">
         <flux:heading class="text-xl/none! font-semibold">${{ number_format($listing->price / 100) }}</flux:heading>
         <flux:heading class="mt-4 text-xl! font-semibold">
             <flux:link href="{{ route('listings.show', $listing) }}" variant="ghost" wire:navigate>{{ $listing->title }}</flux:link>
@@ -257,7 +259,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             </flux:link>
         </div>
 
-        <div class="mt-12 text-center">
+        <div class="mt-8 sm:mt-12 text-center">
             @if (auth()->check() &&auth()->user()->is($listing->user))
                 <flux:button
                     variant="primary"

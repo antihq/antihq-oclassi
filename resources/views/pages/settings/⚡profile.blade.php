@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -13,6 +14,7 @@ use Livewire\WithFileUploads;
 new #[Layout('layouts.marketplace')] class extends Component
 {
     use ProfileValidationRules;
+
     use WithFileUploads;
 
     public string $name = '';
@@ -81,12 +83,12 @@ new #[Layout('layouts.marketplace')] class extends Component
         $user = Auth::user();
 
         if ($user->profile_photo_path) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profile_photo_path);
+            Storage::disk('public')->delete($user->profile_photo_path);
+
             $user->profile_photo_path = null;
+
             $user->save();
         }
-
-        Session::flash('status', 'profile-photo-removed');
     }
 
     /**
@@ -129,36 +131,30 @@ new #[Layout('layouts.marketplace')] class extends Component
     <x-pages::settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
         <form wire:submit="updateProfilePhoto" class="my-6 w-full space-y-6">
             <div class="flex items-center gap-6">
-                <flux:avatar
-                    :src="auth()->user()->profilePhotoUrl()"
-                    :name="auth()->user()->name"
-                    size="xl"
-                    circle
-                />
+                <flux:file-upload wire:model="photo">
+                    <div class="
+                        relative flex items-center justify-center size-20 rounded-full transition-colors cursor-pointer
+                        border border-zinc-200 dark:border-white/10 hover:border-zinc-300 dark:hover:border-white/10
+                        bg-zinc-100 hover:bg-zinc-200 dark:bg-white/10 hover:dark:bg-white/15 in-data-dragging:dark:bg-white/15
+                    ">
+                        @if ($photo && $photo->isPreviewable())
+                            <img src="{{ $photo->temporaryUrl() }}" class="size-full object-cover rounded-full" />
+                        @elseif(auth()->user()->profilePhotoUrl())
+                            <img src="{{ auth()->user()->profilePhotoUrl() }}" class="size-full object-cover rounded-full" />
+                        @else
+                            <flux:icon name="user" variant="solid" class="text-zinc-500 dark:text-zinc-400" />
+
+                            <div class="absolute bottom-0 right-0 bg-white dark:bg-zinc-800 rounded-full">
+                                <flux:icon name="arrow-up-circle" variant="solid" class="text-zinc-500 dark:text-zinc-400" />
+                            </div>
+                        @endif
+                    </div>
+                </flux:file-upload>
                 <div class="flex-1">
-                    <flux:heading size="lg">{{ __('Profile Photo') }}</flux:heading>
+                    <flux:heading>{{ __('Profile Photo') }}</flux:heading>
                     <flux:text class="mt-1">{{ __('JPG, PNG or GIF. Max 10MB.') }}</flux:text>
                 </div>
             </div>
-
-            @if ($photo && $photo->isPreviewable())
-                <flux:file-item
-                    :heading="$photo->getClientOriginalName()"
-                    :image="$photo->temporaryUrl()"
-                    :size="$photo->getSize()"
-                >
-                    <x-slot name="actions">
-                        <flux:file-item.remove wire:click="$set('photo', null)" />
-                    </x-slot>
-                </flux:file-item>
-            @else
-                <flux:file-upload wire:model="photo" label="Upload photo">
-                    <flux:file-upload.dropzone
-                        heading="Drop photo here or click to browse"
-                        text="JPG, PNG, GIF up to 10MB"
-                    />
-                </flux:file-upload>
-            @endif
 
             <flux:error name="photo" />
 
@@ -186,8 +182,6 @@ new #[Layout('layouts.marketplace')] class extends Component
                 @endif
             </div>
         </form>
-
-        <flux:separator class="my-8" />
 
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
             <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />

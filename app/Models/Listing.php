@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Tiptap\Editor;
 
 class Listing extends Model
 {
@@ -52,5 +53,10 @@ class Listing extends Model
     public function isClosed(): bool
     {
         return $this->closed_at !== null;
+    }
+
+    public function sanitizedDescription(): string
+    {
+        return (new Editor)->sanitize($this->description);
     }
 }

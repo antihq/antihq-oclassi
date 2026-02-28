@@ -88,4 +88,11 @@ class User extends Authenticatable
             ->distinct('conversation_id')
             ->count('conversation_id');
     }
+
+    public function isAdmin(): bool
+    {
+        $adminEmails = config('admin.emails', []);
+
+        return in_array(strtolower($this->email), array_map('strtolower', $adminEmails), true);
+    }
 }

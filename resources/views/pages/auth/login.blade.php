@@ -12,7 +12,7 @@
             <flux:input
                 name="email"
                 :label="__('Email address')"
-                :value="old('email')"
+                :value="app()->environment('demo') ? 'admin@example.com' : old('email')"
                 type="email"
                 required
                 autofocus
@@ -30,6 +30,7 @@
                     autocomplete="current-password"
                     :placeholder="__('Password')"
                     viewable
+                    :value="app()->environment('demo') ? 'password' : null"
                 />
 
                 @if (Route::has('password.request'))

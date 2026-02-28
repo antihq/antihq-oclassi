@@ -79,7 +79,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 };
 ?>
 
-<div wire:poll.5s class="flex justify-between gap-8 w-full max-w-5xl mx-auto">
+<div wire:poll.5s class="flex flex-col gap-6 w-full max-w-5xl mx-auto md:flex-row md:gap-8">
     <div class="w-full max-w-lg">
         @if (auth()->id() === $conversation->buyer_id)
             <flux:heading level="1" size="xl">You sent an inquiry</flux:heading>
@@ -178,7 +178,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         </form>
     </div>
 
-    <div class="rounded-xl shadow-sm overflow-hidden max-w-sm">
+    <div class="rounded-xl shadow-sm overflow-hidden w-full md:max-w-sm md:mt-0 bg-white">
         @if ($conversation->listing->photos->first())
             <img src="{{ Storage::url($conversation->listing->photos->first()->path) }}" alt="{{ $conversation->listing->title }}">
         @endif
