@@ -8,7 +8,7 @@
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
             <flux:spacer class="lg:hidden" />
             <div class="lg:-ml-1.5">
-                <a href="{{ route('home') }}">
+                <a href="{{ route('home') }}" wire:navigate>
                     <svg width="183px" height="30px" viewBox="0 0 183 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <g id="2-・-Small-Copy-2" transform="translate(-44, -24)">
@@ -48,8 +48,8 @@
             <flux:spacer />
             @auth
                 <flux:navbar class="-mb-px max-lg:hidden me-4">
-                    <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:navbar.item>
-                    <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Browse listings</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Post a new listing</flux:navbar.item>
                     <flux:navbar.item :href="route('inbox')" class="text-accent! hover:bg-accent/5!" wire:navigate>
                         Inbox
                         @php($unreadCount = auth()->user()->unreadConversationsCount())
@@ -61,10 +61,10 @@
                 <x-desktop-user-menu />
             @else
                 <flux:navbar class="-mb-px max-lg:hidden">
-                    <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:navbar.item>
-                    <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:navbar.item>
-                    <flux:navbar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!">Sign up</flux:navbar.item>
-                    <flux:navbar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!">Login</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Browse listings</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Post a new listing</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Sign up</flux:navbar.item>
+                    <flux:navbar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Login</flux:navbar.item>
                 </flux:navbar>
                 <div class="w-10 lg:hidden"></div>
             @endauth

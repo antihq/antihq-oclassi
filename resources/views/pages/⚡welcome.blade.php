@@ -19,7 +19,7 @@ new #[Layout('layouts.landing')] class extends Component
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
         <flux:spacer class="lg:hidden" />
         <div class="lg:-ml-1.5">
-            <a href="{{ route('home') }}">
+            <a href="{{ route('home') }}" wire:navigate>
                 <svg width="183px" height="30px" viewBox="0 0 183 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="2-・-Small-Copy-2" transform="translate(-44, -24)">
@@ -59,8 +59,8 @@ new #[Layout('layouts.landing')] class extends Component
         <flux:spacer />
         @auth
             <flux:navbar class="-mb-px max-lg:hidden me-4">
-                <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:navbar.item>
-                <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:navbar.item>
+                <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Browse listings</flux:navbar.item>
+                <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Post a new listing</flux:navbar.item>
                 <flux:navbar.item :href="route('inbox')" class="text-accent! hover:bg-accent/5!" wire:navigate>
                     Inbox
                     @php($unreadCount = auth()->user()->unreadConversationsCount())
@@ -72,10 +72,10 @@ new #[Layout('layouts.landing')] class extends Component
             <x-desktop-user-menu />
         @else
             <flux:navbar class="-mb-px max-lg:hidden">
-                <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!">Browse listings</flux:navbar.item>
-                <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!">Post a new listing</flux:navbar.item>
-                <flux:navbar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!">Sign up</flux:navbar.item>
-                <flux:navbar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!">Login</flux:navbar.item>
+                <flux:navbar.item href="{{ route('listings.index') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Browse listings</flux:navbar.item>
+                <flux:navbar.item href="{{ route('listings.create') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Post a new listing</flux:navbar.item>
+                <flux:navbar.item href="{{ route('register') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Sign up</flux:navbar.item>
+                <flux:navbar.item href="{{ route('login') }}" class="text-accent! hover:bg-accent/5!" wire:navigate>Login</flux:navbar.item>
             </flux:navbar>
             <div class="w-10 lg:hidden"></div>
         @endauth
@@ -121,8 +121,8 @@ new #[Layout('layouts.landing')] class extends Component
             <h2 class="mt-3 font-bold text-[2.5rem]/10 xl:text-5xl/12 max-w-2xl font-heading">Buy and sell with fellow students on your campus.</h2>
             <p class="mt-10 text-xl/8 xl:text-2xl/10 max-w-3xl">Campus Cycle Marketplace connects you with other students at your university. Buy pre-owned bikes, dorm furniture, electronics, and textbooks from classmates. Safe, local, <span class="whitespace-nowrap">and affordable</span>.</p>
             <div class="mt-8 flex gap-x-5 gap-y-4 flex-wrap">
-                <flux:button href="{{ route('listings.index') }}" variant="primary" class="text-base! h-11 px-6! w-full sm:w-auto">Browse listings</flux:button>
-                <flux:button href="{{ route('listings.create') }}" class="border-accent/30! bg-[#EBE5DA]! hover:bg-[#F7F4EF]! text-base! h-11 px-6! w-full sm:w-auto text-accent!">Post a new listing</flux:button>
+                <flux:button href="{{ route('listings.index') }}" variant="primary" class="text-base! h-11 px-6! w-full sm:w-auto" wire:navigate>Browse listings</flux:button>
+                <flux:button href="{{ route('listings.create') }}" class="border-accent/30! bg-[#EBE5DA]! hover:bg-[#F7F4EF]! text-base! h-11 px-6! w-full sm:w-auto text-accent!" wire:navigate>Post a new listing</flux:button>
             </div>
         </div>
         <div class="absolute -bottom-40 -right-30 xl:-bottom-80 xl:-right-72 2xl:right-0 w-[487px] xl:w-[974px]">
@@ -280,7 +280,7 @@ new #[Layout('layouts.landing')] class extends Component
     </section>
     <footer class="bg-[#F5F2EC] max-w-7xl mx-auto px-4 xl:px-12 pt-24 flex flex-col-reverse gap-y-4 xl:flex-row justify-between items-center pb-6 relative">
         <div>
-            <a href="{{ route('home') }}">
+            <a href="{{ route('home') }}" wire:navigate>
                 <svg width="183px" height="30px" viewBox="0 0 183 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="2-・-Small-Copy-2" transform="translate(-44, -24)">
@@ -318,8 +318,8 @@ new #[Layout('layouts.landing')] class extends Component
             </a>
         </div>
         <div class="flex gap-8">
-            <a href="#" class="font-medium hover:underline text-sm">Terms of Service</a>
-            <a href="#" class="font-medium hover:underline text-sm">Privacy Policy</a>
+            <a href="#" class="font-medium hover:underline text-sm" wire:navigate>Terms of Service</a>
+            <a href="#" class="font-medium hover:underline text-sm" wire:navigate>Privacy Policy</a>
         </div>
     </footer>
 </div>
