@@ -196,7 +196,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         <div class="flex gap-4 max-lg:w-full">
             <div class="flex-1">
                 <flux:modal.trigger name="search">
-                    <flux:input as="button" icon="magnifying-glass" placeholder="Search listings..." class="w-full sm:w-auto" />
+                    <flux:input as="button" icon="magnifying-glass" placeholder="Search listings..." class="w-full sm:w-sm" />
                 </flux:modal.trigger>
             </div>
 
@@ -212,7 +212,6 @@ new #[Layout('layouts.marketplace')] class extends Component
                                 <flux:menu.radio value="price_high">Highest</flux:menu.radio>
                             </flux:menu.radio.group>
                         </flux:menu.submenu>
-                        <flux:menu.separator />
                         <flux:menu.submenu heading="Price">
                             <flux:menu.radio.group wire:model.live="priceRange">
                                 <flux:menu.radio value="all">All</flux:menu.radio>
