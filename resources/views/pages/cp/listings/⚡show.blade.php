@@ -58,7 +58,7 @@ new #[Layout('layouts.app')] class extends Component
 
         <x-description.term>Description</x-description.term>
         <x-description.details>
-            {!! $listing->description !!}
+            {!! $listing->sanitizedDescription() !!}
         </x-description.details>
 
         <x-description.term>Address</x-description.term>

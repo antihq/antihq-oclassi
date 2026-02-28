@@ -181,7 +181,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 
         <div class="mt-12">
             <x-prose>
-                {!! $listing->description !!}
+                {!! $listing->sanitizedDescription() !!}
             </x-prose>
         </div>
 

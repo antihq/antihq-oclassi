@@ -272,11 +272,17 @@ new #[Layout('layouts.marketplace')] class extends Component
         @foreach($this->listings as $listing)
             <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow bg-white">
                 <div class="relative">
-                    <img
-                        class="aspect-[4/3] w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        src="{{ $listing->photos->first() ? Storage::url($listing->photos->first()->path) : 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+photo' }}"
-                        alt="{{ $listing->title }}"
-                    >
+                    @if($listing->photos->first())
+                        <img
+                            class="aspect-[4/3] w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            src="{{ Storage::url($listing->photos->first()->path) }}"
+                            alt="{{ $listing->title }}"
+                        >
+                    @else
+                        <span class="aspect-[4/3] w-full object-cover flex items-center justify-center">
+                            <x-icon name="camera" class="text-zinc-400 size-12" />
+                        </span>
+                    @endif
                     <a href="{{ route('listings.show', $listing) }}" class="absolute inset-0" wire:navigate></a>
                 </div>
                 <div class="py-5 px-4">
