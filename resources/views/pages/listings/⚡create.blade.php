@@ -22,7 +22,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 
     public string $addressLine2 = '';
 
-    #[Validate('required|numeric|min:0', onUpdate: false)]
+    #[Validate('required', onUpdate: false)]
     public string $price = '';
 
     #[Validate(['photos.*' => 'image|max:10240'], onUpdate: false)]
@@ -48,7 +48,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                 'description' => 'required',
             ],
             'location' => ['address' => 'required'],
-            'pricing' => ['price' => 'required|numeric|min:0'],
+            'pricing' => ['price' => 'required'],
             default => [],
         };
 
@@ -126,7 +126,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             'description' => $this->description,
             'address' => $this->address,
             'address_line_2' => $this->addressLine2 ?: null,
-            'price' => (int) ($this->price * 100),
+            'price' => (int) (floatval(preg_replace('/[^\d.]/', '', $this->price)) * 100),
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
         ]);
@@ -243,7 +243,8 @@ new #[Layout('layouts.marketplace')] class extends Component
                         <flux:label>Price</flux:label>
                         <flux:input
                             wire:model="price"
-                            placeholder="Enter price"
+                            mask:dynamic="$money($input)"
+                            placeholder="$0.00"
                         />
                         <flux:error name="price" />
                     </flux:field>
