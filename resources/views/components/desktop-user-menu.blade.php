@@ -23,7 +23,7 @@
             <flux:menu.item :href="route('user.listings.index')" wire:navigate>
                 {{ __('Your listings') }}
             </flux:menu.item>
-            <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
+            <flux:menu.item :href="route('profile.edit')" wire:navigate>
                 {{ __('Settings') }}
             </flux:menu.item>
             <form method="POST" action="{{ route('logout') }}" class="w-full">
@@ -31,7 +31,6 @@
                 <flux:menu.item
                     as="button"
                     type="submit"
-                    icon="arrow-right-start-on-rectangle"
                     class="w-full cursor-pointer"
                     data-test="logout-button"
                 >
