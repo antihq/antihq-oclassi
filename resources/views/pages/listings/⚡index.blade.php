@@ -32,6 +32,11 @@ new #[Layout('layouts.marketplace')] class extends Component
 
     public ?string $selectedLocationName = null;
 
+    public function mount()
+    {
+        $this->updatedLocationSearch();
+    }
+
     public function updatedLocationSearch(): void
     {
         if (strlen($this->locationSearch) < 3) {
