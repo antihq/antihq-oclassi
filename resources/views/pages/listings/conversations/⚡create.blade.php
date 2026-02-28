@@ -60,7 +60,7 @@ new #[Layout('layouts.marketplace')] class extends Component
         </form>
     </div>
 
-    <div class="rounded-xl shadow-sm overflow-hidden max-w-sm w-full lg:max-w-sm">
+    <div class="rounded-xl shadow-sm overflow-hidden max-w-sm w-full lg:max-w-sm bg-white">
         @if ($listing->photos->first())
             <img src="{{ Storage::url($listing->photos->first()->path) }}" alt="{{ $listing->title }}">
         @endif

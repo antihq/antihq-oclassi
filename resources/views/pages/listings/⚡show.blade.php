@@ -12,7 +12,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 };
 ?>
 
-<div class="flex flex-col lg:flex-row justify-between gap-6 lg:gap-8">
+<div class="flex flex-col-reverse lg:flex-row justify-between gap-6 lg:gap-8">
     <div class="flex-1 w-full">
         @if (auth()->check() &&auth()->user()->is($listing->user))
             <flux:callout variant="secondary" class="mb-4" inline>
