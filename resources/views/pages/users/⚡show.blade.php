@@ -18,7 +18,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 ?>
 
 <div>
-    <div class="flex justify-between">
+    <div class="flex flex-wrap items-center gap-y-4 gap-x-2 sm:gap-x-4">
         <div class="flex items-center gap-4">
             <flux:avatar :src="$user->profilePhotoUrl()" :name="$user->name" size="xl" circle />
             <div>
@@ -31,7 +31,9 @@ new #[Layout('layouts.marketplace')] class extends Component
                 @endif
             </div>
         </div>
+
         @if(auth()->check() && auth()->id() === $user->id)
+            <flux:spacer class="max-lg:hidden" />
             <div>
                 <flux:button href="{{ route('profile.edit') }}" wire:navigate>Edit profile</flux:button>
             </div>
@@ -48,9 +50,9 @@ new #[Layout('layouts.marketplace')] class extends Component
         @endif
     </flux:heading>
 
-    <div class="mt-4 grid grid-cols-3 gap-6">
+    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         @foreach($this->listings as $listing)
-            <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+            <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow bg-white">
                 <div class="relative">
                     <img
                         class="aspect-[4/3] w-full object-cover group-hover:scale-105 transition-transform duration-300"

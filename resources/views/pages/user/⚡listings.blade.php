@@ -31,11 +31,12 @@ new #[Layout('layouts.marketplace')] class extends Component
         @endif
     </flux:heading>
 
-    <div class="mt-6 grid grid-cols-3 gap-6">
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         @foreach($this->listings as $listing)
             <div @class([
-                'rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow' => !$listing->isClosed(),
-                'rounded-xl shadow-sm overflow-hidden' => $listing->isClosed(),
+                'bg-white rounded-xl shadow-sm overflow-hidden',
+                'group hover:shadow-md transition-shadow' => !$listing->isClosed(),
+                'overflow-hidden' => $listing->isClosed(),
             ])>
                 <div class="relative">
                     <img
