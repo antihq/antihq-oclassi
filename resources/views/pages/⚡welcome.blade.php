@@ -93,10 +93,10 @@ new #[Layout('layouts.landing')] class extends Component
             @endauth
         </flux:sidebar>
     </div>
-    <section id="hero" class="pt-54 bg-linear-to-b from-[#2B4E43]/40 to-[#132620]/80 to-28%">
+    <section id="hero" class="pt-54 bg-linear-to-b from-[#2B4E43]/40 to-[#132620]/90 to-28% relative">
         <div class="max-w-7xl mx-auto px-6 xl:px-12 relative">
             <h1 class="font-heading text-[3.5rem]/15.75 max-w-158 font-bold">Curated luxury marketplace. Connect with expert sellers. Buy directly.</h1>
-            <p class="mt-10 max-w-180 text-xl/8">The Vault connects collectors with vetted experts in vintage watches, leather goods, and rare cameras. Browse authenticated items from certified specialists worldwide. No middlemen, no transaction fees.</p>
+            <p class="mt-10 max-w-180 text-lg/8">The Vault connects collectors with vetted experts in vintage watches, leather goods, and rare cameras. Browse authenticated items from certified specialists worldwide. No middlemen, no transaction fees.</p>
             <div class="mt-8">
                 <flux:button href="{{ route('listings.index') }}" variant="primary" wire:navigate>Browse the collection</flux:button>
                 <flux:button href="{{ route('listings.create') }}" wire:navigate>Sell with us</flux:button>
@@ -105,12 +105,112 @@ new #[Layout('layouts.landing')] class extends Component
                 <img src="/Wrist Watch.K02.2k Copy.webp" class="w-219">
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-6 xl:px-12 relative py-70">
+        <div class="max-w-7xl mx-auto px-6 xl:px-12 relative pt-72 pb-36">
             <h2 class="text-center font-heading max-w-3xl text-[3.25rem]/15 mx-auto font-bold">Trusted by collectors worldwide. Vetted by experts.</h2>
             <div class="flex items-center justify-center gap-x-10 gap-y-4 mt-12 flex-wrap text-sm font-medium">
                 <p>Sellers with 20+ years of specialized expertise</p>
                 <p>Specialists in Swiss watches, Hermès, and rare cameras</p>
                 <p>Curators from Manhattan to Paris to London</p>
+            </div>
+        </div>
+    </section>
+    <section class="bg-[#132620]/90 relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-[#AA9772] py-36 text-[#FFFBEB]">
+                <div class="pl-18 relative">
+                    <div class="absolute top-34.5 -left-25">
+                        <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Expert Authentication</h2>
+                    </div>
+                    <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-xl">Every item authenticated by certified specialists</h3>
+                    <p class="mt-8 text-lg/7.5 max-w-xl font-medium">Each listing comes from a vetted expert—whether it's a Swiss-certified watchmaker, a Parisian-trained Hermès specialist, or a collector with three decades of experience. You'll know exactly who curated your piece and why it's authentic.</p>
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                </div>
+                <div class="pr-18 relative mt-82 flex flex-row-reverse">
+                    <div>
+                        <div class="absolute top-32 -right-18">
+                            <h2 class="text-sm uppercase font-semibold tracking-[0.3em] rotate-90">Curated Selection</h2>
+                        </div>
+                        <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-150">Only the finest pieces make it through our doors</h3>
+                        <p class="mt-8 text-lg/7.5  max-w-150 font-medium">We don't accept everything. Sellers apply for approval, and only those with proven expertise and exceptional inventory join the marketplace. That means you browse only premium vintage watches, fine leather goods, and rare equipment—not clutter.</p>
+                    </div>
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy.webp" class="w-110 absolute -top-40 -left-4" alt="">
+                </div>
+                <div class="pl-18 relative mt-82">
+                    <div class="absolute top-34.5 -left-25">
+                        <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Direct Communication</h2>
+                    </div>
+                    <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-xl">Connect directly with the expert who curated <span class="whitespace-nowrap">your item</span></h3>
+                    <p class="mt-8 text-lg/7.5 max-w-150 font-medium">
+                        No middlemen, no anonymous sellers. When you find something you love, you'll speak directly with the specialist who sourced it. Ask questions, learn its provenance, and buy with confidence from someone who knows their craft inside and out.
+                    </p>
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 2.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-[#132620]/90 relative pt-72">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-[#33394A] py-36 text-[#F8FCFB]">
+                <div class="pl-18 relative">
+                    <div class="absolute top-14 -left-6">
+                        <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Zero Fees</h2>
+                    </div>
+                    <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-xl">No transaction fees. Period.</h3>
+                    <p class="mt-8 text-lg/7.5 max-w-xl font-medium">
+                        You keep what you sell. The Vault doesn't take a cut of your transactions. List your items, communicate with buyers, and close deals—100% of the sale price is yours.
+                    </p>
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 5.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                </div>
+                <div class="pr-18 relative mt-82 flex flex-row-reverse">
+                    <div>
+                        <div class="absolute top-30 -right-16">
+                            <h2 class="text-sm uppercase font-semibold tracking-[0.3em] rotate-90">Qualified Buyers</h2>
+                        </div>
+                        <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-150">A marketplace of serious collectors</h3>
+                        <p class="mt-8 text-lg/7.5  max-w-150 font-medium">
+                            Our buyers know what they're looking for—authenticated vintage watches, luxury leather goods, and rare cameras. They're here because they value expertise and quality. Connect with customers who appreciate your curation.
+                        </p>
+                    </div>
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 3.webp" class="w-110 absolute -top-40 -left-4" alt="">
+                </div>
+                <div class="pl-18 relative mt-82">
+                    <div class="absolute top-20 -left-12">
+                        <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Global Reach</h2>
+                    </div>
+                    <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-xl">Sell to collectors worldwide</h3>
+                    <p class="mt-8 text-lg/7.5 max-w-150 font-medium">
+                        Your expertise isn't limited by geography. List your items once, and reach serious buyers across continents. From Manhattan to Paris to London, The Vault connects you with a global audience of collectors.
+                    </p>
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 4.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-[#132620]/90 relative pt-72">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-[#AA9772] py-36 text-[#FFFBEB]">
+                <div class="pl-18 relative">
+                    <div class="absolute top-14 -left-6">
+                        <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Zero Fees</h2>
+                    </div>
+                    <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-xl">The full value goes to sellers. Better prices for buyers.</h3>
+                    <p class="mt-8 text-lg/7.5 max-w-xl font-medium">
+                        Because we don't charge transaction fees, sellers don't mark up prices to cover costs. You get fair prices on premium items, and sellers get rewarded for their expertise. It's straightforward for everyone.
+                    </p>
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 7.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                </div>
+                <div class="pr-18 relative mt-82 flex flex-row-reverse">
+                    <div>
+                        <div class="absolute top-26 -right-13">
+                            <h2 class="text-sm uppercase font-semibold tracking-[0.3em] rotate-90">Global Access</h2>
+                        </div>
+                        <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-150">Discover rare finds from sellers worldwide</h3>
+                        <p class="mt-8 text-lg/7.5  max-w-150 font-medium">
+                            A vintage watch from a Miami collector. A Hermès bag sourced in Paris. A rare camera curated in London. Browse rare pieces from specialists across the globe, all authenticated and ready for you.
+                        </p>
+                    </div>
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 6.webp" class="w-110 absolute -top-40 -left-4" alt="">
+                </div>
             </div>
         </div>
     </section>
