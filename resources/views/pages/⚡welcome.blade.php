@@ -63,7 +63,7 @@ new #[Layout('layouts.landing')] class extends Component
         <flux:sidebar
             sticky
             collapsible="mobile"
-            class="border-r border-zinc-200 bg-zinc-50 lg:hidden dark:border-zinc-700 dark:bg-zinc-900"
+            class="border-r border-zinc-200 bg-[#FDFBF7] lg:hidden dark:border-zinc-700 dark:bg-zinc-900"
         >
             <flux:sidebar.header>
                 <flux:spacer />
@@ -167,46 +167,48 @@ new #[Layout('layouts.landing')] class extends Component
     </section>
     <section class="bg-[#132620]/90 relative pt-36">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-[#33394A] pt-36 pb-76 text-[#F8FCFB]">
-                <div class="pl-18 relative">
-                    <div class="absolute top-14 -left-6">
-                        <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Zero Fees</h2>
+            <div class="bg-[#33394A] pt-36 xl:pt-36 pb-36 xl:pb-58 text-[#F8FCFB]">
+                <div class="relative flex">
+                    <div class="bg-[#33394A] relative px-5 py-3 z-10 pl-18 ">
+                        <div class="absolute top-17 -left-6">
+                            <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Zero Fees</h2>
+                        </div>
+                        <h3 class="font-heading text-[3rem]/13 xl:text-[3.5rem]/15.5 font-bold max-w-160">No transaction fees. Period.</h3>
+                        <p class="mt-8 text-base/8 xl:text-lg/7.5 max-w-xl font-medium pb-8">
+                            You keep what you sell. The Vault doesn't take a cut of your transactions. List your items, communicate with buyers, and close deals—100% of the sale price is yours.
+                        </p>
                     </div>
-                    <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-160">No transaction fees. Period.</h3>
-                    <p class="mt-8 text-lg/7.5 max-w-xl font-medium">
-                        You keep what you sell. The Vault doesn't take a cut of your transactions. List your items, communicate with buyers, and close deals—100% of the sale price is yours.
-                    </p>
                     <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 5.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
                 </div>
-                <div class="pr-18 relative mt-82 flex flex-row-reverse">
-                    <div>
-                        <div class="absolute top-30 -right-16">
+                <div class="relative mt-82 flex flex-row-reverse">
+                    <div class="pr-18 bg-[#33394A] relative z-10 px-5 py-3">
+                        <div class="absolute top-33 -right-16">
                             <h2 class="text-sm uppercase font-semibold tracking-[0.3em] rotate-90">Qualified Buyers</h2>
                         </div>
-                        <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-150">A marketplace of <span class="whitespace-nowrap">serious collectors</span></h3>
-                        <p class="mt-8 text-lg/7.5  max-w-150 font-medium">
-                            Our buyers know what they're looking for—authenticated vintage watches, luxury leather goods, and rare cameras. They're here because they value expertise and quality. Connect with customers who appreciate your curation.
-                        </p>
+                        <h3 class="font-heading text-[3rem]/13 xl:text-[3.5rem]/15.5 font-bold max-w-150">A marketplace of <span class="whitespace-nowrap">serious collectors</span></h3>
+                        <p class="mt-8 text-base/8 xl:text-lg/7.5 max-w-150 font-medium">We don't accept everything. Sellers apply for approval, and only those with proven expertise and exceptional inventory join the marketplace. That means you browse only premium vintage watches, fine leather goods, and rare equipment—not clutter.</p>
                     </div>
                     <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 3.webp" class="w-110 absolute -top-40 -left-4" alt="" loading="lazy">
                 </div>
-                <div class="pl-18 relative mt-82">
-                    <div class="absolute top-20 -left-12">
-                        <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Global Reach</h2>
+                <div class="relative flex mt-82">
+                    <div class="bg-[#33394A] relative px-5 py-3 z-10 pl-18 ">
+                        <div class="absolute top-23 -left-12">
+                            <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Global Reach</h2>
+                        </div>
+                        <h3 class="font-heading text-[3rem]/13 xl:text-[3.5rem]/15.5 font-bold max-w-160">Sell to collectors worldwide</h3>
+                        <p class="mt-8 text-base/8 xl:text-lg/7.5 max-w-xl font-medium pb-8">
+                            Your expertise isn't limited by geography. List your items once, and reach serious buyers across continents. From Manhattan to Paris to London, The Vault connects you with a global audience of collectors.
+                        </p>
                     </div>
-                    <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-160">Sell to collectors worldwide</h3>
-                    <p class="mt-8 text-lg/7.5 max-w-160 font-medium">
-                        Your expertise isn't limited by geography. List your items once, and reach serious buyers across continents. From Manhattan to Paris to London, The Vault connects you with a global audience of collectors.
-                    </p>
                     <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 4.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
                 </div>
             </div>
-            <div class="-mt-6 flex justify-center gap-8">
+            <div class="mt-8 flex justify-center gap-8">
                 <div class="text-center">
-                    <flux:button href="{{ route('listings.create') }}" variant="primary" class="text-lg! h-13 px-10! w-full sm:w-auto" wire:navigate>
+                    <flux:button href="{{ route('listings.create') }}" variant="primary" class="text-lg! h-13 px-10!" wire:navigate>
                         Apply to become a seller
                     </flux:button>
-                    <p class="mt-4 text-sm font-medium">Approval required. We vet all sellers to maintain marketplace quality.</p>
+                    <p class="mt-4 text-sm/6 font-medium">Approval required. We vet all sellers to maintain marketplace quality.</p>
                 </div>
             </div>
         </div>
@@ -214,25 +216,23 @@ new #[Layout('layouts.landing')] class extends Component
     <section class="bg-[#132620]/90 relative pt-72">
         <div class="max-w-7xl mx-auto px-4">
             <div class="bg-[#AA9772] py-36 text-[#FFFBEB]">
-                <div class="pl-18 relative">
-                    <div class="absolute top-14 -left-6">
-                        <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Zero Fees</h2>
+                <div class="relative flex">
+                    <div class="bg-[#AA9772] relative px-5 py-3 z-10 pl-18 ">
+                        <div class="absolute top-17 -left-6">
+                            <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Zero Fees</h2>
+                        </div>
+                        <h3 class="font-heading text-[3rem]/13 xl:text-[3.5rem]/15.5 font-bold max-w-xl">The full value goes to sellers. Better prices for buyers.</h3>
+                        <p class="mt-8 text-base/8 xl:text-lg/7.5 max-w-xl font-medium">Because we don't charge transaction fees, sellers don't mark up prices to cover costs. You get fair prices on premium items, and sellers get rewarded for their expertise. It's straightforward for everyone.</p>
                     </div>
-                    <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-160">The full value goes to sellers. Better prices for buyers.</h3>
-                    <p class="mt-8 text-lg/7.5 max-w-xl font-medium">
-                        Because we don't charge transaction fees, sellers don't mark up prices to cover costs. You get fair prices on premium items, and sellers get rewarded for their expertise. It's straightforward for everyone.
-                    </p>
                     <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 7.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
                 </div>
-                <div class="pr-18 relative mt-82 flex flex-row-reverse">
-                    <div>
-                        <div class="absolute top-26 -right-13">
+                <div class="relative mt-82 flex flex-row-reverse">
+                    <div class="pr-18 bg-[#AA9772] relative z-10 px-5 py-3">
+                        <div class="absolute top-29 -right-13">
                             <h2 class="text-sm uppercase font-semibold tracking-[0.3em] rotate-90">Global Access</h2>
                         </div>
-                        <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-150">Discover rare finds from sellers worldwide</h3>
-                        <p class="mt-8 text-lg/7.5  max-w-150 font-medium">
-                            A vintage watch from a Miami collector. A Hermès bag sourced in Paris. A rare camera curated in London. Browse rare pieces from specialists across the globe, all authenticated and ready for you.
-                        </p>
+                        <h3 class="font-heading text-[3rem]/13 xl:text-[3.5rem]/15.5 font-bold max-w-150">Discover rare finds from sellers worldwide</h3>
+                        <p class="mt-8 text-base/8 xl:text-lg/7.5 max-w-150 font-medium">A vintage watch from a Miami collector. A Hermès bag sourced in Paris. A rare camera curated in London. Browse rare pieces from specialists across the globe, all authenticated and ready for you.</p>
                     </div>
                     <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 6.webp" class="w-110 absolute -top-40 -left-4" alt="" loading="lazy">
                 </div>
