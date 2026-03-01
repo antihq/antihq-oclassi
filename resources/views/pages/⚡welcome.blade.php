@@ -150,9 +150,9 @@ new #[Layout('layouts.landing')] class extends Component
                     <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 2.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
                 </div>
             </div>
-            <div class="-mt-6 flex justify-center gap-8">
+            <div class="mt-8 flex justify-center gap-8">
                 <div class="text-center">
-                    <flux:button href="{{ route('listings.index') }}" variant="primary" class="text-lg! h-13 px-10! w-full sm:w-auto" wire:navigate>
+                    <flux:button href="{{ route('listings.index') }}" variant="primary" class="text-lg! h-13 px-12! w-full sm:w-auto" wire:navigate>
                         Start browsing
                     </flux:button>
                 </div>
