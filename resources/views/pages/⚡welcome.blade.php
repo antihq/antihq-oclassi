@@ -97,12 +97,12 @@ new #[Layout('layouts.landing')] class extends Component
         <div class="max-w-7xl mx-auto px-6 xl:px-12 relative">
             <h1 class="font-heading text-[3.5rem]/15.75 max-w-158 font-bold">Curated luxury marketplace. Connect with expert sellers. Buy directly.</h1>
             <p class="mt-10 max-w-180 text-lg/8">The Vault connects collectors with vetted experts in vintage watches, leather goods, and rare cameras. Browse authenticated items from certified specialists worldwide. No middlemen, no transaction fees.</p>
-            <div class="mt-8">
-                <flux:button href="{{ route('listings.index') }}" variant="primary" wire:navigate>Browse the collection</flux:button>
-                <flux:button href="{{ route('listings.create') }}" wire:navigate>Sell with us</flux:button>
+            <div class="mt-8 flex gap-8">
+                <flux:button href="{{ route('listings.index') }}" variant="primary" class="text-base! h-11 px-6! w-full sm:w-auto" wire:navigate>Browse the collection</flux:button>
+                <flux:button href="{{ route('listings.create') }}" class="border-accent/30! text-base! h-11 px-6! w-full sm:w-auto bg-[#132721]! hover:bg-[#162E27]! text-accent-foreground!" wire:navigate>Sell with us</flux:button>
             </div>
             <div class="absolute -bottom-75 -right-92">
-                <img src="/Wrist Watch.K02.2k Copy.webp" class="w-219">
+                <img src="/Wrist Watch.K02.2k Copy.webp" class="w-219" loading="lazy">
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-6 xl:px-12 relative pt-72 pb-36">
@@ -116,14 +116,14 @@ new #[Layout('layouts.landing')] class extends Component
     </section>
     <section class="bg-[#132620]/90 relative">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-[#AA9772] py-36 text-[#FFFBEB]">
+            <div class="bg-[#AA9772] pt-36 pb-58 text-[#FFFBEB]">
                 <div class="pl-18 relative">
                     <div class="absolute top-34.5 -left-25">
                         <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Expert Authentication</h2>
                     </div>
                     <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-xl">Every item authenticated by certified specialists</h3>
                     <p class="mt-8 text-lg/7.5 max-w-xl font-medium">Each listing comes from a vetted expert—whether it's a Swiss-certified watchmaker, a Parisian-trained Hermès specialist, or a collector with three decades of experience. You'll know exactly who curated your piece and why it's authentic.</p>
-                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
                 </div>
                 <div class="pr-18 relative mt-82 flex flex-row-reverse">
                     <div>
@@ -133,7 +133,7 @@ new #[Layout('layouts.landing')] class extends Component
                         <h3 class="font-heading text-[3.5rem]/15.5 font-bold max-w-150">Only the finest pieces make it through our doors</h3>
                         <p class="mt-8 text-lg/7.5  max-w-150 font-medium">We don't accept everything. Sellers apply for approval, and only those with proven expertise and exceptional inventory join the marketplace. That means you browse only premium vintage watches, fine leather goods, and rare equipment—not clutter.</p>
                     </div>
-                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy.webp" class="w-110 absolute -top-40 -left-4" alt="">
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy.webp" class="w-110 absolute -top-40 -left-4" alt="" loading="lazy">
                 </div>
                 <div class="pl-18 relative mt-82">
                     <div class="absolute top-34.5 -left-25">
@@ -143,14 +143,27 @@ new #[Layout('layouts.landing')] class extends Component
                     <p class="mt-8 text-lg/7.5 max-w-150 font-medium">
                         No middlemen, no anonymous sellers. When you find something you love, you'll speak directly with the specialist who sourced it. Ask questions, learn its provenance, and buy with confidence from someone who knows their craft inside and out.
                     </p>
-                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 2.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 2.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
+                </div>
+            </div>
+            <div class="-mt-6 flex justify-center gap-8">
+                <div class="text-center">
+                    <flux:button href="{{ route('listings.index') }}" variant="primary" class="text-lg! h-13 px-10! w-full sm:w-auto" wire:navigate>
+                        Start browsing
+                    </flux:button>
                 </div>
             </div>
         </div>
     </section>
-    <section class="bg-[#132620]/90 relative pt-72">
+    <section id="hero" class="pt-80 bg-linear-to-b bg-[#132620]/90 relative">
+        <div class="max-w-7xl mx-auto px-6 xl:px-12 relative">
+            <h1 class="font-heading text-[3.5rem]/15.75 max-w-158 font-bold text-center mx-auto">Sell your curated collection. No transaction fees.</h1>
+            <p class="mt-10 max-w-180 text-lg/8 text-center mx-auto">Join our community of vetted specialists—watchmakers, leather goods experts, and rare camera collectors. List your authenticated pieces and connect with serious buyers worldwide.</p>
+        </div>
+    </section>
+    <section class="bg-[#132620]/90 relative pt-36">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-[#33394A] py-36 text-[#F8FCFB]">
+            <div class="bg-[#33394A] pt-36 pb-76 text-[#F8FCFB]">
                 <div class="pl-18 relative">
                     <div class="absolute top-14 -left-6">
                         <h2 class="text-sm uppercase font-semibold tracking-[0.3em] -rotate-90">Zero Fees</h2>
@@ -159,7 +172,7 @@ new #[Layout('layouts.landing')] class extends Component
                     <p class="mt-8 text-lg/7.5 max-w-xl font-medium">
                         You keep what you sell. The Vault doesn't take a cut of your transactions. List your items, communicate with buyers, and close deals—100% of the sale price is yours.
                     </p>
-                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 5.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 5.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
                 </div>
                 <div class="pr-18 relative mt-82 flex flex-row-reverse">
                     <div>
@@ -171,7 +184,7 @@ new #[Layout('layouts.landing')] class extends Component
                             Our buyers know what they're looking for—authenticated vintage watches, luxury leather goods, and rare cameras. They're here because they value expertise and quality. Connect with customers who appreciate your curation.
                         </p>
                     </div>
-                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 3.webp" class="w-110 absolute -top-40 -left-4" alt="">
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 3.webp" class="w-110 absolute -top-40 -left-4" alt="" loading="lazy">
                 </div>
                 <div class="pl-18 relative mt-82">
                     <div class="absolute top-20 -left-12">
@@ -181,7 +194,15 @@ new #[Layout('layouts.landing')] class extends Component
                     <p class="mt-8 text-lg/7.5 max-w-150 font-medium">
                         Your expertise isn't limited by geography. List your items once, and reach serious buyers across continents. From Manhattan to Paris to London, The Vault connects you with a global audience of collectors.
                     </p>
-                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 4.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 4.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
+                </div>
+            </div>
+            <div class="-mt-6 flex justify-center gap-8">
+                <div class="text-center">
+                    <flux:button href="{{ route('listings.create') }}" variant="primary" class="text-lg! h-13 px-10! w-full sm:w-auto" wire:navigate>
+                        Apply to become a seller
+                    </flux:button>
+                    <p class="mt-4 text-sm font-medium">Approval required. We vet all sellers to maintain marketplace quality.</p>
                 </div>
             </div>
         </div>
@@ -197,7 +218,7 @@ new #[Layout('layouts.landing')] class extends Component
                     <p class="mt-8 text-lg/7.5 max-w-xl font-medium">
                         Because we don't charge transaction fees, sellers don't mark up prices to cover costs. You get fair prices on premium items, and sellers get rewarded for their expertise. It's straightforward for everyone.
                     </p>
-                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 7.webp" class="w-110 absolute -top-40 -right-4" alt="">
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 7.webp" class="w-110 absolute -top-40 -right-4" alt="" loading="lazy">
                 </div>
                 <div class="pr-18 relative mt-82 flex flex-row-reverse">
                     <div>
@@ -209,8 +230,17 @@ new #[Layout('layouts.landing')] class extends Component
                             A vintage watch from a Miami collector. A Hermès bag sourced in Paris. A rare camera curated in London. Browse rare pieces from specialists across the globe, all authenticated and ready for you.
                         </p>
                     </div>
-                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 6.webp" class="w-110 absolute -top-40 -left-4" alt="">
+                    <img src="/silhouette-of-man-looking-away-isolated-on-white-2026-01-06-00-03-40-utc copy 6.webp" class="w-110 absolute -top-40 -left-4" alt="" loading="lazy">
                 </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-80 bg-linear-to-b bg-[#132620]/90 relative">
+        <div class="max-w-7xl mx-auto px-6 xl:px-12 relative">
+            <h1 class="font-heading text-[3.5rem]/15.75 max-w-158 font-bold text-center mx-auto">Find your next treasure. Or share yours with the world.</h1>
+            <div class="mt-10 flex justify-center gap-8">
+                <flux:button href="{{ route('listings.index') }}" variant="primary" class="text-base! h-11 px-6! w-full sm:w-auto" wire:navigate>Browse the collection</flux:button>
+                <flux:button href="{{ route('listings.create') }}" class="border-accent/30! text-base! h-11 px-6! w-full sm:w-auto bg-[#132721]! hover:bg-[#162E27]! text-accent-foreground!" wire:navigate>Become a seller</flux:button>
             </div>
         </div>
     </section>

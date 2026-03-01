@@ -9,6 +9,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+    --color-accent: #224238;
+    --color-accent-content: #224238;
+    --color-accent-foreground: #FFFBEB;
+}
+
+@theme {
     --font-sans: 'Montserrat Variable', sans-serif;
     --font-heading: 'Cormorant Variable', sans-serif;
 
