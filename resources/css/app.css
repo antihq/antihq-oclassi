@@ -14,6 +14,14 @@
     --color-accent-foreground: #FFFBEB;
 }
 
+@layer theme {
+    .dark {
+      --color-accent: var(--color-white);
+      --color-accent-content: var(--color-white);
+      --color-accent-foreground: var(--color-zinc-800);
+    }
+}
+
 @theme {
     --font-sans: 'Montserrat Variable', sans-serif;
     --font-heading: 'Cormorant Variable', sans-serif;

@@ -159,7 +159,7 @@ new #[Layout('layouts.landing')] class extends Component
             </div>
         </div>
     </section>
-    <section class="pt-80 bg-linear-to-b bg-[#132620]/90 relative">
+    <section class="pt-80 bg-[#132620]/90 relative">
         <div class="max-w-7xl mx-auto px-6 xl:px-12 relative">
             <h2 class="font-heading text-[3rem]/13 xl:text-[3.25rem]/15 max-w-158 font-bold xl:text-center mx-auto">Sell your curated collection. No transaction fees.</h2>
             <p class="mt-10 max-w-180 text-base/8 xl:text-lg/8 xl:text-center mx-auto">Join our community of vetted specialists—watchmakers, leather goods experts, and rare camera collectors. List your authenticated pieces and connect with serious buyers worldwide.</p>

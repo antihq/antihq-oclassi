@@ -52,7 +52,7 @@ new #[Layout('layouts.marketplace')] class extends Component
 
     <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         @foreach($this->listings as $listing)
-            <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow bg-white">
+            <div class="rounded-xl shadow-sm overflow-hidden group hover:shadow-md transition-shadow bg-white dark:bg-white/10">
                 <div class="relative">
                     <img
                         class="aspect-[4/3] w-full object-cover group-hover:scale-105 transition-transform duration-300"

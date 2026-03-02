@@ -3,7 +3,7 @@
     <head>
         @include("partials.head")
     </head>
-    <body class="antialiased bg-[#1C362E] text-[#FFFBEB] bg-[url('../img/pattern.svg')] bg-repeat">
+    <body class="antialiased bg-[#132620] text-[#FFFBEB] bg-[url('../img/pattern.svg')] bg-repeat">
         {{ $slot }}
 
         @fluxScripts
