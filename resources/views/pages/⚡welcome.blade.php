@@ -116,7 +116,7 @@ new #[Layout('layouts.landing')] class extends Component
     </section>
     <section class="bg-[#132620]/90 relative">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-[#AA9772] pt-36 xl:pt-36 pb-36 xl:pb-58 text-[#FFFBEB]">
+            <div class="bg-[#AA9772] pt-36 xl:pt-36 pb-36 xl:pb-58 text-[#FFFEFA]">
                 <div class="relative flex">
                     <div class="bg-[#AA9772] relative px-5 py-3 z-10 pl-18 ">
                         <div class="absolute top-37 -left-25">
@@ -215,7 +215,7 @@ new #[Layout('layouts.landing')] class extends Component
     </section>
     <section class="bg-[#132620]/90 relative pt-72">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-[#AA9772] py-36 text-[#FFFBEB]">
+            <div class="bg-[#AA9772] py-36 text-[#FFFEFA]">
                 <div class="relative flex">
                     <div class="bg-[#AA9772] relative px-5 py-3 z-10 pl-18 ">
                         <div class="absolute top-17 -left-6">
@@ -254,7 +254,7 @@ new #[Layout('layouts.landing')] class extends Component
                 <a href="{{ route('home') }}" wire:navigate>
                     <svg width="178px" height="58px" viewBox="0 0 178 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="Frame-Copy-2" transform="translate(-40, -18)" fill="#FFFBEB">
+                            <g id="Frame-Copy-2" transform="translate(-40, -18)" fill="#FFFEFA">
                                 <g id="Frame" transform="translate(0, 17)">
                                     <g id="The-Vault" transform="translate(40, 1)">
                                         <path d="M7.44,47.856 C8.08,47.856 8.608,47.688 9.024,47.352 C9.44,47.016 9.648,46.24 9.648,45.024 L9.648,14.88 L7.2,14.88 C5.44,14.88 3.904,15.344 2.592,16.272 C1.28,17.2 0.624,18.752 0.624,20.928 L0.48,20.928 L0.48,14.4 L22.176,14.4 L22.176,20.928 L22.032,20.928 C22.032,18.752 21.376,17.2 20.064,16.272 C18.752,15.344 17.216,14.88 15.456,14.88 L13.008,14.88 L13.008,45.024 C13.008,46.24 13.216,47.016 13.632,47.352 C14.048,47.688 14.576,47.856 15.216,47.856 L15.216,48 L7.44,48 L7.44,47.856 Z" id="Path" fill-rule="nonzero"></path>

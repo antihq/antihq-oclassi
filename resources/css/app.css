@@ -11,13 +11,13 @@
 @theme {
     --color-accent: #224238;
     --color-accent-content: #224238;
-    --color-accent-foreground: #FFFBEB;
+    --color-accent-foreground: #FFFEFA;
 }
 
 @layer theme {
     .dark {
-      --color-accent: var(--color-white);
-      --color-accent-content: var(--color-white);
+      --color-accent: #FFFEFA;
+      --color-accent-content: #FFFEFA;
       --color-accent-foreground: var(--color-zinc-800);
     }
 }
