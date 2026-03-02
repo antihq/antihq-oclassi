@@ -240,9 +240,12 @@ new #[Layout('layouts.marketplace')] class extends Component
                                 </flux:text>
                             @endif
                         </div>
-                        <flux:button :href="route('profile.edit')">
-                            Edit profile
-                        </flux:button>
+
+                        @if(auth()->check() && auth()->id() === $listing->user->id)
+                            <flux:button :href="route('profile.edit')">
+                                Edit profile
+                            </flux:button>
+                        @endif
                     </div>
                     <flux:button :href="route('users.show', $listing->user)" class="mt-6">
                         View profile
