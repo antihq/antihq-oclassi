@@ -3,13 +3,13 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
-        <div class="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+    <body class="min-h-screen antialiased bg-[#1C362E] text-accent-foreground dark bg-[url('../img/pattern.svg')] bg-repeat">
+        <div class="bg-[#132620]/95 flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div class="flex w-full max-w-sm flex-col gap-8">
                 <a href="{{ route('home') }}" class="flex flex-col items-center" wire:navigate>
                     <svg width="178px" height="58px" viewBox="0 0 178 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="Frame-Copy-2" transform="translate(-40, -18)" fill="#224238">
+                            <g id="Frame-Copy-2" transform="translate(-40, -18)" fill="#E2C591">
                                 <g id="Frame" transform="translate(0, 17)">
                                     <g id="The-Vault" transform="translate(40, 1)">
                                         <path d="M7.44,47.856 C8.08,47.856 8.608,47.688 9.024,47.352 C9.44,47.016 9.648,46.24 9.648,45.024 L9.648,14.88 L7.2,14.88 C5.44,14.88 3.904,15.344 2.592,16.272 C1.28,17.2 0.624,18.752 0.624,20.928 L0.48,20.928 L0.48,14.4 L22.176,14.4 L22.176,20.928 L22.032,20.928 C22.032,18.752 21.376,17.2 20.064,16.272 C18.752,15.344 17.216,14.88 15.456,14.88 L13.008,14.88 L13.008,45.024 C13.008,46.24 13.216,47.016 13.632,47.352 C14.048,47.688 14.576,47.856 15.216,47.856 L15.216,48 L7.44,48 L7.44,47.856 Z" id="Path" fill-rule="nonzero"></path>

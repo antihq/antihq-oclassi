@@ -158,7 +158,7 @@ new #[Layout('layouts.marketplace')] class extends Component
             </div>
         @endif
 
-        <form wire:submit="send" class="mt-12 border-t border-zinc-100 pt-4">
+        <form wire:submit="send" class="mt-12 border-t border-zinc-100 dark:border-white/10 pt-4">
             <flux:composer
                 wire:model="body"
                 inline

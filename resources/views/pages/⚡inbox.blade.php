@@ -40,7 +40,7 @@ new #[Layout('layouts.marketplace')] class extends Component
                 <a
                     href="{{ route('conversations.show', $conversation) }}"
                     wire:navigate
-                    class="flex items-start gap-4 py-4 px-2 -mx-2 hover:bg-zinc-50 transition-colors"
+                    class="flex items-start gap-4 py-4 px-2 -mx-2 hover:bg-zinc-50 dark:hover:bg-white/10 transition-colors"
                 >
                     <flux:avatar :src="$otherUser->profilePhotoUrl()" :name="$otherUser->name" circle />
 
